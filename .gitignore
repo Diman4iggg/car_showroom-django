@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.py[cod]
+db.sqlite3
+*.sqlite3
+.idea/
+.env
+.coverage
+htmlcov/
+.pytest_cache/
+logs/
+media/
+staticfiles/
+
+# Local lab materials
+method_django_api.docx
+method_django_api_extracted.txt
+method_django_api_paragraphs.txt
+method_images/
