@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Промокоды и купоны{% endblock %}
+{% block heading %}Промокоды и купоны{% endblock %}
+
+{% block content %}
+    <h2>Действующие промокоды</h2>
+    {% if active_promos %}
+        <ul>
+            {% for promo in active_promos %}
+                <li>
+                    <strong>{{ promo.code }}</strong> - скидка {{ promo.discount_percent }}%
+                    <p>{{ promo.description }}</p>
+                    <p>Действует: {{ promo.starts_at|date:"d/m/Y" }} - {{ promo.ends_at|date:"d/m/Y" }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Действующих промокодов пока нет.</p>
+    {% endif %}
+
+    <h2>Архив</h2>
+    {% if archived_promos %}
+        <ul>
+            {% for promo in archived_promos %}
+                <li>
+                    <strong>{{ promo.code }}</strong> - скидка {{ promo.discount_percent }}%
+                    <p>{{ promo.description }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Архив промокодов пуст.</p>
+    {% endif %}
+{% endblock %}

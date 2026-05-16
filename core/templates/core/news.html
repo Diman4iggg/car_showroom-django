@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Новости{% endblock %}
+{% block heading %}Новости{% endblock %}
+
+{% block content %}
+    {% if articles %}
+        <ul>
+            {% for article in articles %}
+                <li>
+                    <h2>{{ article.title }}</h2>
+                    <p>{{ article.summary }}</p>
+                    {% if article.image %}
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}" width="240">
+                    {% endif %}
+                    <p>{{ article.body }}</p>
+                    <p>Дата публикации: {{ article.published_at|date:"d/m/Y H:i"|default:"не указана" }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Новости пока не добавлены.</p>
+    {% endif %}
+{% endblock %}

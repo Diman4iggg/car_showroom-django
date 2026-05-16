@@ -1,37 +1,77 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+from django.utils import timezone
+
+from .models import (
+    CompanyInfo,
+    ContactEmployee,
+    FAQ,
+    NewsArticle,
+    PrivacyPolicy,
+    PromoCode,
+    Review,
+    Vacancy,
+)
 
 
-def page_placeholder(request, title):
-    return HttpResponse(f'<h1>{title}</h1><p>Страница будет наполнена данными из базы.</p>')
+def base_context():
+    return {
+        'current_date': timezone.localtime().strftime('%d/%m/%Y'),
+    }
 
 
 def about(request):
-    return page_placeholder(request, 'О компании')
+    context = base_context()
+    context['company_info'] = CompanyInfo.objects.order_by('-updated_at').first()
+    return render(request, 'core/about.html', context)
 
 
 def news(request):
-    return page_placeholder(request, 'Новости')
+    context = base_context()
+    context['articles'] = NewsArticle.objects.filter(is_published=True)
+    return render(request, 'core/news.html', context)
 
 
 def faq(request):
-    return page_placeholder(request, 'Словарь терминов и FAQ')
+    context = base_context()
+    context['questions'] = FAQ.objects.all()
+    return render(request, 'core/faq.html', context)
 
 
 def contacts(request):
-    return page_placeholder(request, 'Контакты')
+    context = base_context()
+    context['employees'] = ContactEmployee.objects.all()
+    return render(request, 'core/contacts.html', context)
 
 
 def privacy(request):
-    return page_placeholder(request, 'Политика конфиденциальности')
+    context = base_context()
+    context['policy'] = PrivacyPolicy.objects.order_by('-updated_at').first()
+    return render(request, 'core/privacy.html', context)
 
 
 def vacancies(request):
-    return page_placeholder(request, 'Вакансии')
+    context = base_context()
+    context['vacancies'] = Vacancy.objects.filter(is_active=True)
+    return render(request, 'core/vacancies.html', context)
 
 
 def reviews(request):
-    return page_placeholder(request, 'Отзывы')
+    context = base_context()
+    context['reviews'] = Review.objects.filter(is_published=True)
+    return render(request, 'core/reviews.html', context)
 
 
 def promo_codes(request):
-    return page_placeholder(request, 'Промокоды и купоны')
+    context = base_context()
+    today = timezone.localdate()
+    context['active_promos'] = PromoCode.objects.filter(
+        is_active=True,
+        starts_at__lte=today,
+        ends_at__gte=today,
+    )
+    context['archived_promos'] = PromoCode.objects.exclude(
+        is_active=True,
+        starts_at__lte=today,
+        ends_at__gte=today,
+    )
+    return render(request, 'core/promo_codes.html', context)

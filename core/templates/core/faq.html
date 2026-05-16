@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+
+{% block title %}FAQ{% endblock %}
+{% block heading %}Словарь терминов и FAQ{% endblock %}
+
+{% block content %}
+    {% if questions %}
+        <dl>
+            {% for item in questions %}
+                <dt><strong>{{ item.question }}</strong></dt>
+                <dd>{{ item.answer }}</dd>
+                <dd>Добавлено: {{ item.created_at|date:"d/m/Y" }}</dd>
+            {% endfor %}
+        </dl>
+    {% else %}
+        <p>Вопросы и ответы пока не добавлены.</p>
+    {% endif %}
+{% endblock %}

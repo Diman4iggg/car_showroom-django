@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Отзывы{% endblock %}
+{% block heading %}Отзывы{% endblock %}
+
+{% block content %}
+    <p><a href="/reviews/">Добавить отзыв</a> будет доступно после подключения формы.</p>
+
+    {% if reviews %}
+        <ul>
+            {% for review in reviews %}
+                <li>
+                    <h2>{{ review.author_name }}</h2>
+                    <p>Оценка: {{ review.rating }}/5</p>
+                    <p>{{ review.text }}</p>
+                    <p>Дата: {{ review.created_at|date:"d/m/Y" }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Отзывы пока не добавлены.</p>
+    {% endif %}
+{% endblock %}

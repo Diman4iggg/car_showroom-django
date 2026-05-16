@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}CarShowroom{% endblock %}</title>
+</head>
+<body>
+    <h1>{% block heading %}CarShowroom{% endblock %}</h1>
+
+    <nav>
+        <a href="/">Главная</a> |
+        <a href="/about/">О компании</a> |
+        <a href="/news/">Новости</a> |
+        <a href="/faq/">FAQ</a> |
+        <a href="/contacts/">Контакты</a> |
+        <a href="/vacancies/">Вакансии</a> |
+        <a href="/reviews/">Отзывы</a> |
+        <a href="/promo-codes/">Промокоды</a> |
+        <a href="/privacy/">Политика конфиденциальности</a>
+    </nav>
+
+    <p>Текущая дата: {{ current_date }}</p>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

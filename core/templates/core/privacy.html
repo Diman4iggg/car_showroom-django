@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Политика конфиденциальности{% endblock %}
+{% block heading %}Политика конфиденциальности{% endblock %}
+
+{% block content %}
+    {% if policy %}
+        <h2>{{ policy.title }}</h2>
+        <p>{{ policy.text|default:"Текст политики пока не заполнен." }}</p>
+        <p>Обновлено: {{ policy.updated_at|date:"d/m/Y H:i" }}</p>
+    {% else %}
+        <p>Страница политики конфиденциальности пока пустая.</p>
+    {% endif %}
+{% endblock %}

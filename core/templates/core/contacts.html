@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Контакты{% endblock %}
+{% block heading %}Контакты{% endblock %}
+
+{% block content %}
+    {% if employees %}
+        <ul>
+            {% for employee in employees %}
+                <li>
+                    <h2>{{ employee.full_name }}</h2>
+                    <p>Должность: {{ employee.position }}</p>
+                    <p>{{ employee.work_description }}</p>
+                    <p>Телефон: {{ employee.phone }}</p>
+                    <p>Email: {{ employee.email }}</p>
+                    {% if employee.photo %}
+                        <img src="{{ employee.photo.url }}" alt="{{ employee.full_name }}" width="180">
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Контакты сотрудников пока не добавлены.</p>
+    {% endif %}
+{% endblock %}

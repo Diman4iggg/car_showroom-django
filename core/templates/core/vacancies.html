@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Вакансии{% endblock %}
+{% block heading %}Вакансии{% endblock %}
+
+{% block content %}
+    {% if vacancies %}
+        <ul>
+            {% for vacancy in vacancies %}
+                <li>
+                    <h2>{{ vacancy.title }}</h2>
+                    <p>{{ vacancy.description }}</p>
+                    <p>Обновлено: {{ vacancy.updated_at|date:"d/m/Y" }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Активные вакансии пока не добавлены.</p>
+    {% endif %}
+{% endblock %}

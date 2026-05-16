@@ -68,7 +68,8 @@
         <ul>
             {% for car in cars %}
                 <li>
-                    <h3>{{ car.manufacturer.name }} {{ car.name }} ({{ car.year }})</h3>
+                    <h3>{{ car.name }} ({{ car.year }})</h3>
+                    <p>Изготовитель: {{ car.manufacturer.name }}</p>
                     <p>Категория: {{ car.category.name }}</p>
                     <p>Цена: {{ car.price }} BYN</p>
                     <p>Тип топлива: {{ car.get_fuel_type_display }}</p>
