@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный кабинет</title>
+</head>
+<body>
+    <h1>Личный кабинет</h1>
+
+    <p>Пользователь: {{ request.user.username }}</p>
+    <p>Email: {{ request.user.email|default:"не указан" }}</p>
+    <p>Роль: {{ request.user.profile.get_role_display }}</p>
+    <p>Тайм зона: {{ request.user.profile.timezone }}</p>
+
+    {% if request.user.profile.role == 'employee' %}
+        <h2>Кабинет сотрудника</h2>
+        <p>Здесь будет информация о заказах, продажах и клиентах, с которыми работает сотрудник.</p>
+    {% else %}
+        <h2>Кабинет клиента</h2>
+        <p>Здесь будут покупки клиента и доступные промокоды.</p>
+    {% endif %}
+
+    <form method="post" action="{% url 'accounts:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Выйти</button>
+    </form>
+
+    <p><a href="/">На главную</a></p>
+</body>
+</html>
