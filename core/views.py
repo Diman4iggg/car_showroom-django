@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from django.utils import timezone
 
+from .forms import ReviewForm
 from .models import (
     CompanyInfo,
     ContactEmployee,
@@ -59,6 +61,20 @@ def reviews(request):
     context = base_context()
     context['reviews'] = Review.objects.filter(is_published=True)
     return render(request, 'core/reviews.html', context)
+
+
+def add_review(request):
+    context = base_context()
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('core:reviews')
+    else:
+        form = ReviewForm()
+
+    context['form'] = form
+    return render(request, 'core/add_review.html', context)
 
 
 def promo_codes(request):

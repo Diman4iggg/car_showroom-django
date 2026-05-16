@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Добавить отзыв{% endblock %}
+{% block heading %}Добавить отзыв{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div>
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <p>
+            <label for="{{ form.author_name.id_for_label }}">Имя:</label><br>
+            {{ form.author_name }}
+            {{ form.author_name.errors }}
+        </p>
+
+        <p>
+            <label for="{{ form.rating.id_for_label }}">Оценка от 1 до 5:</label><br>
+            {{ form.rating }}
+            {{ form.rating.errors }}
+        </p>
+
+        <p>
+            <label for="{{ form.text.id_for_label }}">Текст отзыва:</label><br>
+            {{ form.text }}
+            {{ form.text.errors }}
+        </p>
+
+        <button type="submit">Отправить</button>
+        <a href="{% url 'core:reviews' %}">Отмена</a>
+    </form>
+{% endblock %}

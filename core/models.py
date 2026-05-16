@@ -96,12 +96,12 @@ class PrivacyPolicy(TimeStampedModel):
 
 
 class Review(TimeStampedModel):
-    author_name = models.CharField(max_length=120, verbose_name='Имя')
+    author_name = models.CharField(max_length=80, verbose_name='Имя')
     rating = models.PositiveSmallIntegerField(
         verbose_name='Оценка',
         validators=[MinValueValidator(1), MaxValueValidator(5)],
     )
-    text = models.TextField(verbose_name='Текст')
+    text = models.TextField(max_length=1000, verbose_name='Текст')
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
 
     class Meta:

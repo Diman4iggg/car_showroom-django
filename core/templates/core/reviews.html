@@ -4,7 +4,7 @@
 {% block heading %}Отзывы{% endblock %}
 
 {% block content %}
-    <p><a href="/reviews/">Добавить отзыв</a> будет доступно после подключения формы.</p>
+    <p><a href="{% url 'core:add_review' %}">Добавить отзыв</a></p>
 
     {% if reviews %}
         <ul>
