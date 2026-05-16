@@ -6,6 +6,88 @@
 </head>
 <body>
     <h1>Автосалон CarShowroom</h1>
-    <p>Каталог автомобилей скоро появится здесь.</p>
+
+    <nav>
+        <a href="/">Главная</a> |
+        <a href="/about/">О компании</a> |
+        <a href="/news/">Новости</a> |
+        <a href="/faq/">FAQ</a> |
+        <a href="/contacts/">Контакты</a> |
+        <a href="/vacancies/">Вакансии</a> |
+        <a href="/reviews/">Отзывы</a> |
+        <a href="/promo-codes/">Промокоды</a> |
+        <a href="/privacy/">Политика конфиденциальности</a>
+    </nav>
+
+    <h2>Каталог автомобилей</h2>
+
+    <form method="get">
+        <label>
+            Поиск:
+            <input type="text" name="q" value="{{ query }}" placeholder="Название автомобиля">
+        </label>
+
+        <label>
+            Категория:
+            <select name="category">
+                <option value="">Все категории</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label>
+            Цена от:
+            <input type="number" name="min_price" value="{{ min_price }}" min="0">
+        </label>
+
+        <label>
+            Цена до:
+            <input type="number" name="max_price" value="{{ max_price }}" min="0">
+        </label>
+
+        <label>
+            Сортировка:
+            <select name="sort">
+                <option value="">По производителю</option>
+                <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>Сначала дешевле</option>
+                <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>Сначала дороже</option>
+                <option value="year_desc" {% if sort == 'year_desc' %}selected{% endif %}>Сначала новые</option>
+                <option value="name_asc" {% if sort == 'name_asc' %}selected{% endif %}>По названию</option>
+            </select>
+        </label>
+
+        <button type="submit">Показать</button>
+        <a href="/">Сбросить</a>
+    </form>
+
+    {% if cars %}
+        <ul>
+            {% for car in cars %}
+                <li>
+                    <h3>{{ car.manufacturer.name }} {{ car.name }} ({{ car.year }})</h3>
+                    <p>Категория: {{ car.category.name }}</p>
+                    <p>Цена: {{ car.price }} BYN</p>
+                    <p>Тип топлива: {{ car.get_fuel_type_display }}</p>
+                    <p>Цвет: {{ car.color|default:"не указан" }}</p>
+                    <p>На складе: {{ car.stock }}</p>
+                    {% if car.features.all %}
+                        <p>
+                            Характеристики:
+                            {% for feature in car.features.all %}
+                                {{ feature.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                    {% endif %}
+                    <p>{{ car.description|default:"Описание пока не добавлено." }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Автомобили не найдены. Добавьте записи в админ-панели или измените фильтры.</p>
+    {% endif %}
 </body>
 </html>
