@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.views.decorators.http import require_POST
 
 from .forms import RegistrationForm
+from .models import UserProfile
 from core.models import PromoCode
 from sales.models import Client, Employee, Order, Sale
 
@@ -61,9 +62,10 @@ def register(request):
 
 @login_required
 def profile(request):
-    profile = request.user.profile
+    profile = UserProfile.objects.filter(user=request.user).first()
     context = {
         'profile': profile,
+        'admin_mode': False,
         'client': None,
         'employee': None,
         'new_orders': Order.objects.none(),
@@ -71,6 +73,14 @@ def profile(request):
         'sales': Sale.objects.none(),
         'active_promos': PromoCode.objects.none(),
     }
+
+    if profile is None:
+        if request.user.is_superuser:
+            context['admin_mode'] = True
+            return render(request, 'accounts/profile.html', context)
+
+        profile = UserProfile.objects.create(user=request.user)
+        context['profile'] = profile
 
     today = timezone.localdate()
 

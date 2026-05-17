@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Внешние API</title>
+</head>
+<body>
+    <h1>Внешние API</h1>
+
+    <nav>
+        <a href="/">Главная</a> |
+        <a href="/accounts/profile/">Личный кабинет</a>
+    </nav>
+
+    
+    <h2>Погода для тест-драйва OpenWeatherMap</h2>
+    <form method="get">
+        <label>
+            Город:
+            <input type="text" name="city" value="{{ city }}">
+        </label>
+        <button type="submit">Проверить</button>
+    </form>
+
+    {% if weather.ok %}
+        <p>Город: {{ weather.city }} {{ weather.country }}</p>
+        <p>Температура: {{ weather.temperature }} °C</p>
+        <p>Ощущается как: {{ weather.feels_like }} °C</p>
+        <p>Описание: {{ weather.description }}</p>
+        <p>Влажность: {{ weather.humidity }}%</p>
+        <p>Давление: {{ weather.pressure }} гПа</p>
+        <p>Скорость ветра: {{ weather.wind_speed }} км/ч</p>
+        {% if weather.icon %}
+            <img src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Погода">
+        {% endif %}
+    {% else %}
+        <p>{{ weather.error }}</p>
+    {% endif %}
+</body>
+</html>

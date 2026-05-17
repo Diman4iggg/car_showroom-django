@@ -1,9 +1,29 @@
+from decimal import Decimal
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
+from integrations.services import get_exchange_rates
 from .models import Car, CarCategory
 from sales.models import Client, Order, OrderItem
+
+
+def add_currency_prices(cars, exchange_rates):
+    if not exchange_rates.get('ok'):
+        return cars
+
+    usd_rate = Decimal(str(exchange_rates.get('usd') or 0))
+    eur_rate = Decimal(str(exchange_rates.get('eur') or 0))
+
+    if usd_rate <= 0 or eur_rate <= 0:
+        return cars
+
+    for car in cars:
+        car.price_usd = (car.price * usd_rate).quantize(Decimal('0.01'))
+        car.price_eur = (car.price * eur_rate).quantize(Decimal('0.01'))
+
+    return cars
 
 
 def index(request):
@@ -35,9 +55,13 @@ def index(request):
         'name_asc': 'name',
     }
     cars = cars.order_by(sort_options.get(sort, 'manufacturer__name'))
+    cars = list(cars)
+    exchange_rates = get_exchange_rates()
+    add_currency_prices(cars, exchange_rates)
 
     context = {
         'cars': cars,
+        'exchange_rates': exchange_rates,
         'categories': CarCategory.objects.all(),
         'selected_category': category_id,
         'query': query,

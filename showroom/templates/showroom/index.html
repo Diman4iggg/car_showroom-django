@@ -24,6 +24,7 @@
         <a href="/vacancies/">Вакансии</a> |
         <a href="/reviews/">Отзывы</a> |
         <a href="/promo-codes/">Промокоды</a> |
+        <a href="/integrations/">Узнать погоду для тест-драйва</a> |
         <a href="/privacy/">Политика конфиденциальности</a>
         |
         {% if request.user.is_authenticated %}
@@ -35,6 +36,9 @@
     </nav>
 
     <h2>Каталог автомобилей</h2>
+    {% if not exchange_rates.ok %}
+        <p>Курс валют временно недоступен, поэтому цены показаны только в BYN.</p>
+    {% endif %}
 
     <form method="get">
         <label>
@@ -87,6 +91,9 @@
                     <p>Изготовитель: {{ car.manufacturer.name }}</p>
                     <p>Категория: {{ car.category.name }}</p>
                     <p>Цена: {{ car.price }} BYN</p>
+                    {% if exchange_rates.ok and car.price_usd and car.price_eur %}
+                        <p>Примерно: {{ car.price_usd }} USD / {{ car.price_eur }} EUR</p>
+                    {% endif %}
                     <p>Тип топлива: {{ car.get_fuel_type_display }}</p>
                     <p>Цвет: {{ car.color|default:"не указан" }}</p>
                     <p>На складе: {{ car.stock }}</p>

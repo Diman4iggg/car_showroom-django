@@ -17,11 +17,18 @@
 
     <p>Пользователь: {{ request.user.username }}</p>
     <p>Email: {{ request.user.email|default:"не указан" }}</p>
-    <p>Роль: {{ profile.get_role_display }}</p>
-    <p>Тайм зона: {{ profile.timezone }}</p>
-    {% if profile.role == 'employee' or request.user.is_superuser %}
+
+    {% if admin_mode %}
+        <h2>Кабинет администратора</h2>
+        <p>Вы вошли как суперпользователь.</p>
         <p><a href="{% url 'analytics:dashboard' %}">Аналитика автосалона</a></p>
-    {% endif %}
+        <p><a href="/admin/">Админ-панель Django</a></p>
+    {% else %}
+        <p>Роль: {{ profile.get_role_display }}</p>
+        <p>Тайм зона: {{ profile.timezone }}</p>
+        {% if request.user.is_superuser %}
+            <p><a href="{% url 'analytics:dashboard' %}">Аналитика автосалона</a></p>
+        {% endif %}
 
     {% if profile.role == 'employee' %}
         <h2>Кабинет сотрудника</h2>
@@ -163,6 +170,7 @@
         {% else %}
             <p>Активных промокодов пока нет.</p>
         {% endif %}
+    {% endif %}
     {% endif %}
 
     <form method="post" action="{% url 'accounts:logout' %}">
