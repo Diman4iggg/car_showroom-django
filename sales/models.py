@@ -115,6 +115,7 @@ class Order(models.Model):
     )
     order_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата заказа')
     delivery_date = models.DateField(null=True, blank=True, verbose_name='Дата доставки/выдачи')
+    delivery_at = models.DateTimeField(null=True, blank=True, verbose_name='Дата и время выдачи')
     comment = models.TextField(blank=True, verbose_name='Комментарий')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')

@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Car, CarCategory
+from sales.models import Client, Order, OrderItem
 
 
 def index(request):
@@ -43,3 +46,37 @@ def index(request):
         'sort': sort,
     }
     return render(request, 'showroom/index.html', context)
+
+
+@login_required
+def buy_car(request, car_id):
+    car = get_object_or_404(Car, id=car_id, is_available=True)
+
+    if request.user.profile.role != 'client':
+        messages.error(request, 'Оформлять покупку может только пользователь с ролью клиента.')
+        return redirect('showroom:index')
+
+    client = Client.objects.filter(user=request.user).first()
+    if not client:
+        messages.error(request, 'Для покупки нужен профиль клиента.')
+        return redirect('accounts:profile')
+
+    if car.stock < 1:
+        messages.error(request, 'Этот автомобиль сейчас отсутствует на складе.')
+        return redirect('showroom:index')
+
+    order = Order.objects.create(client=client, status='new')
+    OrderItem.objects.create(
+        order=order,
+        car=car,
+        quantity=1,
+        unit_price=car.price,
+    )
+
+    car.stock -= 1
+    if car.stock == 0:
+        car.is_available = False
+    car.save(update_fields=['stock', 'is_available', 'updated_at'])
+
+    messages.success(request, f'Заказ №{order.id} создан. Он появился в личном кабинете.')
+    return redirect('accounts:profile')

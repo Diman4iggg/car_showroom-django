@@ -7,6 +7,14 @@
 <body>
     <h1>Автосалон CarShowroom</h1>
 
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     <nav>
         <a href="/">Главная</a> |
         <a href="/about/">О компании</a> |
@@ -91,6 +99,14 @@
                         </p>
                     {% endif %}
                     <p>{{ car.description|default:"Описание пока не добавлено." }}</p>
+                    {% if request.user.is_authenticated and request.user.profile.role == 'client' %}
+                        <form method="post" action="{% url 'showroom:buy_car' car.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Купить</button>
+                        </form>
+                    {% elif not request.user.is_authenticated %}
+                        <p><a href="{% url 'accounts:login' %}">Войдите</a>, чтобы купить автомобиль.</p>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>

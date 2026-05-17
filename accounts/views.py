@@ -1,11 +1,21 @@
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.views.decorators.http import require_POST
 
 from .forms import RegistrationForm
 from core.models import PromoCode
 from sales.models import Client, Employee, Order, Sale
+
+
+def restore_order_stock(order):
+    for item in order.items.select_related('car'):
+        car = item.car
+        car.stock += item.quantity
+        car.is_available = True
+        car.save(update_fields=['stock', 'is_available', 'updated_at'])
 
 
 def register(request):
@@ -56,6 +66,7 @@ def profile(request):
         'profile': profile,
         'client': None,
         'employee': None,
+        'new_orders': Order.objects.none(),
         'orders': Order.objects.none(),
         'sales': Sale.objects.none(),
         'active_promos': PromoCode.objects.none(),
@@ -67,6 +78,7 @@ def profile(request):
         employee = Employee.objects.filter(user=request.user).first()
         context['employee'] = employee
         if employee:
+            context['new_orders'] = Order.objects.filter(status='new', employee__isnull=True).select_related('client')
             context['orders'] = Order.objects.filter(employee=employee).select_related('client')
             context['sales'] = Sale.objects.filter(order__employee=employee).select_related('order', 'order__client')
     else:
@@ -82,3 +94,98 @@ def profile(request):
         )
 
     return render(request, 'accounts/profile.html', context)
+
+
+@login_required
+@require_POST
+def cancel_order(request, order_id):
+    client = Client.objects.filter(user=request.user).first()
+    order = get_object_or_404(Order, id=order_id, client=client)
+
+    if order.status != 'new':
+        messages.error(request, 'Можно отменить только новый заказ.')
+        return redirect('accounts:profile')
+
+    restore_order_stock(order)
+    order.status = 'cancelled'
+    order.save(update_fields=['status', 'updated_at'])
+    messages.success(request, f'Заказ №{order.id} отменен.')
+    return redirect('accounts:profile')
+
+
+@login_required
+@require_POST
+def update_order_status(request, order_id, action):
+    if request.user.profile.role != 'employee':
+        messages.error(request, 'Управлять заказами может только сотрудник.')
+        return redirect('accounts:profile')
+
+    employee = Employee.objects.filter(user=request.user).first()
+    if not employee:
+        messages.error(request, 'Профиль сотрудника не найден.')
+        return redirect('accounts:profile')
+
+    order = get_object_or_404(Order.objects.select_related('employee'), id=order_id)
+
+    if action == 'take':
+        if order.employee and order.employee != employee:
+            messages.error(request, 'Заказ уже закреплен за другим сотрудником.')
+            return redirect('accounts:profile')
+        if order.status != 'new':
+            messages.error(request, 'В работу можно взять только новый заказ.')
+            return redirect('accounts:profile')
+        order.employee = employee
+        order.save(update_fields=['employee', 'updated_at'])
+        messages.success(request, f'Заказ №{order.id} закреплен за вами.')
+        return redirect('accounts:profile')
+
+    if order.employee != employee:
+        messages.error(request, 'Можно изменять только заказы, закрепленные за вами.')
+        return redirect('accounts:profile')
+
+    if action == 'confirm':
+        if order.status != 'new':
+            messages.error(request, 'Подтвердить можно только новый заказ.')
+        else:
+            order.status = 'confirmed'
+            order.save(update_fields=['status', 'updated_at'])
+            messages.success(request, f'Заказ №{order.id} подтвержден.')
+
+    elif action == 'cancel':
+        if order.status in ['paid', 'delivered', 'cancelled']:
+            messages.error(request, 'Этот заказ уже нельзя отменить.')
+        else:
+            restore_order_stock(order)
+            order.status = 'cancelled'
+            order.save(update_fields=['status', 'updated_at'])
+            messages.success(request, f'Заказ №{order.id} отменен.')
+
+    elif action == 'pay':
+        if order.status != 'confirmed':
+            messages.error(request, 'Оплатить можно только подтвержденный заказ.')
+        else:
+            order.status = 'paid'
+            order.save(update_fields=['status', 'updated_at'])
+            Sale.objects.get_or_create(
+                order=order,
+                defaults={
+                    'paid_at': timezone.now(),
+                    'total_amount': order.total_amount,
+                },
+            )
+            messages.success(request, f'Заказ №{order.id} отмечен как оплаченный.')
+
+    elif action == 'deliver':
+        if order.status != 'paid':
+            messages.error(request, 'Выдать можно только оплаченный заказ.')
+        else:
+            order.status = 'delivered'
+            order.delivery_date = timezone.localdate()
+            order.delivery_at = timezone.now()
+            order.save(update_fields=['status', 'delivery_date', 'delivery_at', 'updated_at'])
+            messages.success(request, f'Заказ №{order.id} выдан клиенту.')
+
+    else:
+        messages.error(request, 'Неизвестное действие с заказом.')
+
+    return redirect('accounts:profile')

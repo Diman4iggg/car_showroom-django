@@ -11,4 +11,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
+    path('orders/<int:order_id>/client-cancel/', views.cancel_order, name='cancel_order'),
+    path('orders/<int:order_id>/<str:action>/', views.update_order_status, name='update_order_status'),
 ]
