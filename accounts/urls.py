@@ -1,5 +1,5 @@
 from django.contrib.auth import views as auth_views
-from django.urls import path
+from django.urls import path, re_path
 
 from . import views
 
@@ -12,5 +12,9 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
     path('orders/<int:order_id>/client-cancel/', views.cancel_order, name='cancel_order'),
-    path('orders/<int:order_id>/<str:action>/', views.update_order_status, name='update_order_status'),
+    re_path(
+        r'^orders/(?P<order_id>\d+)/(?P<action>take|confirm|cancel|pay|deliver)/$',
+        views.update_order_status,
+        name='update_order_status',
+    ),
 ]

@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -9,6 +11,9 @@ from .forms import RegistrationForm
 from .models import UserProfile
 from core.models import PromoCode
 from sales.models import Client, Employee, Order, Sale
+
+
+logger = logging.getLogger(__name__)
 
 
 def restore_order_stock(order):
@@ -53,6 +58,11 @@ def register(request):
                 )
 
             login(request, user)
+            logger.info(
+                'User %s registered with role %s',
+                user.username,
+                form.cleaned_data['role'],
+            )
             return redirect('accounts:profile')
     else:
         form = RegistrationForm()
@@ -77,9 +87,11 @@ def profile(request):
     if profile is None:
         if request.user.is_superuser:
             context['admin_mode'] = True
+            logger.info('Superuser %s opened admin profile without UserProfile', request.user.username)
             return render(request, 'accounts/profile.html', context)
 
         profile = UserProfile.objects.create(user=request.user)
+        logger.warning('Missing UserProfile was created automatically for user %s', request.user.username)
         context['profile'] = profile
 
     today = timezone.localdate()
@@ -113,12 +125,19 @@ def cancel_order(request, order_id):
     order = get_object_or_404(Order, id=order_id, client=client)
 
     if order.status != 'new':
+        logger.warning(
+            'Client %s tried to cancel order %s with status %s',
+            client.id if client else None,
+            order.id,
+            order.status,
+        )
         messages.error(request, 'Можно отменить только новый заказ.')
         return redirect('accounts:profile')
 
     restore_order_stock(order)
     order.status = 'cancelled'
     order.save(update_fields=['status', 'updated_at'])
+    logger.info('Client %s cancelled order %s', client.id if client else None, order.id)
     messages.success(request, f'Заказ №{order.id} отменен.')
     return redirect('accounts:profile')
 
@@ -127,11 +146,13 @@ def cancel_order(request, order_id):
 @require_POST
 def update_order_status(request, order_id, action):
     if request.user.profile.role != 'employee':
+        logger.warning('User %s tried to manage order %s without employee role', request.user.username, order_id)
         messages.error(request, 'Управлять заказами может только сотрудник.')
         return redirect('accounts:profile')
 
     employee = Employee.objects.filter(user=request.user).first()
     if not employee:
+        logger.warning('User %s has employee role but no linked Employee record', request.user.username)
         messages.error(request, 'Профиль сотрудника не найден.')
         return redirect('accounts:profile')
 
@@ -146,6 +167,7 @@ def update_order_status(request, order_id, action):
             return redirect('accounts:profile')
         order.employee = employee
         order.save(update_fields=['employee', 'updated_at'])
+        logger.info('Employee %s took order %s', employee.id, order.id)
         messages.success(request, f'Заказ №{order.id} закреплен за вами.')
         return redirect('accounts:profile')
 
@@ -159,6 +181,7 @@ def update_order_status(request, order_id, action):
         else:
             order.status = 'confirmed'
             order.save(update_fields=['status', 'updated_at'])
+            logger.info('Employee %s confirmed order %s', employee.id, order.id)
             messages.success(request, f'Заказ №{order.id} подтвержден.')
 
     elif action == 'cancel':
@@ -168,6 +191,7 @@ def update_order_status(request, order_id, action):
             restore_order_stock(order)
             order.status = 'cancelled'
             order.save(update_fields=['status', 'updated_at'])
+            logger.info('Employee %s cancelled order %s', employee.id, order.id)
             messages.success(request, f'Заказ №{order.id} отменен.')
 
     elif action == 'pay':
@@ -183,6 +207,7 @@ def update_order_status(request, order_id, action):
                     'total_amount': order.total_amount,
                 },
             )
+            logger.info('Employee %s marked order %s as paid', employee.id, order.id)
             messages.success(request, f'Заказ №{order.id} отмечен как оплаченный.')
 
     elif action == 'deliver':
@@ -193,6 +218,7 @@ def update_order_status(request, order_id, action):
             order.delivery_date = timezone.localdate()
             order.delivery_at = timezone.now()
             order.save(update_fields=['status', 'delivery_date', 'delivery_at', 'updated_at'])
+            logger.info('Employee %s delivered order %s', employee.id, order.id)
             messages.success(request, f'Заказ №{order.id} выдан клиенту.')
 
     else:

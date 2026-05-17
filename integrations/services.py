@@ -1,5 +1,10 @@
+import logging
+
 import requests
 from django.conf import settings
+
+
+logger = logging.getLogger(__name__)
 
 
 def get_exchange_rates():
@@ -9,6 +14,7 @@ def get_exchange_rates():
         response.raise_for_status()
         data = response.json()
     except requests.RequestException as error:
+        logger.exception('Failed to get exchange rates')
         return {
             'ok': False,
             'error': f'Не удалось получить курсы валют: {error}',
@@ -26,6 +32,7 @@ def get_exchange_rates():
 
 def get_test_drive_weather(city='Minsk'):
     if not settings.OPENWEATHER_API_KEY:
+        logger.warning('OpenWeatherMap request skipped because OPENWEATHER_API_KEY is missing')
         return {
             'ok': False,
             'error': 'Добавьте OPENWEATHER_API_KEY в переменные окружения для работы OpenWeatherMap.',
@@ -46,6 +53,7 @@ def get_test_drive_weather(city='Minsk'):
         response.raise_for_status()
         data = response.json()
     except requests.RequestException as error:
+        logger.exception('Failed to get OpenWeatherMap weather for city %s', city)
         return {
             'ok': False,
             'error': f'Не удалось получить погоду OpenWeatherMap: {error}',

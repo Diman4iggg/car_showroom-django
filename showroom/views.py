@@ -1,3 +1,4 @@
+import logging
 from decimal import Decimal
 
 from django.contrib import messages
@@ -9,8 +10,12 @@ from .models import Car, CarCategory
 from sales.models import Client, Order, OrderItem
 
 
+logger = logging.getLogger(__name__)
+
+
 def add_currency_prices(cars, exchange_rates):
     if not exchange_rates.get('ok'):
+        logger.warning('Exchange rates are unavailable on catalog page: %s', exchange_rates.get('error'))
         return cars
 
     usd_rate = Decimal(str(exchange_rates.get('usd') or 0))
@@ -77,15 +82,18 @@ def buy_car(request, car_id):
     car = get_object_or_404(Car, id=car_id, is_available=True)
 
     if request.user.profile.role != 'client':
+        logger.warning('User %s tried to buy car %s without client role', request.user.username, car_id)
         messages.error(request, 'Оформлять покупку может только пользователь с ролью клиента.')
         return redirect('showroom:index')
 
     client = Client.objects.filter(user=request.user).first()
     if not client:
+        logger.warning('User %s has client role but no linked Client record', request.user.username)
         messages.error(request, 'Для покупки нужен профиль клиента.')
         return redirect('accounts:profile')
 
     if car.stock < 1:
+        logger.warning('User %s tried to buy out-of-stock car %s', request.user.username, car_id)
         messages.error(request, 'Этот автомобиль сейчас отсутствует на складе.')
         return redirect('showroom:index')
 
@@ -101,6 +109,7 @@ def buy_car(request, car_id):
     if car.stock == 0:
         car.is_available = False
     car.save(update_fields=['stock', 'is_available', 'updated_at'])
+    logger.info('Order %s created by client %s for car %s', order.id, client.id, car.id)
 
     messages.success(request, f'Заказ №{order.id} создан. Он появился в личном кабинете.')
     return redirect('accounts:profile')
