@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Аналитика автосалона</title>
+</head>
+<body>
+    <h1>Аналитика автосалона</h1>
+
+    <nav>
+        <a href="/">Главная</a> |
+        <a href="/accounts/profile/">Личный кабинет</a>
+    </nav>
+
+    <h2>Прайс-лист по автомобилям</h2>
+    {% if price_list %}
+        <table border="1">
+            <tr>
+                <th>Категория</th>
+                <th>Автомобиль</th>
+                <th>Изготовитель</th>
+                <th>Год</th>
+                <th>Цена</th>
+            </tr>
+            {% for car in price_list %}
+                <tr>
+                    <td>{{ car.category.name }}</td>
+                    <td>{{ car.name }}</td>
+                    <td>{{ car.manufacturer.name }}</td>
+                    <td>{{ car.year }}</td>
+                    <td>{{ car.price }} BYN</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Автомобили пока не добавлены.</p>
+    {% endif %}
+
+    <h2>Спрос на автомобили</h2>
+    {% if most_popular_car %}
+        <p>Самый популярный автомобиль: {{ most_popular_car }} - продано {{ most_popular_car.sold_count }}.</p>
+    {% else %}
+        <p>Продаж автомобилей пока нет.</p>
+    {% endif %}
+
+    <h3>Автомобили без продаж</h3>
+    {% if unpopular_cars %}
+        <ul>
+            {% for car in unpopular_cars %}
+                <li>{{ car }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Нет автомобилей без продаж.</p>
+    {% endif %}
+
+    <h2>Продажи по видам автомобилей</h2>
+    {% if category_sales %}
+        <table border="1">
+            <tr>
+                <th>Категория</th>
+                <th>Продано</th>
+                <th>Выручка</th>
+            </tr>
+            {% for category in category_sales %}
+                <tr>
+                    <td>{{ category.name }}</td>
+                    <td>{{ category.sold_count|default:0 }}</td>
+                    <td>{{ category.revenue|default:0 }} BYN</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <h2>Статистика по суммам продаж</h2>
+    <ul>
+        <li>Средняя сумма продажи: {{ average_sale|default:"нет данных" }}</li>
+        <li>Медиана суммы продажи: {{ median_sale|default:"нет данных" }}</li>
+        <li>Мода суммы продажи: {{ mode_sale|default:"нет данных" }}</li>
+    </ul>
+
+    <h2>Ежемесячный объем продаж</h2>
+    {% if monthly_sales %}
+        <ul>
+            {% for row in monthly_sales %}
+                <li>{{ row.paid_at__month }}/{{ row.paid_at__year }}: {{ row.count }} продаж, {{ row.total }} BYN</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Оплаченных продаж пока нет.</p>
+    {% endif %}
+
+    <h2>Годовой отчет поступлений</h2>
+    {% if annual_revenue %}
+        <ul>
+            {% for row in annual_revenue %}
+                <li>{{ row.paid_at__year }}: {{ row.count }} продаж, {{ row.total }} BYN</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Годовая выручка пока отсутствует.</p>
+    {% endif %}
+</body>
+</html>
