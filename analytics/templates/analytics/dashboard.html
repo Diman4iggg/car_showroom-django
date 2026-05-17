@@ -3,6 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Аналитика автосалона</title>
+    <style>
+        .bar-row {
+            margin: 8px 0;
+        }
+        .bar-track {
+            display: inline-block;
+            width: 320px;
+            height: 18px;
+            border: 1px solid #999;
+            vertical-align: middle;
+        }
+        .bar-fill {
+            display: block;
+            height: 100%;
+            background: #4f7ccf;
+        }
+    </style>
 </head>
 <body>
     <h1>Аналитика автосалона</h1>
@@ -34,6 +51,39 @@
         </table>
     {% else %}
         <p>Автомобили пока не добавлены.</p>
+    {% endif %}
+
+    <h2>Клиенты по городам</h2>
+    {% if clients_by_city %}
+        <ul>
+            {% for row in clients_by_city %}
+                <li>{{ row.city|default:"Город не указан" }}: {{ row.total }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Клиенты пока не добавлены.</p>
+    {% endif %}
+
+    <h2>Сводная таблица по клиентам</h2>
+    {% if client_sales_summary %}
+        <table border="1">
+            <tr>
+                <th>Клиент</th>
+                <th>Город</th>
+                <th>Оплаченных заказов</th>
+                <th>Поступления</th>
+            </tr>
+            {% for client in client_sales_summary %}
+                <tr>
+                    <td>{{ client.last_name }} {{ client.first_name }}</td>
+                    <td>{{ client.city|default:"Город не указан" }}</td>
+                    <td>{{ client.orders_count }}</td>
+                    <td>{{ client.revenue|default:0 }} BYN</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Оплаченных заказов по клиентам пока нет.</p>
     {% endif %}
 
     <h2>Спрос на автомобили</h2>
@@ -72,6 +122,13 @@
         </table>
     {% endif %}
 
+    <h2>Диаграмма выручки по категориям</h2>
+    {% if category_sales_chart %}
+        <img src="data:image/png;base64,{{ category_sales_chart }}" alt="Диаграмма выручки по категориям">
+    {% else %}
+        <p>Данных для диаграммы пока нет или не установлен matplotlib.</p>
+    {% endif %}
+
     <h2>Статистика по суммам продаж</h2>
     <ul>
         <li>Средняя сумма продажи: {{ average_sale|default:"нет данных" }}</li>
@@ -79,7 +136,7 @@
         <li>Мода суммы продажи: {{ mode_sale|default:"нет данных" }}</li>
     </ul>
 
-    <h2>Ежемесячный объем продаж</h2>
+    <h2>Ежемесячный объем продаж всего</h2>
     {% if monthly_sales %}
         <ul>
             {% for row in monthly_sales %}
@@ -88,6 +145,40 @@
         </ul>
     {% else %}
         <p>Оплаченных продаж пока нет.</p>
+    {% endif %}
+
+    <h2>Ежемесячный объем продаж товаров каждого вида</h2>
+    {% if monthly_category_sales %}
+        <table border="1">
+            <tr>
+                <th>Месяц</th>
+                <th>Категория</th>
+                <th>Продано</th>
+                <th>Поступления</th>
+            </tr>
+            {% for row in monthly_category_sales %}
+                <tr>
+                    <td>{{ row.paid_at__month }}/{{ row.paid_at__year }}</td>
+                    <td>{{ row.order__items__car__category__name }}</td>
+                    <td>{{ row.sold_count }}</td>
+                    <td>{{ row.total }} BYN</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Помесячных продаж по видам товаров пока нет.</p>
+    {% endif %}
+
+    <h2>Линейный тренд и прогноз продаж</h2>
+    {% if sales_forecast.forecast %}
+        <p>Прогноз выручки на следующий месяц: {{ sales_forecast.forecast }} BYN</p>
+        {% if sales_trend_chart %}
+            <img src="data:image/png;base64,{{ sales_trend_chart }}" alt="График линейного тренда продаж">
+        {% else %}
+            <p>График тренда будет построен после установки matplotlib.</p>
+        {% endif %}
+    {% else %}
+        <p>Для построения линейного тренда нужно минимум два месяца с оплаченными продажами.</p>
     {% endif %}
 
     <h2>Годовой отчет поступлений</h2>
