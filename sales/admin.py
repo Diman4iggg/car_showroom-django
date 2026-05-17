@@ -5,16 +5,18 @@ from .models import Client, Employee, Order, OrderItem, Sale
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('last_name', 'first_name', 'city', 'phone', 'email', 'created_at')
+    list_display = ('last_name', 'first_name', 'user', 'city', 'phone', 'email', 'created_at')
     list_filter = ('city',)
     search_fields = ('last_name', 'first_name', 'middle_name', 'phone', 'email', 'city')
+    autocomplete_fields = ('user',)
 
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('last_name', 'first_name', 'position', 'phone', 'email')
+    list_display = ('last_name', 'first_name', 'user', 'position', 'phone', 'email')
     list_filter = ('position',)
     search_fields = ('last_name', 'first_name', 'middle_name', 'phone', 'email')
+    autocomplete_fields = ('user',)
     filter_horizontal = ('clients',)
 
 

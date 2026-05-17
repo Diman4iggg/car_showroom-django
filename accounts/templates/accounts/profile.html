@@ -9,15 +9,85 @@
 
     <p>Пользователь: {{ request.user.username }}</p>
     <p>Email: {{ request.user.email|default:"не указан" }}</p>
-    <p>Роль: {{ request.user.profile.get_role_display }}</p>
-    <p>Тайм зона: {{ request.user.profile.timezone }}</p>
+    <p>Роль: {{ profile.get_role_display }}</p>
+    <p>Тайм зона: {{ profile.timezone }}</p>
 
-    {% if request.user.profile.role == 'employee' %}
+    {% if profile.role == 'employee' %}
         <h2>Кабинет сотрудника</h2>
-        <p>Здесь будет информация о заказах, продажах и клиентах, с которыми работает сотрудник.</p>
+        {% if employee %}
+            <p>Сотрудник: {{ employee.last_name }} {{ employee.first_name }}</p>
+
+            <h3>Клиенты сотрудника</h3>
+            {% if employee.clients.all %}
+                <ul>
+                    {% for client in employee.clients.all %}
+                        <li>{{ client.last_name }} {{ client.first_name }} - {{ client.phone }} - {{ client.city }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Клиенты пока не назначены.</p>
+            {% endif %}
+
+            <h3>Заказы сотрудника</h3>
+            {% if orders %}
+                <ul>
+                    {% for order in orders %}
+                        <li>Заказ №{{ order.id }} для {{ order.client }} - {{ order.get_status_display }} - {{ order.order_date|date:"d/m/Y H:i" }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Заказы пока не назначены.</p>
+            {% endif %}
+
+            <h3>Продажи сотрудника</h3>
+            {% if sales %}
+                <ul>
+                    {% for sale in sales %}
+                        <li>Заказ №{{ sale.order.id }} - {{ sale.total_amount }} BYN - {{ sale.paid_at|date:"d/m/Y H:i" }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Продажи пока не добавлены.</p>
+            {% endif %}
+        {% else %}
+            <p>Профиль сотрудника еще не связан с записью сотрудника в базе.</p>
+        {% endif %}
     {% else %}
         <h2>Кабинет клиента</h2>
-        <p>Здесь будут покупки клиента и доступные промокоды.</p>
+        {% if client %}
+            <p>Клиент: {{ client.last_name }} {{ client.first_name }}</p>
+
+            <h3>Покупки и заказы</h3>
+            {% if orders %}
+                <ul>
+                    {% for order in orders %}
+                        <li>
+                            Заказ №{{ order.id }} - {{ order.get_status_display }} - {{ order.order_date|date:"d/m/Y H:i" }}
+                            <ul>
+                                {% for item in order.items.all %}
+                                    <li>{{ item.car }} - {{ item.quantity }} шт. - {{ item.unit_price }} BYN</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Покупки пока не добавлены.</p>
+            {% endif %}
+        {% else %}
+            <p>Профиль клиента еще не связан с записью клиента в базе.</p>
+        {% endif %}
+
+        <h3>Доступные промокоды</h3>
+        {% if active_promos %}
+            <ul>
+                {% for promo in active_promos %}
+                    <li>{{ promo.code }} - скидка {{ promo.discount_percent }}%</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Активных промокодов пока нет.</p>
+        {% endif %}
     {% endif %}
 
     <form method="post" action="{% url 'accounts:logout' %}">

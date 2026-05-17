@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
@@ -21,6 +22,14 @@ def validate_adult(value):
 
 
 class Client(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='client_profile',
+        verbose_name='Пользователь',
+    )
     last_name = models.CharField(max_length=80, verbose_name='Фамилия')
     first_name = models.CharField(max_length=80, verbose_name='Имя')
     middle_name = models.CharField(max_length=80, blank=True, verbose_name='Отчество')
@@ -42,6 +51,14 @@ class Client(models.Model):
 
 
 class Employee(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='employee_profile',
+        verbose_name='Пользователь',
+    )
     last_name = models.CharField(max_length=80, verbose_name='Фамилия')
     first_name = models.CharField(max_length=80, verbose_name='Имя')
     middle_name = models.CharField(max_length=80, blank=True, verbose_name='Отчество')
