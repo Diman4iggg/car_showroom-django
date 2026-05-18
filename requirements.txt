@@ -5,3 +5,5 @@ matplotlib
 pytest
 pytest-django
 pytest-cov
+dj-database-url
+psycopg[binary]
