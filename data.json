@@ -1,0 +1,1499 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2026-05-16T21:35:03.771Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "1",
+    "object_repr": "Кроссовер",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2026-05-16T21:35:21.550Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "2",
+    "object_repr": "Хэтчбек",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2026-05-16T21:35:26.005Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "3",
+    "object_repr": "Пикап",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2026-05-16T21:35:32.110Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "4",
+    "object_repr": "Электромобиль",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2026-05-16T21:36:01.479Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "1",
+    "object_repr": "Toyota",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2026-05-16T21:36:26.354Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "2",
+    "object_repr": "BMW",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2026-05-16T21:36:33.537Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "3",
+    "object_repr": "Geely",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2026-05-16T21:36:47.380Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "4",
+    "object_repr": "Volkswagen",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2026-05-16T21:36:58.645Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "5",
+    "object_repr": "Tesla",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2026-05-16T21:37:11.297Z",
+    "user": 1,
+    "content_type": 10,
+    "object_id": "6",
+    "object_repr": "Hyundai",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2026-05-16T21:37:27.726Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "1",
+    "object_repr": "Климат-контроль",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2026-05-16T21:37:33.552Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "2",
+    "object_repr": "Камера заднего вида",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2026-05-16T21:37:38.683Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "3",
+    "object_repr": "Полный привод",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2026-05-16T21:37:43.712Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "4",
+    "object_repr": "Круиз-контроль",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2026-05-16T21:37:48.791Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "5",
+    "object_repr": "Подогрев сидений",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2026-05-16T21:37:52.849Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "6",
+    "object_repr": "Электропривод багажника",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2026-05-16T21:37:57.999Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "7",
+    "object_repr": "Парктроники",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2026-05-16T21:38:02.526Z",
+    "user": 1,
+    "content_type": 9,
+    "object_id": "8",
+    "object_repr": "Кожаный салон",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 19,
+  "fields": {
+    "action_time": "2026-05-16T21:38:44.737Z",
+    "user": 1,
+    "content_type": 8,
+    "object_id": "5",
+    "object_repr": "Седан",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 20,
+  "fields": {
+    "action_time": "2026-05-16T21:40:20.185Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "1",
+    "object_repr": "Toyota Toyota Camry (2023)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 21,
+  "fields": {
+    "action_time": "2026-05-16T21:46:04.078Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "2",
+    "object_repr": "BMW BMW X5 (2024)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 22,
+  "fields": {
+    "action_time": "2026-05-16T21:49:38.724Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "3",
+    "object_repr": "Geely Geely Coolray (2023)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 23,
+  "fields": {
+    "action_time": "2026-05-16T21:50:46.275Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "4",
+    "object_repr": "Tesla Tesla Model 3 (2024)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 24,
+  "fields": {
+    "action_time": "2026-05-16T21:51:42.135Z",
+    "user": 1,
+    "content_type": 7,
+    "object_id": "5",
+    "object_repr": "Volkswagen Volkswagen Golf (2022)",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 25,
+  "fields": {
+    "action_time": "2026-05-16T22:14:30.068Z",
+    "user": 1,
+    "content_type": 22,
+    "object_id": "2",
+    "object_repr": "sdkfsdfmsdkfksdfksdkfdskfksdfksdkfsdkfksdfksdkfskdfskdfksdfksdfksdkfksdf: 5/5",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 26,
+  "fields": {
+    "action_time": "2026-05-16T22:53:19.673Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "1",
+    "object_repr": "Karovin Dzmirty",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 27,
+  "fields": {
+    "action_time": "2026-05-17T16:13:27.984Z",
+    "user": 1,
+    "content_type": 24,
+    "object_id": "1",
+    "object_repr": "Dimka (Сотрудник)",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 28,
+  "fields": {
+    "action_time": "2026-05-17T16:13:40.325Z",
+    "user": 1,
+    "content_type": 4,
+    "object_id": "2",
+    "object_repr": "Dimka",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 29,
+  "fields": {
+    "action_time": "2026-05-17T16:14:03.712Z",
+    "user": 1,
+    "content_type": 12,
+    "object_id": "1",
+    "object_repr": "Karovin Dzmirty",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 30,
+  "fields": {
+    "action_time": "2026-05-17T17:57:54.326Z",
+    "user": 1,
+    "content_type": 11,
+    "object_id": "2",
+    "object_repr": "bb qq",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u0413\\u043e\\u0440\\u043e\\u0434\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 31,
+  "fields": {
+    "action_time": "2026-05-17T17:58:18.788Z",
+    "user": 1,
+    "content_type": 22,
+    "object_id": "3",
+    "object_repr": "Ддд: 5/5",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 32,
+  "fields": {
+    "action_time": "2026-05-18T11:12:55.591Z",
+    "user": 1,
+    "content_type": 19,
+    "object_id": "2",
+    "object_repr": "Запущен личный кабинет клиента",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u0430\\u0440\\u0442\\u0438\\u043d\\u043a\\u0430\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 33,
+  "fields": {
+    "action_time": "2026-05-18T11:13:07.157Z",
+    "user": 1,
+    "content_type": 19,
+    "object_id": "2",
+    "object_repr": "Запущен личный кабинет клиента",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u0430\\u0440\\u0442\\u0438\\u043d\\u043a\\u0430\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 34,
+  "fields": {
+    "action_time": "2026-05-18T11:13:14.292Z",
+    "user": 1,
+    "content_type": 19,
+    "object_id": "1",
+    "object_repr": "В каталоге появились новые автомобили",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u0430\\u0440\\u0442\\u0438\\u043d\\u043a\\u0430\"]}}]"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$vyeXScZrHUSLQ4PYrUzzQo$iG5N/c7Cea9FaLAm0IueoC4nKI43DqohWqlGU4jLLkI=",
+    "last_login": "2026-05-18T10:06:03.580Z",
+    "is_superuser": true,
+    "username": "user",
+    "first_name": "",
+    "last_name": "",
+    "email": "korovin.dima.200614@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-05-16T09:38:22.003Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$EZfU4eRdpIBTPqNAdc1bcw$fOkRol1H2FQPQF/ZsefSIizAfy6CxALB8UpfY1G8yNM=",
+    "last_login": "2026-05-17T22:20:01.496Z",
+    "is_superuser": false,
+    "username": "zxc",
+    "first_name": "qq",
+    "last_name": "bb",
+    "email": "dd@mail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-17T08:46:28.621Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$H97RqjZIRmPLHSpeUq9HNZ$KsC6OrQOIfoo58IAa2fqzF8UH5DHAVZCnrLEDXSeYN8=",
+    "last_login": "2026-05-17T22:22:51.894Z",
+    "is_superuser": false,
+    "username": "manager",
+    "first_name": "Парень",
+    "last_name": "Крутой",
+    "email": "manager@gg.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-17T16:16:11.292Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "5dsg7fsh1uhopovjouevf4tnsq2oy22l",
+  "fields": {
+    "session_data": ".eJxVjDkOwjAUBe_iGlm2-fFCSc8Zor8YHEC2lKVC3B0spYDmFW9G81IjbmsZtyXP4yTqpCyow-9JyI9cO5E71lvT3Oo6T6S7one66EuT_Dzv7l-g4FJ6l9yQvMPskIJEC-CGo7dXwghJMHN2KRABm-9yIgMJxQT2wUUIwur9AQtfOF8:1wOj48:fahVJnFfDffyNw2hq1cGg8AD1Z7ci7l_Tl5V0dBYS4M",
+    "expire_date": "2026-05-31T21:30:28.474Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "6o2aalia7jpyw3q23rxa4gp7x3lzchnq",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyGwuFI8eu83kKW7laqBpLQn47_bJj3ocea9mbeKtC45rk3mOLG6KqtOv12i4SllB_ygcq96qGWZp6R3RR-06b6yvG6H-3eQqeVtLQ7RBrJshRHYBQpEHVhIIgnAsvOU_Hl0IGOHuCVvEl4cITsDYtTnC-XlN7Y:1wOe6e:Cph8Du_uwHn99439Mq-LIDLA27AUyPBvP95TzYq2J0o",
+    "expire_date": "2026-05-31T16:12:44.931Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ddb8nvdvi2wwi3iae1d0i734dhbarfhw",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyGwuFI8eu83kKW7laqBpLQn47_bJj3ocea9mbeKtC45rk3mOLG6KqtOv12i4SllB_ygcq96qGWZp6R3RR-06b6yvG6H-3eQqeVtLQ7RBrJshRHYBQpEHVhIIgnAsvOU_Hl0IGOHuCVvEl4cITsDYtTnC-XlN7Y:1wOe6g:I_VJccF5aUpXcx3pBpaMEv_Cawx_5IwRAsrHDGz-oRc",
+    "expire_date": "2026-05-31T16:12:46.538Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "efwlofdlyoqf4ug074j9oaf4mrwrkgpr",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyGwuFI8eu83kKW7laqBpLQn47_bJj3ocea9mbeKtC45rk3mOLG6KqtOv12i4SllB_ygcq96qGWZp6R3RR-06b6yvG6H-3eQqeVtLQ7RBrJshRHYBQpEHVhIIgnAsvOU_Hl0IGOHuCVvEl4cITsDYtTnC-XlN7Y:1wOe6h:DFu5Ia2oHe5MZZvlN4RKVukOT8Lg5FN565VAXYfw7y8",
+    "expire_date": "2026-05-31T16:12:47.605Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "eibnqhisgrgvkcx84mvvozmbpbn84w1e",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyGwuFI8eu83kKW7laqBpLQn47_bJj3ocea9mbeKtC45rk3mOLG6KqtOv12i4SllB_ygcq96qGWZp6R3RR-06b6yvG6H-3eQqeVtLQ7RBrJshRHYBQpEHVhIIgnAsvOU_Hl0IGOHuCVvEl4cITsDYtTnC-XlN7Y:1wOe6g:I_VJccF5aUpXcx3pBpaMEv_Cawx_5IwRAsrHDGz-oRc",
+    "expire_date": "2026-05-31T16:12:46.984Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ezvj4cclj02p6y41v4kff6fids0pplno",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyGwuFI8eu83kKW7laqBpLQn47_bJj3ocea9mbeKtC45rk3mOLG6KqtOv12i4SllB_ygcq96qGWZp6R3RR-06b6yvG6H-3eQqeVtLQ7RBrJshRHYBQpEHVhIIgnAsvOU_Hl0IGOHuCVvEl4cITsDYtTnC-XlN7Y:1wOe6h:DFu5Ia2oHe5MZZvlN4RKVukOT8Lg5FN565VAXYfw7y8",
+    "expire_date": "2026-05-31T16:12:47.193Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "fvruwqxda7ws9pc4km2ge1mv9ztuc2j2",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyFAKVs8eu83kF3YStVAUtqT8d9tkx70Npn3Zt4i4LbmsDVewpzEVThx-e0I45PLAdIDy73KWMu6zCQPRZ60ybEmft1O9-8gY8v7Gpz2CnqPxANZS0PnORmlIu0BktLROAZDMGHsDU9aU3RoVQcGHSgtPl_bZjeW:1wOei4:GumhwmfQy6qJtVMEiGkfdc2iqlchhMuRNLVe3daC108",
+    "expire_date": "2026-05-31T16:51:24.163Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "gl9gyqm8ie8ywtx6dq6r423nw3flzdq7",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyGwuFI8eu83kKW7laqBpLQn47_bJj3ocea9mbeKtC45rk3mOLG6KqtOv12i4SllB_ygcq96qGWZp6R3RR-06b6yvG6H-3eQqeVtLQ7RBrJshRHYBQpEHVhIIgnAsvOU_Hl0IGOHuCVvEl4cITsDYtTnC-XlN7Y:1wOe6h:DFu5Ia2oHe5MZZvlN4RKVukOT8Lg5FN565VAXYfw7y8",
+    "expire_date": "2026-05-31T16:12:47.468Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "inj5gb7ct6li0zmwavml4jtsfal1crdp",
+  "fields": {
+    "session_data": ".eJxVjEsOAiEQBe_C2pCmAQWX7j0D6eYjowaSYWZlvLtOMgvdvqp6LxFoXWpYR57DlMRZKBSH35EpPnLbSLpTu3UZe1vmieWmyJ0Oee0pPy-7-3dQadRvDR4ZCmFJpCHa6DIbcBghxSMqRpOsysUVh0Vpb9GD4ZP11rC2pngQ7w8MjjeX:1wOfiH:S7wYocfo8NEWBIf9dl3pnLlxfF6mrqRcinF9Kcim6JE",
+    "expire_date": "2026-05-31T17:55:41.234Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "jkkbbahi6rrecgqd8j5cd38o8zpan50i",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQAP_C2ZCytLh49O4bml0WpGogKe3J-HdD0oNeZybzVjPtW573Ftd5EXVRVp1-GVN4xtKFPKjcqw61bOvCuif6sE3fqsTX9Wj_Bpla7lvHib1BQmOmyYWQPEIQTACJTIjAKAktkAgD-gFGOqNlET8YRyOqzxf1Yjg4:1wONwn:vIH9SkDwJDlgiThRKjLRVY0V33eGl_YRQM7K-Ztn2HI",
+    "expire_date": "2026-05-30T22:57:29.125Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "jwepqe0bmjf9a9yune0erd5vcqn12jaw",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGln-4B8lfc5g7dprHEC2FCcV4u4QKQW0b2bei0XY1hq3QUucM7swKdjpd0RID2o7yXdot85Tb-syI98VftDBp57peT3cv4MKo35rE1zxmMFnpZyQZxXQSxs0JrIepFHoHWmy5Aui00ZQsOSEcmCBMhT2_gD7kzhH:1wOfA1:YsVEIBY_i3lut6ZjZ0kNkvU4-Pm_iAbn2K-AZXITP8g",
+    "expire_date": "2026-05-31T17:20:17.170Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "qlohqdhjve3odwbm1z2qugiqicziify3",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyGwuFI8eu83kKW7laqBpLQn47_bJj3ocea9mbeKtC45rk3mOLG6KqtOv12i4SllB_ygcq96qGWZp6R3RR-06b6yvG6H-3eQqeVtLQ7RBrJshRHYBQpEHVhIIgnAsvOU_Hl0IGOHuCVvEl4cITsDYtTnC-XlN7Y:1wOav6:qOeJOdPhOMUJz-XWhvxUwN7IPN2RKh5meI9sb_nHeVI",
+    "expire_date": "2026-05-31T12:48:36.413Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "r1h7u4idk7ippgq1cxajz175ndrvmv4i",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hAYaAGX7j0DGZipVA0kpV0Z765NutDtf-_9l4i4rSVunZc4kziLIE6_W8L84LoDumO9NZlbXZc5yV2RB-3y2oifl8P9OyjYy7fWihmcUcElQvQK0GiNFDIN7INJPlg9qowwmUmlDI4G65UDPxof0IJ4fwDeljc_:1wOf4n:cI7WXvqrKSV3NkMxRtBtln-lESt7urY6XzxVvUnIrZE",
+    "expire_date": "2026-05-31T17:14:53.373Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "t3bxbroqi2eko90dpcsy5f4oejkamsz5",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyGwuFI8eu83kKW7laqBpLQn47_bJj3ocea9mbeKtC45rk3mOLG6KqtOv12i4SllB_ygcq96qGWZp6R3RR-06b6yvG6H-3eQqeVtLQ7RBrJshRHYBQpEHVhIIgnAsvOU_Hl0IGOHuCVvEl4cITsDYtTnC-XlN7Y:1wOurL:Lnkt3YlML651dlioa12PVdbXs7mFWfLJ2Oz4hW6IS7E",
+    "expire_date": "2026-06-01T10:06:03.597Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "t5gvsq60s9pn2ggg3da8geeed4u6dn7m",
+  "fields": {
+    "session_data": ".eJxVjMEOwiAQRP-FsyGwuFI8eu83kKW7laqBpLQn47_bJj3ocea9mbeKtC45rk3mOLG6KqtOv12i4SllB_ygcq96qGWZp6R3RR-06b6yvG6H-3eQqeVtLQ7RBrJshRHYBQpEHVhIIgnAsvOU_Hl0IGOHuCVvEl4cITsDYtTnC-XlN7Y:1wOe6g:I_VJccF5aUpXcx3pBpaMEv_Cawx_5IwRAsrHDGz-oRc",
+    "expire_date": "2026-05-31T16:12:46.810Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "y9205xcdc3a9qmp96456hw3m57idevvn",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEM73Hp3m8gwIBUDU1KuzL-uzbpQrf3nHNfLMRtbWEbZQkTsTMDxU6_Y4r5UfpO6B77beZ57usyJb4r_KCDX2cqz8vh_h20ONq3RqtVJm3QKE-pVlEFRgBJmJyO4JXQGU0xXogMBWUiB1YSOFJIUC17fwDy_jd6:1wOhKV:ABByWU4XfsP90rsJivpKvt9bEyAsCq8Jjahiyg_mcLE",
+    "expire_date": "2026-05-31T19:39:15.285Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ya37geshxq9juqwkf9ow2c3bi3rz6rfo",
+  "fields": {
+    "session_data": ".eJxVjDsOwjAQBe_iGllsnPV6KelzhshfHEC2FCcV4u5gKQWU781oXmK2-5bnvcV1XoK4CBKn389Z_4ilg3C35Valr2VbFye7Ig_a5FRDfF4P9y-Qbcs9qzQGA5aGiGkcKTpitBjOBjwrrxQnGrTybDQ7RAeeAEFD-k4GDOL9AcSwNto:1wOeiZ:s9OmF-MScgjKK3Fy2B2y-c_Pvz6z1gjjeEuxBtRaZUo",
+    "expire_date": "2026-05-31T16:51:55.844Z"
+  }
+},
+{
+  "model": "accounts.userprofile",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "role": "client",
+    "timezone": "Europe/Minsk",
+    "created_at": "2026-05-17T08:46:30.167Z",
+    "updated_at": "2026-05-17T08:46:30.186Z"
+  }
+},
+{
+  "model": "accounts.userprofile",
+  "pk": 4,
+  "fields": {
+    "user": 5,
+    "role": "employee",
+    "timezone": "Europe/Minsk",
+    "created_at": "2026-05-17T16:16:12.913Z",
+    "updated_at": "2026-05-17T16:16:12.926Z"
+  }
+},
+{
+  "model": "core.companyinfo",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-05-17T09:00:00Z",
+    "updated_at": "2026-05-17T09:00:00Z",
+    "title": "CarShowroom",
+    "text": "CarShowroom - учебный автосалон для демонстрации каталога автомобилей, работы с клиентами, заказами, продажами и аналитикой."
+  }
+},
+{
+  "model": "core.newsarticle",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-05-17T09:05:00Z",
+    "updated_at": "2026-05-18T11:13:14.284Z",
+    "title": "В каталоге появились новые автомобили",
+    "summary": "Мы обновили каталог и добавили автомобили разных категорий.",
+    "body": "В каталоге автосалона доступны седаны, кроссоверы, электромобили и хэтчбеки. Для удобства пользователей добавлены поиск, фильтрация по категории и сортировка по цене.",
+    "image": "news/image1_mmaqbzQ.png",
+    "is_published": true,
+    "published_at": "2026-05-17T09:05:00Z"
+  }
+},
+{
+  "model": "core.newsarticle",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-05-17T09:10:00Z",
+    "updated_at": "2026-05-18T11:13:07.148Z",
+    "title": "Запущен личный кабинет клиента",
+    "summary": "Клиенты могут просматривать свои заказы и доступные промокоды.",
+    "body": "Личный кабинет помогает клиентам отслеживать заказы, видеть статус покупки и пользоваться действующими промокодами автосалона.",
+    "image": "news/image2.png",
+    "is_published": true,
+    "published_at": "2026-05-17T09:10:00Z"
+  }
+},
+{
+  "model": "core.faq",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-05-17T09:15:00Z",
+    "updated_at": "2026-05-17T09:15:00Z",
+    "question": "Как оформить заказ на автомобиль?",
+    "answer": "Авторизуйтесь как клиент, выберите автомобиль в каталоге и нажмите кнопку Купить. После этого заказ появится в личном кабинете."
+  }
+},
+{
+  "model": "core.faq",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-05-17T09:16:00Z",
+    "updated_at": "2026-05-17T09:16:00Z",
+    "question": "Можно ли отменить заказ?",
+    "answer": "Клиент может отменить новый заказ. Сотрудник может отменить заказ до оплаты и выдачи автомобиля."
+  }
+},
+{
+  "model": "core.contactemployee",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-05-17T09:20:00Z",
+    "updated_at": "2026-05-17T09:20:00Z",
+    "full_name": "Иванов Алексей Сергеевич",
+    "position": "Менеджер по продажам",
+    "work_description": "Консультирует клиентов, помогает выбрать автомобиль и сопровождает заказ до выдачи.",
+    "phone": "+375 (29) 111-22-33",
+    "email": "manager@carshowroom.by",
+    "photo": ""
+  }
+},
+{
+  "model": "core.vacancy",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-05-17T09:25:00Z",
+    "updated_at": "2026-05-17T09:25:00Z",
+    "title": "Менеджер по продажам автомобилей",
+    "description": "Требуется сотрудник для консультации клиентов, оформления заказов и сопровождения продаж. Важны грамотная речь, ответственность и интерес к автомобильной тематике.",
+    "is_active": true
+  }
+},
+{
+  "model": "core.privacypolicy",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-05-17T09:30:00Z",
+    "updated_at": "2026-05-17T09:30:00Z",
+    "title": "Политика конфиденциальности",
+    "text": "CarShowroom использует персональные данные только для регистрации пользователей, обработки заказов и связи с клиентами. Данные не передаются третьим лицам без необходимости выполнения заказа."
+  }
+},
+{
+  "model": "core.review",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-05-17T09:35:00Z",
+    "updated_at": "2026-05-17T09:35:00Z",
+    "author_name": "Дмитрий",
+    "rating": 5,
+    "text": "Удобный каталог, быстро нашел подходящий автомобиль и оформил заказ.",
+    "is_published": true
+  }
+},
+{
+  "model": "core.review",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-05-17T09:40:00Z",
+    "updated_at": "2026-05-17T09:40:00Z",
+    "author_name": "Анна",
+    "rating": 4,
+    "text": "Понравилась фильтрация по категориям и цене. Хотелось бы больше фото автомобилей.",
+    "is_published": true
+  }
+},
+{
+  "model": "core.promocode",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-05-17T09:45:00Z",
+    "updated_at": "2026-05-17T09:45:00Z",
+    "code": "AUTO10",
+    "description": "Скидка 10% на оформление дополнительного сервисного пакета при покупке автомобиля.",
+    "discount_percent": 10,
+    "starts_at": "2026-05-01",
+    "ends_at": "2026-12-31",
+    "is_active": true
+  }
+},
+{
+  "model": "core.promocode",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-05-17T09:50:00Z",
+    "updated_at": "2026-05-17T09:50:00Z",
+    "code": "SPRING5",
+    "description": "Архивный промокод весенней акции.",
+    "discount_percent": 5,
+    "starts_at": "2026-03-01",
+    "ends_at": "2026-04-30",
+    "is_active": false
+  }
+},
+{
+  "model": "showroom.carcategory",
+  "pk": 1,
+  "fields": {
+    "name": "Кроссовер",
+    "description": ""
+  }
+},
+{
+  "model": "showroom.carcategory",
+  "pk": 2,
+  "fields": {
+    "name": "Хэтчбек",
+    "description": ""
+  }
+},
+{
+  "model": "showroom.carcategory",
+  "pk": 3,
+  "fields": {
+    "name": "Пикап",
+    "description": ""
+  }
+},
+{
+  "model": "showroom.carcategory",
+  "pk": 4,
+  "fields": {
+    "name": "Электромобиль",
+    "description": ""
+  }
+},
+{
+  "model": "showroom.carcategory",
+  "pk": 5,
+  "fields": {
+    "name": "Седан",
+    "description": ""
+  }
+},
+{
+  "model": "showroom.manufacturer",
+  "pk": 1,
+  "fields": {
+    "name": "Toyota",
+    "country": "Япония",
+    "website": ""
+  }
+},
+{
+  "model": "showroom.manufacturer",
+  "pk": 2,
+  "fields": {
+    "name": "BMW",
+    "country": "Германия",
+    "website": ""
+  }
+},
+{
+  "model": "showroom.manufacturer",
+  "pk": 3,
+  "fields": {
+    "name": "Geely",
+    "country": "Китай",
+    "website": ""
+  }
+},
+{
+  "model": "showroom.manufacturer",
+  "pk": 4,
+  "fields": {
+    "name": "Volkswagen",
+    "country": "Германия",
+    "website": ""
+  }
+},
+{
+  "model": "showroom.manufacturer",
+  "pk": 5,
+  "fields": {
+    "name": "Tesla",
+    "country": "США",
+    "website": ""
+  }
+},
+{
+  "model": "showroom.manufacturer",
+  "pk": 6,
+  "fields": {
+    "name": "Hyundai",
+    "country": "Южная Корея",
+    "website": ""
+  }
+},
+{
+  "model": "showroom.carfeature",
+  "pk": 1,
+  "fields": {
+    "name": "Климат-контроль"
+  }
+},
+{
+  "model": "showroom.carfeature",
+  "pk": 2,
+  "fields": {
+    "name": "Камера заднего вида"
+  }
+},
+{
+  "model": "showroom.carfeature",
+  "pk": 3,
+  "fields": {
+    "name": "Полный привод"
+  }
+},
+{
+  "model": "showroom.carfeature",
+  "pk": 4,
+  "fields": {
+    "name": "Круиз-контроль"
+  }
+},
+{
+  "model": "showroom.carfeature",
+  "pk": 5,
+  "fields": {
+    "name": "Подогрев сидений"
+  }
+},
+{
+  "model": "showroom.carfeature",
+  "pk": 6,
+  "fields": {
+    "name": "Электропривод багажника"
+  }
+},
+{
+  "model": "showroom.carfeature",
+  "pk": 7,
+  "fields": {
+    "name": "Парктроники"
+  }
+},
+{
+  "model": "showroom.carfeature",
+  "pk": 8,
+  "fields": {
+    "name": "Кожаный салон"
+  }
+},
+{
+  "model": "showroom.car",
+  "pk": 1,
+  "fields": {
+    "name": "Toyota Camry",
+    "category": 5,
+    "manufacturer": 1,
+    "year": 2023,
+    "price": "125000.00",
+    "stock": 2,
+    "fuel_type": "petrol",
+    "color": "Черный",
+    "description": "",
+    "image": "",
+    "is_available": true,
+    "created_at": "2026-05-16T21:40:20.174Z",
+    "updated_at": "2026-05-17T22:20:11.826Z",
+    "features": [
+      2,
+      1,
+      4
+    ]
+  }
+},
+{
+  "model": "showroom.car",
+  "pk": 2,
+  "fields": {
+    "name": "BMW X5",
+    "category": 1,
+    "manufacturer": 2,
+    "year": 2024,
+    "price": "310000.00",
+    "stock": 1,
+    "fuel_type": "diesel",
+    "color": "Белый",
+    "description": "",
+    "image": "",
+    "is_available": true,
+    "created_at": "2026-05-16T21:46:04.072Z",
+    "updated_at": "2026-05-17T12:50:05.593Z",
+    "features": [
+      8,
+      7,
+      3
+    ]
+  }
+},
+{
+  "model": "showroom.car",
+  "pk": 3,
+  "fields": {
+    "name": "Geely Coolray",
+    "category": 1,
+    "manufacturer": 3,
+    "year": 2023,
+    "price": "89000.00",
+    "stock": 2,
+    "fuel_type": "petrol",
+    "color": "Красный",
+    "description": "",
+    "image": "",
+    "is_available": true,
+    "created_at": "2026-05-16T21:49:38.717Z",
+    "updated_at": "2026-05-17T16:33:24.267Z",
+    "features": [
+      2,
+      5
+    ]
+  }
+},
+{
+  "model": "showroom.car",
+  "pk": 4,
+  "fields": {
+    "name": "Tesla Model 3",
+    "category": 4,
+    "manufacturer": 5,
+    "year": 2024,
+    "price": "180000.00",
+    "stock": 0,
+    "fuel_type": "electric",
+    "color": "Синий",
+    "description": "",
+    "image": "",
+    "is_available": false,
+    "created_at": "2026-05-16T21:50:46.267Z",
+    "updated_at": "2026-05-17T19:52:09.124Z",
+    "features": [
+      2,
+      4
+    ]
+  }
+},
+{
+  "model": "showroom.car",
+  "pk": 5,
+  "fields": {
+    "name": "Volkswagen Golf",
+    "category": 2,
+    "manufacturer": 4,
+    "year": 2022,
+    "price": "78000.00",
+    "stock": 4,
+    "fuel_type": "petrol",
+    "color": "Серый",
+    "description": "",
+    "image": "",
+    "is_available": true,
+    "created_at": "2026-05-16T21:51:42.126Z",
+    "updated_at": "2026-05-16T21:51:42.126Z",
+    "features": [
+      1,
+      7
+    ]
+  }
+},
+{
+  "model": "sales.client",
+  "pk": 2,
+  "fields": {
+    "user": 4,
+    "last_name": "bb",
+    "first_name": "qq",
+    "middle_name": "ww",
+    "birth_date": "2007-01-16",
+    "phone": "+375 (33) 379-00-14",
+    "email": "dd@mail.com",
+    "city": "Жлобин",
+    "address": "sdf",
+    "created_at": "2026-05-17T08:46:30.204Z",
+    "updated_at": "2026-05-17T17:57:54.316Z"
+  }
+},
+{
+  "model": "sales.client",
+  "pk": 3,
+  "fields": {
+    "user": null,
+    "last_name": "Демо",
+    "first_name": "Клиент",
+    "middle_name": "",
+    "birth_date": "1990-01-01",
+    "phone": "+375 (29) 555-11-22",
+    "email": "demo.client@carshowroom.by",
+    "city": "Минск",
+    "address": "ул. Демонстрационная, 1",
+    "created_at": "2026-05-17T19:39:02.130Z",
+    "updated_at": "2026-05-17T19:39:02.130Z"
+  }
+},
+{
+  "model": "sales.employee",
+  "pk": 2,
+  "fields": {
+    "user": 5,
+    "last_name": "Крутой",
+    "first_name": "Парень",
+    "middle_name": "ww",
+    "position": "манагер",
+    "birth_date": "2005-02-11",
+    "phone": "+375 (29) 379-00-14",
+    "email": "manager@gg.com",
+    "created_at": "2026-05-17T16:16:12.946Z",
+    "updated_at": "2026-05-17T16:16:12.946Z",
+    "clients": []
+  }
+},
+{
+  "model": "sales.employee",
+  "pk": 3,
+  "fields": {
+    "user": null,
+    "last_name": "Демо",
+    "first_name": "Сотрудник",
+    "middle_name": "",
+    "position": "Менеджер по продажам",
+    "birth_date": "1988-02-02",
+    "phone": "+375 (29) 555-33-44",
+    "email": "demo.employee@carshowroom.by",
+    "created_at": "2026-05-17T19:39:02.139Z",
+    "updated_at": "2026-05-17T19:39:02.139Z",
+    "clients": []
+  }
+},
+{
+  "model": "sales.order",
+  "pk": 1,
+  "fields": {
+    "client": 2,
+    "employee": 2,
+    "status": "delivered",
+    "order_date": "2026-05-17T08:59:54.288Z",
+    "delivery_date": "2026-05-17",
+    "delivery_at": null,
+    "comment": "",
+    "created_at": "2026-05-17T08:59:54.288Z",
+    "updated_at": "2026-05-17T16:16:59.958Z"
+  }
+},
+{
+  "model": "sales.order",
+  "pk": 2,
+  "fields": {
+    "client": 2,
+    "employee": null,
+    "status": "cancelled",
+    "order_date": "2026-05-17T09:05:54.206Z",
+    "delivery_date": null,
+    "delivery_at": null,
+    "comment": "",
+    "created_at": "2026-05-17T09:05:54.206Z",
+    "updated_at": "2026-05-17T12:50:05.612Z"
+  }
+},
+{
+  "model": "sales.order",
+  "pk": 3,
+  "fields": {
+    "client": 2,
+    "employee": 2,
+    "status": "delivered",
+    "order_date": "2026-05-17T16:23:56.892Z",
+    "delivery_date": "2026-05-17",
+    "delivery_at": null,
+    "comment": "",
+    "created_at": "2026-05-17T16:23:56.892Z",
+    "updated_at": "2026-05-17T16:25:37.556Z"
+  }
+},
+{
+  "model": "sales.order",
+  "pk": 4,
+  "fields": {
+    "client": 2,
+    "employee": null,
+    "status": "cancelled",
+    "order_date": "2026-05-17T16:26:19.981Z",
+    "delivery_date": null,
+    "delivery_at": null,
+    "comment": "",
+    "created_at": "2026-05-17T16:26:19.981Z",
+    "updated_at": "2026-05-17T16:26:22.663Z"
+  }
+},
+{
+  "model": "sales.order",
+  "pk": 5,
+  "fields": {
+    "client": 2,
+    "employee": 2,
+    "status": "delivered",
+    "order_date": "2026-05-17T16:26:29.164Z",
+    "delivery_date": "2026-05-17",
+    "delivery_at": null,
+    "comment": "",
+    "created_at": "2026-05-17T16:26:29.164Z",
+    "updated_at": "2026-05-17T16:28:51.357Z"
+  }
+},
+{
+  "model": "sales.order",
+  "pk": 6,
+  "fields": {
+    "client": 2,
+    "employee": 2,
+    "status": "cancelled",
+    "order_date": "2026-05-17T16:26:33.090Z",
+    "delivery_date": null,
+    "delivery_at": null,
+    "comment": "",
+    "created_at": "2026-05-17T16:26:33.090Z",
+    "updated_at": "2026-05-17T16:32:51.501Z"
+  }
+},
+{
+  "model": "sales.order",
+  "pk": 7,
+  "fields": {
+    "client": 2,
+    "employee": 2,
+    "status": "delivered",
+    "order_date": "2026-05-17T16:33:24.229Z",
+    "delivery_date": "2026-05-17",
+    "delivery_at": "2026-05-17T16:34:07.453Z",
+    "comment": "",
+    "created_at": "2026-05-17T16:33:24.229Z",
+    "updated_at": "2026-05-17T16:34:07.453Z"
+  }
+},
+{
+  "model": "sales.order",
+  "pk": 8,
+  "fields": {
+    "client": 3,
+    "employee": 3,
+    "status": "paid",
+    "order_date": "2026-05-17T19:39:02.163Z",
+    "delivery_date": "2026-03-15",
+    "delivery_at": "2026-03-15T07:30:00Z",
+    "comment": "Демонстрационная продажа для аналитики.",
+    "created_at": "2026-05-17T19:39:02.163Z",
+    "updated_at": "2026-05-17T19:39:02.163Z"
+  }
+},
+{
+  "model": "sales.order",
+  "pk": 9,
+  "fields": {
+    "client": 3,
+    "employee": 3,
+    "status": "paid",
+    "order_date": "2026-05-17T19:39:02.192Z",
+    "delivery_date": "2026-04-12",
+    "delivery_at": "2026-04-12T11:45:00Z",
+    "comment": "Демонстрационная продажа для аналитики.",
+    "created_at": "2026-05-17T19:39:02.192Z",
+    "updated_at": "2026-05-17T19:39:02.192Z"
+  }
+},
+{
+  "model": "sales.order",
+  "pk": 10,
+  "fields": {
+    "client": 2,
+    "employee": 2,
+    "status": "delivered",
+    "order_date": "2026-05-17T19:52:09.094Z",
+    "delivery_date": "2026-05-17",
+    "delivery_at": "2026-05-17T19:52:24.822Z",
+    "comment": "",
+    "created_at": "2026-05-17T19:52:09.094Z",
+    "updated_at": "2026-05-17T19:52:24.822Z"
+  }
+},
+{
+  "model": "sales.order",
+  "pk": 11,
+  "fields": {
+    "client": 2,
+    "employee": 2,
+    "status": "paid",
+    "order_date": "2026-05-17T22:20:11.790Z",
+    "delivery_date": null,
+    "delivery_at": null,
+    "comment": "",
+    "created_at": "2026-05-17T22:20:11.790Z",
+    "updated_at": "2026-05-17T22:22:58.637Z"
+  }
+},
+{
+  "model": "sales.orderitem",
+  "pk": 1,
+  "fields": {
+    "order": 1,
+    "car": 2,
+    "quantity": 1,
+    "unit_price": "310000.00"
+  }
+},
+{
+  "model": "sales.orderitem",
+  "pk": 2,
+  "fields": {
+    "order": 2,
+    "car": 2,
+    "quantity": 1,
+    "unit_price": "310000.00"
+  }
+},
+{
+  "model": "sales.orderitem",
+  "pk": 3,
+  "fields": {
+    "order": 3,
+    "car": 3,
+    "quantity": 1,
+    "unit_price": "89000.00"
+  }
+},
+{
+  "model": "sales.orderitem",
+  "pk": 4,
+  "fields": {
+    "order": 4,
+    "car": 3,
+    "quantity": 1,
+    "unit_price": "89000.00"
+  }
+},
+{
+  "model": "sales.orderitem",
+  "pk": 5,
+  "fields": {
+    "order": 5,
+    "car": 3,
+    "quantity": 1,
+    "unit_price": "89000.00"
+  }
+},
+{
+  "model": "sales.orderitem",
+  "pk": 6,
+  "fields": {
+    "order": 6,
+    "car": 3,
+    "quantity": 1,
+    "unit_price": "89000.00"
+  }
+},
+{
+  "model": "sales.orderitem",
+  "pk": 7,
+  "fields": {
+    "order": 7,
+    "car": 3,
+    "quantity": 1,
+    "unit_price": "89000.00"
+  }
+},
+{
+  "model": "sales.orderitem",
+  "pk": 8,
+  "fields": {
+    "order": 8,
+    "car": 1,
+    "quantity": 1,
+    "unit_price": "125000.00"
+  }
+},
+{
+  "model": "sales.orderitem",
+  "pk": 9,
+  "fields": {
+    "order": 9,
+    "car": 3,
+    "quantity": 1,
+    "unit_price": "89000.00"
+  }
+},
+{
+  "model": "sales.orderitem",
+  "pk": 10,
+  "fields": {
+    "order": 10,
+    "car": 4,
+    "quantity": 1,
+    "unit_price": "180000.00"
+  }
+},
+{
+  "model": "sales.orderitem",
+  "pk": 11,
+  "fields": {
+    "order": 11,
+    "car": 1,
+    "quantity": 1,
+    "unit_price": "125000.00"
+  }
+},
+{
+  "model": "sales.sale",
+  "pk": 1,
+  "fields": {
+    "order": 1,
+    "paid_at": "2026-05-17T16:16:55.103Z",
+    "total_amount": "310000.00",
+    "created_at": "2026-05-17T16:16:55.111Z",
+    "updated_at": "2026-05-17T16:16:55.111Z"
+  }
+},
+{
+  "model": "sales.sale",
+  "pk": 2,
+  "fields": {
+    "order": 3,
+    "paid_at": "2026-05-17T16:25:34.023Z",
+    "total_amount": "89000.00",
+    "created_at": "2026-05-17T16:25:34.026Z",
+    "updated_at": "2026-05-17T16:25:34.026Z"
+  }
+},
+{
+  "model": "sales.sale",
+  "pk": 3,
+  "fields": {
+    "order": 5,
+    "paid_at": "2026-05-17T16:28:10.279Z",
+    "total_amount": "89000.00",
+    "created_at": "2026-05-17T16:28:10.284Z",
+    "updated_at": "2026-05-17T16:28:10.284Z"
+  }
+},
+{
+  "model": "sales.sale",
+  "pk": 4,
+  "fields": {
+    "order": 7,
+    "paid_at": "2026-05-17T16:33:58.708Z",
+    "total_amount": "89000.00",
+    "created_at": "2026-05-17T16:33:58.712Z",
+    "updated_at": "2026-05-17T16:33:58.712Z"
+  }
+},
+{
+  "model": "sales.sale",
+  "pk": 5,
+  "fields": {
+    "order": 8,
+    "paid_at": "2026-03-15T07:30:00Z",
+    "total_amount": "125000.00",
+    "created_at": "2026-05-17T19:39:02.183Z",
+    "updated_at": "2026-05-17T19:39:02.183Z"
+  }
+},
+{
+  "model": "sales.sale",
+  "pk": 6,
+  "fields": {
+    "order": 9,
+    "paid_at": "2026-04-12T11:45:00Z",
+    "total_amount": "89000.00",
+    "created_at": "2026-05-17T19:39:02.208Z",
+    "updated_at": "2026-05-17T19:39:02.208Z"
+  }
+},
+{
+  "model": "sales.sale",
+  "pk": 7,
+  "fields": {
+    "order": 10,
+    "paid_at": "2026-05-17T19:52:22.274Z",
+    "total_amount": "180000.00",
+    "created_at": "2026-05-17T19:52:22.277Z",
+    "updated_at": "2026-05-17T19:52:22.277Z"
+  }
+},
+{
+  "model": "sales.sale",
+  "pk": 8,
+  "fields": {
+    "order": 11,
+    "paid_at": "2026-05-17T22:22:58.661Z",
+    "total_amount": "125000.00",
+    "created_at": "2026-05-17T22:22:58.666Z",
+    "updated_at": "2026-05-17T22:22:58.666Z"
+  }
+}
+]
