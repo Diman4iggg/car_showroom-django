@@ -1,0 +1,16 @@
+[run]
+omit =
+    */migrations/*
+    */tests.py
+    */test_*.py
+    */pytest_*.py
+    */admin.py
+    */apps.py
+    */models.py
+    */management/commands/*
+    manage.py
+    CarShowroom/asgi.py
+    CarShowroom/wsgi.py
+
+[report]
+show_missing = True
