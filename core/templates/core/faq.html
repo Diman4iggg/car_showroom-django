@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load datetime_extras %}
 
 {% block title %}FAQ{% endblock %}
 {% block heading %}Словарь терминов и FAQ{% endblock %}
@@ -9,7 +10,8 @@
             {% for item in questions %}
                 <dt><strong>{{ item.question }}</strong></dt>
                 <dd>{{ item.answer }}</dd>
-                <dd>Добавлено: {{ item.created_at|date:"d/m/Y" }}</dd>
+                <dd>Добавлено: {{ item.created_at|local_and_utc:user_timezone }}</dd>
+                <dd>Изменено: {{ item.updated_at|local_and_utc:user_timezone }}</dd>
             {% endfor %}
         </dl>
     {% else %}

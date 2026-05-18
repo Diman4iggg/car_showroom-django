@@ -41,7 +41,13 @@ class ReviewModelTests(TestCase):
 class CoreViewTests(TestCase):
     def test_content_pages_render_database_records(self):
         CompanyInfo.objects.create(title='About', text='About text')
-        NewsArticle.objects.create(title='News', summary='Summary', body='Body', published_at=timezone.now())
+        NewsArticle.objects.create(
+            title='News',
+            summary='Summary',
+            body='Body',
+            image='news/test.jpg',
+            published_at=timezone.now(),
+        )
         FAQ.objects.create(question='Question?', answer='Answer')
         ContactEmployee.objects.create(
             full_name='Ivan Ivanov',
@@ -57,6 +63,19 @@ class CoreViewTests(TestCase):
         for url_name in ['about', 'news', 'faq', 'contacts', 'privacy', 'vacancies', 'reviews']:
             response = self.client.get(reverse(f'core:{url_name}'))
             self.assertEqual(response.status_code, 200)
+
+    def test_news_page_shows_article_image(self):
+        NewsArticle.objects.create(
+            title='New car arrived',
+            summary='Short summary',
+            body='Full article',
+            image='news/car.jpg',
+            published_at=timezone.now(),
+        )
+
+        response = self.client.get(reverse('core:news'))
+
+        self.assertContains(response, '/media/news/car.jpg')
 
     def test_add_review_saves_valid_review(self):
         response = self.client.post(reverse('core:add_review'), data={

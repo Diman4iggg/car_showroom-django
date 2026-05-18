@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load datetime_extras %}
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -179,5 +180,6 @@
     </form>
 
     <p><a href="/">На главную</a></p>
+    {% include 'core/includes/time_info.html' %}
 </body>
 </html>

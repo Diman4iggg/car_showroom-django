@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load datetime_extras %}
 
 {% block title %}Контакты{% endblock %}
 {% block heading %}Контакты{% endblock %}
@@ -16,6 +17,8 @@
                     {% if employee.photo %}
                         <img src="{{ employee.photo.url }}" alt="{{ employee.full_name }}" width="180">
                     {% endif %}
+                    <p>Добавлено: {{ employee.created_at|local_and_utc:user_timezone }}</p>
+                    <p>Изменено: {{ employee.updated_at|local_and_utc:user_timezone }}</p>
                 </li>
             {% endfor %}
         </ul>

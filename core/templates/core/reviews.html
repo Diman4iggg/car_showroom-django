@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load datetime_extras %}
 
 {% block title %}Отзывы{% endblock %}
 {% block heading %}Отзывы{% endblock %}
@@ -13,7 +14,8 @@
                     <h2>{{ review.author_name }}</h2>
                     <p>Оценка: {{ review.rating }}/5</p>
                     <p>{{ review.text }}</p>
-                    <p>Дата: {{ review.created_at|date:"d/m/Y" }}</p>
+                    <p>Добавлено: {{ review.created_at|local_and_utc:user_timezone }}</p>
+                    <p>Изменено: {{ review.updated_at|local_and_utc:user_timezone }}</p>
                 </li>
             {% endfor %}
         </ul>

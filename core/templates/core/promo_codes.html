@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load datetime_extras %}
 
 {% block title %}Промокоды и купоны{% endblock %}
 {% block heading %}Промокоды и купоны{% endblock %}
@@ -12,6 +13,8 @@
                     <strong>{{ promo.code }}</strong> - скидка {{ promo.discount_percent }}%
                     <p>{{ promo.description }}</p>
                     <p>Действует: {{ promo.starts_at|date:"d/m/Y" }} - {{ promo.ends_at|date:"d/m/Y" }}</p>
+                    <p>Добавлено: {{ promo.created_at|local_and_utc:user_timezone }}</p>
+                    <p>Изменено: {{ promo.updated_at|local_and_utc:user_timezone }}</p>
                 </li>
             {% endfor %}
         </ul>
@@ -26,6 +29,8 @@
                 <li>
                     <strong>{{ promo.code }}</strong> - скидка {{ promo.discount_percent }}%
                     <p>{{ promo.description }}</p>
+                    <p>Добавлено: {{ promo.created_at|local_and_utc:user_timezone }}</p>
+                    <p>Изменено: {{ promo.updated_at|local_and_utc:user_timezone }}</p>
                 </li>
             {% endfor %}
         </ul>

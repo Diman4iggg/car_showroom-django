@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load datetime_extras %}
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -27,10 +28,9 @@
         {% endif %}
     </nav>
 
-    <p>Текущая дата: {{ current_date }}</p>
-
     <main>
         {% block content %}{% endblock %}
     </main>
+    {% include 'core/includes/time_info.html' %}
 </body>
 </html>

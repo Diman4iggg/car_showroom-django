@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load datetime_extras %}
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -191,5 +192,6 @@
     {% else %}
         <p>Годовая выручка пока отсутствует.</p>
     {% endif %}
+    {% include 'core/includes/time_info.html' %}
 </body>
 </html>

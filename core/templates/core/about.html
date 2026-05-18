@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load datetime_extras %}
 
 {% block title %}О компании{% endblock %}
 {% block heading %}О компании{% endblock %}
@@ -7,7 +8,8 @@
     {% if company_info %}
         <h2>{{ company_info.title }}</h2>
         <p>{{ company_info.text }}</p>
-        <p>Обновлено: {{ company_info.updated_at|date:"d/m/Y H:i" }}</p>
+        <p>Добавлено: {{ company_info.created_at|local_and_utc:user_timezone }}</p>
+        <p>Изменено: {{ company_info.updated_at|local_and_utc:user_timezone }}</p>
     {% else %}
         <p>Информация о компании пока не добавлена.</p>
     {% endif %}

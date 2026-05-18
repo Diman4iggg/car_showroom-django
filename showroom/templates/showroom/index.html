@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load datetime_extras %}
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -97,6 +98,8 @@
                     <p>Тип топлива: {{ car.get_fuel_type_display }}</p>
                     <p>Цвет: {{ car.color|default:"не указан" }}</p>
                     <p>На складе: {{ car.stock }}</p>
+                    <p>Добавлено: {{ car.created_at|local_and_utc:user_timezone }}</p>
+                    <p>Изменено: {{ car.updated_at|local_and_utc:user_timezone }}</p>
                     {% if car.features.all %}
                         <p>
                             Характеристики:
@@ -120,5 +123,6 @@
     {% else %}
         <p>Автомобили не найдены. Добавьте записи в админ-панели или измените фильтры.</p>
     {% endif %}
+    {% include 'core/includes/time_info.html' %}
 </body>
 </html>

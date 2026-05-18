@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load datetime_extras %}
 
 {% block title %}Новости{% endblock %}
 {% block heading %}Новости{% endblock %}
@@ -14,7 +15,9 @@
                         <img src="{{ article.image.url }}" alt="{{ article.title }}" width="240">
                     {% endif %}
                     <p>{{ article.body }}</p>
-                    <p>Дата публикации: {{ article.published_at|date:"d/m/Y H:i"|default:"не указана" }}</p>
+                    <p>Дата публикации: {{ article.published_at|local_and_utc:user_timezone }}</p>
+                    <p>Добавлено: {{ article.created_at|local_and_utc:user_timezone }}</p>
+                    <p>Изменено: {{ article.updated_at|local_and_utc:user_timezone }}</p>
                 </li>
             {% endfor %}
         </ul>
