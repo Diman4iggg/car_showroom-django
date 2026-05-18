@@ -5,14 +5,25 @@
 {% block heading %}Вакансии{% endblock %}
 
 {% block content %}
+    {% if request.user.is_superuser %}
+        <p><a href="{% url 'core:vacancy_create' %}">Добавить вакансию</a></p>
+    {% endif %}
+
     {% if vacancies %}
         <ul>
             {% for vacancy in vacancies %}
                 <li>
                     <h2>{{ vacancy.title }}</h2>
                     <p>{{ vacancy.description }}</p>
+                    <p>Статус: {% if vacancy.is_active %}активна{% else %}в архиве{% endif %}</p>
                     <p>Добавлено: {{ vacancy.created_at|local_and_utc:user_timezone }}</p>
                     <p>Изменено: {{ vacancy.updated_at|local_and_utc:user_timezone }}</p>
+                    {% if request.user.is_superuser %}
+                        <p>
+                            <a href="{% url 'core:vacancy_update' vacancy.pk %}">Редактировать</a> |
+                            <a href="{% url 'core:vacancy_delete' vacancy.pk %}">Удалить</a>
+                        </p>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>

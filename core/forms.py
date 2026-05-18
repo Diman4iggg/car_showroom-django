@@ -1,6 +1,22 @@
 from django import forms
 
-from .models import Review
+from .models import Review, Vacancy
+
+
+class VacancyForm(forms.ModelForm):
+    class Meta:
+        model = Vacancy
+        fields = ['title', 'description', 'is_active']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'maxlength': 150,
+                'required': True,
+            }),
+            'description': forms.Textarea(attrs={
+                'rows': 6,
+                'required': True,
+            }),
+        }
 
 
 class ReviewForm(forms.ModelForm):

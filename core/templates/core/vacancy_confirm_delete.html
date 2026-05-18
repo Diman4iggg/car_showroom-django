@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Удалить вакансию{% endblock %}
+{% block heading %}Удалить вакансию{% endblock %}
+
+{% block content %}
+    <p>Вы уверены, что хотите удалить вакансию "{{ vacancy.title }}"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Удалить</button>
+    </form>
+
+    <p><a href="{% url 'core:vacancies' %}">Отмена</a></p>
+{% endblock %}

@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.urls import reverse
@@ -109,3 +110,40 @@ class CoreViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(response.context['active_promos'].values_list('code', flat=True)), ['ACTIVE'])
         self.assertEqual(list(response.context['archived_promos'].values_list('code', flat=True)), ['OLD'])
+
+    def test_superuser_can_create_update_and_delete_vacancy_from_frontend(self):
+        admin = User.objects.create_superuser('admin', 'admin@example.com', 'StrongPass12345')
+        self.client.force_login(admin)
+
+        create_response = self.client.post(reverse('core:vacancy_create'), data={
+            'title': 'Sales manager',
+            'description': 'Work with showroom clients',
+            'is_active': 'on',
+        })
+
+        self.assertRedirects(create_response, reverse('core:vacancies'))
+        vacancy = Vacancy.objects.get(title='Sales manager')
+
+        update_response = self.client.post(reverse('core:vacancy_update', args=[vacancy.pk]), data={
+            'title': 'Senior sales manager',
+            'description': 'Work with VIP clients',
+            'is_active': '',
+        })
+
+        self.assertRedirects(update_response, reverse('core:vacancies'))
+        vacancy.refresh_from_db()
+        self.assertEqual(vacancy.title, 'Senior sales manager')
+        self.assertFalse(vacancy.is_active)
+
+        delete_response = self.client.post(reverse('core:vacancy_delete', args=[vacancy.pk]))
+
+        self.assertRedirects(delete_response, reverse('core:vacancies'))
+        self.assertFalse(Vacancy.objects.filter(pk=vacancy.pk).exists())
+
+    def test_regular_user_cannot_open_vacancy_create_page(self):
+        user = User.objects.create_user('client', 'client@example.com', 'StrongPass12345')
+        self.client.force_login(user)
+
+        response = self.client.get(reverse('core:vacancy_create'))
+
+        self.assertEqual(response.status_code, 302)

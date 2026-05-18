@@ -1,8 +1,9 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
-from .forms import ReviewForm
+from .forms import ReviewForm, VacancyForm
 from .models import (
     CompanyInfo,
     ContactEmployee,
@@ -53,8 +54,51 @@ def privacy(request):
 
 def vacancies(request):
     context = base_context()
-    context['vacancies'] = Vacancy.objects.filter(is_active=True)
+    if request.user.is_superuser:
+        context['vacancies'] = Vacancy.objects.all()
+    else:
+        context['vacancies'] = Vacancy.objects.filter(is_active=True)
     return render(request, 'core/vacancies.html', context)
+
+
+@user_passes_test(lambda user: user.is_superuser)
+def vacancy_create(request):
+    if request.method == 'POST':
+        form = VacancyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Вакансия добавлена.')
+            return redirect('core:vacancies')
+    else:
+        form = VacancyForm()
+
+    return render(request, 'core/vacancy_form.html', {'form': form, 'title': 'Добавить вакансию'})
+
+
+@user_passes_test(lambda user: user.is_superuser)
+def vacancy_update(request, pk):
+    vacancy = get_object_or_404(Vacancy, pk=pk)
+    if request.method == 'POST':
+        form = VacancyForm(request.POST, instance=vacancy)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Вакансия обновлена.')
+            return redirect('core:vacancies')
+    else:
+        form = VacancyForm(instance=vacancy)
+
+    return render(request, 'core/vacancy_form.html', {'form': form, 'title': 'Редактировать вакансию'})
+
+
+@user_passes_test(lambda user: user.is_superuser)
+def vacancy_delete(request, pk):
+    vacancy = get_object_or_404(Vacancy, pk=pk)
+    if request.method == 'POST':
+        vacancy.delete()
+        messages.success(request, 'Вакансия удалена.')
+        return redirect('core:vacancies')
+
+    return render(request, 'core/vacancy_confirm_delete.html', {'vacancy': vacancy})
 
 
 def reviews(request):
