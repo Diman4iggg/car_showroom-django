@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: car-showroom-django
+    runtime: python
+    buildCommand: sh build.sh
+    startCommand: gunicorn CarShowroom.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.3
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com,localhost,127.0.0.1"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://*.onrender.com"
+      - key: LOG_LEVEL
+        value: "INFO"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: car-showroom-db
+          property: connectionString
+
+databases:
+  - name: car-showroom-db
+    plan: free
