@@ -10,6 +10,9 @@ htmlcov/
 .pytest_cache/
 logs/
 media/
+!media/
+!media/news/
+!media/news/*
 staticfiles/
 
 # Local lab materials
