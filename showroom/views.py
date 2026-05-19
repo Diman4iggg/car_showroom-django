@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
+from core.models import NewsArticle
 from integrations.services import get_exchange_rates
 from .models import Car, CarCategory
 from sales.models import Client, Order, OrderItem
@@ -66,6 +67,7 @@ def index(request):
 
     context = {
         'cars': cars,
+        'latest_article': NewsArticle.objects.filter(is_published=True).order_by('-published_at', '-created_at').first(),
         'exchange_rates': exchange_rates,
         'categories': CarCategory.objects.all(),
         'selected_category': category_id,

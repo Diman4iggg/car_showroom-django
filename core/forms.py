@@ -20,21 +20,28 @@ class VacancyForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+
     def clean_text(self):
         text = self.cleaned_data['text'].strip()
         if len(text) < 10:
             raise forms.ValidationError('Отзыв должен содержать не менее 10 символов.')
         return text
 
+    def save(self, commit=True):
+        review = super().save(commit=False)
+        if self.user is not None:
+            review.author_name = self.user.username
+        if commit:
+            review.save()
+        return review
+
     class Meta:
         model = Review
-        fields = ['author_name', 'rating', 'text']
+        fields = ['rating', 'text']
         widgets = {
-            'author_name': forms.TextInput(attrs={
-                'placeholder': 'Ваше имя',
-                'maxlength': 80,
-                'required': True,
-            }),
             'rating': forms.NumberInput(attrs={
                 'min': 1,
                 'max': 5,

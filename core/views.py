@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -104,18 +105,27 @@ def vacancy_delete(request, pk):
 def reviews(request):
     context = base_context()
     context['reviews'] = Review.objects.filter(is_published=True)
+    profile = getattr(request.user, 'profile', None)
+    context['can_add_review'] = request.user.is_authenticated and profile and profile.role == 'client'
     return render(request, 'core/reviews.html', context)
 
 
+@login_required
 def add_review(request):
     context = base_context()
+    profile = getattr(request.user, 'profile', None)
+    if not profile or profile.role != 'client':
+        messages.error(request, 'Оставлять отзывы могут только авторизованные клиенты.')
+        return redirect('core:reviews')
+
     if request.method == 'POST':
-        form = ReviewForm(request.POST)
+        form = ReviewForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Отзыв добавлен.')
             return redirect('core:reviews')
     else:
-        form = ReviewForm()
+        form = ReviewForm(user=request.user)
 
     context['form'] = form
     return render(request, 'core/add_review.html', context)

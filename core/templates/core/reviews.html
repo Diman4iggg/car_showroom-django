@@ -5,7 +5,11 @@
 {% block heading %}Отзывы{% endblock %}
 
 {% block content %}
-    <p><a href="{% url 'core:add_review' %}">Добавить отзыв</a></p>
+    {% if can_add_review %}
+        <p><a href="{% url 'core:add_review' %}">Добавить отзыв</a></p>
+    {% elif not request.user.is_authenticated %}
+        <p><a href="{% url 'accounts:login' %}">Войдите</a>, чтобы добавить отзыв.</p>
+    {% endif %}
 
     {% if reviews %}
         <ul>

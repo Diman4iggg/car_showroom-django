@@ -23,7 +23,6 @@ class ReviewFormTests(TestCase):
 
     def test_review_form_accepts_valid_data(self):
         form = ReviewForm(data={
-            'author_name': 'Ivan',
             'rating': 5,
             'text': 'Great showroom service',
         })
@@ -78,15 +77,39 @@ class CoreViewTests(TestCase):
 
         self.assertContains(response, '/media/news/car.jpg')
 
-    def test_add_review_saves_valid_review(self):
+    def test_anonymous_user_cannot_add_review(self):
+        response = self.client.get(reverse('core:add_review'))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/accounts/login/', response.url)
+
+    def test_client_add_review_saves_username_as_author(self):
+        user = User.objects.create_user('client_ivan', 'client@example.com', 'StrongPass12345')
+        self.client.force_login(user)
+
         response = self.client.post(reverse('core:add_review'), data={
-            'author_name': 'Ivan',
+            'author_name': 'Fake Name',
             'rating': 5,
             'text': 'Great showroom service',
         })
 
         self.assertRedirects(response, reverse('core:reviews'))
-        self.assertTrue(Review.objects.filter(author_name='Ivan').exists())
+        self.assertTrue(Review.objects.filter(author_name='client_ivan').exists())
+        self.assertFalse(Review.objects.filter(author_name='Fake Name').exists())
+
+    def test_employee_cannot_add_review(self):
+        user = User.objects.create_user('employee', 'employee@example.com', 'StrongPass12345')
+        user.profile.role = 'employee'
+        user.profile.save()
+        self.client.force_login(user)
+
+        response = self.client.post(reverse('core:add_review'), data={
+            'rating': 5,
+            'text': 'Great showroom service',
+        })
+
+        self.assertRedirects(response, reverse('core:reviews'))
+        self.assertFalse(Review.objects.filter(author_name='employee').exists())
 
     def test_promo_codes_splits_active_and_archived(self):
         today = timezone.localdate()

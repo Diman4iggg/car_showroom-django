@@ -3,6 +3,22 @@
 {% block title %}Автосалон{% endblock %}
 {% block heading %}Автосалон CarShowroom{% endblock %}
 {% block content %}
+    {% if latest_article %}
+        <section>
+            <h2>Последняя новость</h2>
+            <article>
+                <h3>{{ latest_article.title }}</h3>
+                {% if latest_article.image %}
+                    <img src="{{ latest_article.image.url }}" alt="{{ latest_article.title }}" width="240">
+                {% endif %}
+                <p>{{ latest_article.summary }}</p>
+                {% if latest_article.published_at %}
+                    <p>Дата публикации: {{ latest_article.published_at|local_and_utc:user_timezone }}</p>
+                {% endif %}
+                <p><a href="{% url 'core:news' %}">Все новости</a></p>
+            </article>
+        </section>
+    {% endif %}
 
     <h2>Каталог автомобилей</h2>
     {% if not exchange_rates.ok %}

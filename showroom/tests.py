@@ -1,12 +1,14 @@
-from datetime import date
+from datetime import date, timedelta
 from decimal import Decimal
 from unittest.mock import patch
 
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
 from accounts.models import UserProfile
+from core.models import NewsArticle
 from sales.models import Client, Order, OrderItem
 from .models import Car, CarCategory, Manufacturer
 
@@ -49,6 +51,27 @@ class CatalogViewTests(TestCase):
         car = response.context['cars'][0]
         self.assertEqual(car.price_usd, Decimal('30000.00'))
         self.assertEqual(car.price_eur, Decimal('25000.00'))
+
+    @patch('showroom.views.get_exchange_rates')
+    def test_home_page_shows_latest_published_article(self, mocked_rates):
+        mocked_rates.return_value = {'ok': False, 'error': 'offline'}
+        NewsArticle.objects.create(
+            title='Old news',
+            summary='Old summary',
+            body='Old body',
+            published_at=timezone.now() - timedelta(days=1),
+        )
+        latest = NewsArticle.objects.create(
+            title='Latest showroom news',
+            summary='Latest summary',
+            body='Latest body',
+            published_at=timezone.now(),
+        )
+
+        response = self.client.get(reverse('showroom:index'))
+
+        self.assertEqual(response.context['latest_article'], latest)
+        self.assertContains(response, 'Latest showroom news')
 
 
 class BuyCarViewTests(TestCase):

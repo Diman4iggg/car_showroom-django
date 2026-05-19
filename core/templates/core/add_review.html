@@ -14,9 +14,8 @@
         {% endif %}
 
         <p>
-            <label for="{{ form.author_name.id_for_label }}">Имя:</label><br>
-            {{ form.author_name }}
-            {{ form.author_name.errors }}
+            <label>Имя:</label><br>
+            <input type="text" value="{{ request.user.username }}" readonly>
         </p>
 
         <p>
