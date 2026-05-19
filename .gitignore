@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 db.sqlite3
 *.sqlite3
+data.json
 .idea/
 .env
 .coverage
