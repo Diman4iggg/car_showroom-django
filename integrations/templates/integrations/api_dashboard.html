@@ -1,17 +1,7 @@
-<!DOCTYPE html>
-{% load datetime_extras %}
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Внешние API</title>
-</head>
-<body>
-    <h1>Внешние API</h1>
-
-    <nav>
-        <a href="/">Главная</a> |
-        <a href="/accounts/profile/">Личный кабинет</a>
-    </nav>
+{% extends 'core/base.html' %}
+{% block title %}Погода для тест-драйва{% endblock %}
+{% block heading %}Погода для тест-драйва{% endblock %}
+{% block content %}
 
     
     <h2>Погода для тест-драйва OpenWeatherMap</h2>
@@ -37,6 +27,4 @@
     {% else %}
         <p>{{ weather.error }}</p>
     {% endif %}
-    {% include 'core/includes/time_info.html' %}
-</body>
-</html>
+{% endblock %}

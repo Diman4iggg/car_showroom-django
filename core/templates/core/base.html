@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}CarShowroom{% endblock %}</title>
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
     <h1>{% block heading %}CarShowroom{% endblock %}</h1>
@@ -29,6 +30,13 @@
     </nav>
 
     <main>
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         {% block content %}{% endblock %}
     </main>
     {% include 'core/includes/time_info.html' %}

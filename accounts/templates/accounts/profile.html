@@ -1,20 +1,8 @@
-<!DOCTYPE html>
+{% extends 'core/base.html' %}
 {% load datetime_extras %}
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Личный кабинет</title>
-</head>
-<body>
-    <h1>Личный кабинет</h1>
-
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+{% block title %}Личный кабинет{% endblock %}
+{% block heading %}Личный кабинет{% endblock %}
+{% block content %}
 
     <p>Пользователь: {{ request.user.username }}</p>
     <p>Email: {{ request.user.email|default:"не указан" }}</p>
@@ -180,6 +168,4 @@
     </form>
 
     <p><a href="/">На главную</a></p>
-    {% include 'core/includes/time_info.html' %}
-</body>
-</html>
+{% endblock %}

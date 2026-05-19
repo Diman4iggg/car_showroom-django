@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-{% load datetime_extras %}
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Аналитика автосалона</title>
+{% extends 'core/base.html' %}
+{% block title %}Аналитика автосалона{% endblock %}
+{% block heading %}Аналитика автосалона{% endblock %}
+{% block extra_head %}
     <style>
         .bar-row {
             margin: 8px 0;
@@ -21,14 +19,8 @@
             background: #4f7ccf;
         }
     </style>
-</head>
-<body>
-    <h1>Аналитика автосалона</h1>
-
-    <nav>
-        <a href="/">Главная</a> |
-        <a href="/accounts/profile/">Личный кабинет</a>
-    </nav>
+{% endblock %}
+{% block content %}
 
     <h2>Прайс-лист по автомобилям</h2>
     {% if price_list %}
@@ -192,6 +184,4 @@
     {% else %}
         <p>Годовая выручка пока отсутствует.</p>
     {% endif %}
-    {% include 'core/includes/time_info.html' %}
-</body>
-</html>
+{% endblock %}

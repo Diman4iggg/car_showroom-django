@@ -13,6 +13,8 @@ media/
 !media/
 !media/news/
 !media/news/*
+!media/contacts/
+!media/contacts/*
 staticfiles/
 
 # Local lab materials
