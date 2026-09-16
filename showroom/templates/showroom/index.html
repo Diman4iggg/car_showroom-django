@@ -1,8 +1,19 @@
 {% extends 'core/base.html' %}
 {% load datetime_extras %}
+{% load static %}
 {% block title %}Автосалон{% endblock %}
 {% block heading %}Автосалон CarShowroom{% endblock %}
 {% block content %}
+    <section aria-labelledby="advertising-title">
+        <h2 id="advertising-title">Предложения автосалона</h2>
+        <a href="#catalog">
+            <img src="{% static 'core/img/banner-test-drive.png' %}" alt="Запись на тест-драйв автомобилей CarShowroom" width="1200">
+        </a>
+        <a href="#catalog">
+            <img src="{% static 'core/img/banner-credit.png' %}" alt="Покупка автомобиля в кредит" width="1200">
+        </a>
+    </section>
+
     {% if latest_article %}
         <section>
             <h2>Последняя новость</h2>
@@ -20,7 +31,28 @@
         </section>
     {% endif %}
 
-    <h2>Каталог автомобилей</h2>
+    <section id="partners" aria-labelledby="partners-title">
+        <h2 id="partners-title">Наши партнеры</h2>
+        {% if partners %}
+            <ul>
+                {% for partner in partners %}
+                    <li>
+                        <a href="{{ partner.website }}" target="_blank" rel="noopener noreferrer">
+                            {% if partner.logo %}
+                                <img src="{{ partner.logo.url }}" alt="Логотип компании {{ partner.name }}" width="160">
+                            {% endif %}
+                            <strong>{{ partner.name }}</strong>
+                        </a>
+                        {% if partner.description %}<p>{{ partner.description }}</p>{% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Компании-партнеры пока не добавлены.</p>
+        {% endif %}
+    </section>
+
+    <h2 id="catalog">Каталог автомобилей</h2>
     {% if not exchange_rates.ok %}
         <p>Курс валют временно недоступен, поэтому цены показаны только в BYN.</p>
     {% endif %}

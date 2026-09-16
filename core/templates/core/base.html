@@ -1,15 +1,34 @@
 <!DOCTYPE html>
 {% load datetime_extras %}
+{% load static %}
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{% block meta_description %}CarShowroom - автосалон с каталогом автомобилей, новостями, отзывами и онлайн-заказами.{% endblock %}">
+    <meta name="keywords" content="автосалон, автомобили, тест-драйв, покупка авто, CarShowroom">
+    <meta name="author" content="CarShowroom">
+    <meta property="og:site_name" content="CarShowroom">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}CarShowroom{% endblock %}">
+    <meta property="og:description" content="Каталог автомобилей, новости автосалона, промокоды и отзывы клиентов.">
     <title>{% block title %}CarShowroom{% endblock %}</title>
+    <link rel="icon" href="{% static 'core/img/favicon.png' %}" type="image/png">
     {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <h1>{% block heading %}CarShowroom{% endblock %}</h1>
+    <header>
+        <a href="/" aria-label="На главную страницу CarShowroom">
+            <img src="{% static 'core/img/logo.png' %}" alt="Логотип автосалона CarShowroom" width="240" height="90">
+        </a>
+        <h1>{% block heading %}CarShowroom{% endblock %}</h1>
+        <p>
+            <strong>CarShowroom</strong> - учебный веб-сайт автосалона для выбора автомобилей,
+            оформления заказов и просмотра новостей компании.
+        </p>
+    </header>
 
-    <nav>
+    <nav aria-label="Основная навигация">
         <a href="/">Главная</a> |
         <a href="/about/">О компании</a> |
         <a href="/news/">Новости</a> |
@@ -29,16 +48,42 @@
         {% endif %}
     </nav>
 
-    <main>
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        {% block content %}{% endblock %}
-    </main>
+    <div>
+        <aside>
+            <h2>Разделы сайта</h2>
+            <nav aria-label="Дополнительная навигация">
+                <ul>
+                    <li><a href="/#catalog">Каталог автомобилей</a></li>
+                    <li><a href="/#partners">Партнеры</a></li>
+                    <li><a href="{% url 'core:promo_codes' %}">Промокоды</a></li>
+                    <li><a href="{% url 'core:contacts' %}">Связаться с сотрудником</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main id="content">
+            {% if messages %}
+                <section aria-label="Сообщения сайта">
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
     {% include 'core/includes/time_info.html' %}
+
+    <footer>
+        <p>
+            <small>
+                &copy; {% now "Y" %} CarShowroom.
+                <a href="{% url 'core:privacy' %}">Политика конфиденциальности</a>
+            </small>
+        </p>
+    </footer>
 </body>
 </html>

@@ -5,6 +5,7 @@ from .models import (
     ContactEmployee,
     FAQ,
     NewsArticle,
+    PartnerCompany,
     PrivacyPolicy,
     PromoCode,
     Review,
@@ -16,6 +17,13 @@ from .models import (
 class CompanyInfoAdmin(admin.ModelAdmin):
     list_display = ('title', 'updated_at')
     search_fields = ('title', 'text')
+
+
+@admin.register(PartnerCompany)
+class PartnerCompanyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'website', 'is_active', 'updated_at')
+    list_filter = ('is_active',)
+    search_fields = ('name', 'website', 'description')
 
 
 @admin.register(NewsArticle)

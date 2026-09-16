@@ -22,6 +22,22 @@ class CompanyInfo(TimeStampedModel):
         return self.title
 
 
+class PartnerCompany(TimeStampedModel):
+    name = models.CharField(max_length=150, unique=True, verbose_name='Название')
+    website = models.URLField(verbose_name='Сайт')
+    logo = models.ImageField(upload_to='partners/', blank=True, verbose_name='Логотип')
+    description = models.CharField(max_length=255, blank=True, verbose_name='Краткое описание')
+    is_active = models.BooleanField(default=True, verbose_name='Показывать на сайте')
+
+    class Meta:
+        verbose_name = 'компания-партнер'
+        verbose_name_plural = 'компании-партнеры'
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class NewsArticle(TimeStampedModel):
     title = models.CharField(max_length=200, verbose_name='Заголовок')
     summary = models.CharField(max_length=300, verbose_name='Краткое содержание')
