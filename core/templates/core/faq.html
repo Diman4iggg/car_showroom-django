@@ -1,20 +1,42 @@
 {% extends 'core/base.html' %}
-{% load datetime_extras %}
-
 {% block title %}FAQ{% endblock %}
 {% block heading %}Словарь терминов и FAQ{% endblock %}
+{% block meta_description %}Ответы на частые вопросы и автомобильные термины CarShowroom.{% endblock %}
 
 {% block content %}
-    {% if questions %}
-        <dl>
+    <section
+        aria-labelledby="faq-title"
+        itemscope
+        itemtype="https://schema.org/FAQPage"
+    >
+        <h2 id="faq-title">Частые вопросы</h2>
+        {% if questions %}
             {% for item in questions %}
-                <dt><strong>{{ item.question }}</strong></dt>
-                <dd>{{ item.answer }}</dd>
-                <dd>Добавлено: {{ item.created_at|local_and_utc:user_timezone }}</dd>
-                <dd>Изменено: {{ item.updated_at|local_and_utc:user_timezone }}</dd>
+                <details
+                    itemscope
+                    itemprop="mainEntity"
+                    itemtype="https://schema.org/Question"
+                >
+                    <summary itemprop="name">{{ item.question }}</summary>
+                    <div
+                        itemscope
+                        itemprop="acceptedAnswer"
+                        itemtype="https://schema.org/Answer"
+                    >
+                        <p itemprop="text">{{ item.answer|linebreaksbr }}</p>
+                    </div>
+                    <p>
+                        <small>
+                            Добавлено:
+                            <time datetime="{{ item.created_at|date:'c' }}">
+                                {{ item.created_at|date:'d/m/Y' }}
+                            </time>
+                        </small>
+                    </p>
+                </details>
             {% endfor %}
-        </dl>
-    {% else %}
-        <p>Вопросы и ответы пока не добавлены.</p>
-    {% endif %}
+        {% else %}
+            <p>Вопросы и ответы пока не добавлены.</p>
+        {% endif %}
+    </section>
 {% endblock %}

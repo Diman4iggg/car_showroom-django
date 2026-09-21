@@ -107,6 +107,21 @@ class CoreViewTests(TestCase):
 
         self.assertEqual(response.status_code, 404)
 
+    def test_faq_uses_native_expandable_elements_and_added_date(self):
+        question = FAQ.objects.create(
+            question='Что такое тест-драйв?',
+            answer='Пробная поездка на выбранном автомобиле.',
+        )
+
+        response = self.client.get(reverse('core:faq'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<details')
+        self.assertContains(response, '<summary itemprop="name">Что такое тест-драйв?</summary>')
+        self.assertContains(response, 'https://schema.org/FAQPage')
+        self.assertContains(response, question.created_at.strftime('%d/%m/%Y'))
+        self.assertNotContains(response, 'Изменено:')
+
     def test_about_page_contains_semantic_and_responsive_content(self):
         company = CompanyInfo.objects.create(title='Our history', text='Company history')
         CompanyHistoryEvent.objects.create(company=company, year=2024, description='Company opened')
