@@ -1,0 +1,101 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Оплата заказа{% endblock %}
+{% block heading %}Оплата заказа{% endblock %}
+
+{% block content %}
+    <section aria-labelledby="payment-title">
+        <h2 id="payment-title">Платёжные данные</h2>
+        <p><small>Учебная форма: введённые реквизиты проверяются, но не сохраняются в базе данных.</small></p>
+
+        <form method="post" autocomplete="on">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <fieldset>
+                <legend>Банковская карта</legend>
+
+                <p>
+                    <label for="id_cardholder_name">Имя владельца карты:</label>
+                    <input
+                        type="text"
+                        id="id_cardholder_name"
+                        name="cardholder_name"
+                        value="{{ form.cardholder_name.value|default:'' }}"
+                        maxlength="100"
+                        autocomplete="cc-name"
+                        placeholder="IVAN IVANOV"
+                        spellcheck="false"
+                        required
+                    >
+                    {{ form.cardholder_name.errors }}
+                </p>
+
+                <p>
+                    <label for="id_card_number">Номер карты:</label>
+                    <input
+                        type="text"
+                        id="id_card_number"
+                        name="card_number"
+                        value="{{ form.card_number.value|default:'' }}"
+                        inputmode="numeric"
+                        pattern="[0-9]{16}"
+                        minlength="16"
+                        maxlength="16"
+                        autocomplete="cc-number"
+                        placeholder="0000000000000000"
+                        required
+                    >
+                    {{ form.card_number.errors }}
+                </p>
+
+                <p>
+                    <label for="id_expiry_month">Месяц окончания:</label>
+                    <select id="id_expiry_month" name="expiry_month" autocomplete="cc-exp-month" required>
+                        {% for value, label in form.expiry_month.field.choices %}
+                            <option value="{{ value }}" {% if form.expiry_month.value == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    {{ form.expiry_month.errors }}
+
+                    <label for="id_expiry_year">Год окончания:</label>
+                    <select id="id_expiry_year" name="expiry_year" autocomplete="cc-exp-year" required>
+                        {% for value, label in form.expiry_year.field.choices %}
+                            <option value="{{ value }}" {% if form.expiry_year.value == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    {{ form.expiry_year.errors }}
+                </p>
+
+                <p>
+                    <label for="id_cvv"><abbr title="Card Verification Value">CVV</abbr>:</label>
+                    <input
+                        type="password"
+                        id="id_cvv"
+                        name="cvv"
+                        inputmode="numeric"
+                        pattern="[0-9]{3}"
+                        minlength="3"
+                        maxlength="3"
+                        autocomplete="off"
+                        required
+                    >
+                    {{ form.cvv.errors }}
+                </p>
+            </fieldset>
+
+            <fieldset>
+                <legend>Подтверждение</legend>
+                <label for="id_agreement">
+                    <input type="checkbox" id="id_agreement" name="agreement" required>
+                    Я подтверждаю оплату демонстрационного заказа
+                </label>
+                {{ form.agreement.errors }}
+            </fieldset>
+
+            <p>Сумма к оплате: <output><strong>{{ cart_total }} BYN</strong></output></p>
+            <button type="submit">Оплатить заказ</button>
+            <a href="{% url 'sales:cart_detail' %}">Вернуться в корзину</a>
+        </form>
+    </section>
+{% endblock %}

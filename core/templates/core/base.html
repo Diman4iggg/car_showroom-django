@@ -42,6 +42,9 @@
         |
         {% if request.user.is_authenticated %}
             <a href="{% url 'accounts:profile' %}">Личный кабинет</a>
+            {% if request.user.profile.role == 'client' %}
+                | <a href="{% url 'sales:cart_detail' %}" title="Открыть корзину покупок">Корзина</a>
+            {% endif %}
         {% else %}
             <a href="{% url 'accounts:login' %}">Вход</a> |
             <a href="{% url 'accounts:register' %}">Регистрация</a>

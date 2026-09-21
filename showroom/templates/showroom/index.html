@@ -136,12 +136,13 @@
                     <p>{{ car.description|default:"Описание пока не добавлено." }}</p>
                     <p><a href="{% url 'showroom:car_detail' car.id %}">Подробная информация</a></p>
                     {% if request.user.is_authenticated and request.user.profile.role == 'client' %}
-                        <form method="post" action="{% url 'showroom:buy_car' car.id %}">
+                        <form method="post" action="{% url 'sales:cart_add' car.id %}">
                             {% csrf_token %}
-                            <button type="submit">Купить</button>
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" title="Добавить {{ car.name }} в корзину">&#128722; Добавить в корзину</button>
                         </form>
                     {% elif not request.user.is_authenticated %}
-                        <p><a href="{% url 'accounts:login' %}">Войдите</a>, чтобы купить автомобиль.</p>
+                        <p><a href="{% url 'accounts:login' %}">Войдите</a>, чтобы добавить автомобиль в корзину.</p>
                     {% endif %}
                 </li>
             {% endfor %}

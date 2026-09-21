@@ -1,0 +1,70 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Корзина{% endblock %}
+{% block heading %}Корзина{% endblock %}
+
+{% block content %}
+    <section aria-labelledby="cart-title">
+        <h2 id="cart-title">Выбранные автомобили</h2>
+
+        {% if cart_items %}
+            <table>
+                <caption>Состав корзины пользователя {{ request.user.username }}</caption>
+                <colgroup>
+                    <col class="cart-car-column">
+                    <col class="cart-price-column">
+                    <col class="cart-quantity-column">
+                    <col class="cart-total-column">
+                    <col class="cart-actions-column">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th id="car-header" scope="col">Автомобиль</th>
+                        <th id="price-header" scope="col">Цена</th>
+                        <th id="quantity-header" scope="col">Количество</th>
+                        <th id="total-header" scope="col">Стоимость</th>
+                        <th id="actions-header" scope="col">Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <th id="car-{{ item.car.id }}" scope="row" headers="car-header">
+                                <a href="{% url 'showroom:car_detail' item.car.id %}">{{ item.car.manufacturer.name }} {{ item.car.name }}</a>
+                            </th>
+                            <td headers="price-header car-{{ item.car.id }}">{{ item.car.price }} BYN</td>
+                            <td headers="quantity-header car-{{ item.car.id }}">
+                                <form method="post" action="{% url 'sales:cart_update' item.car.id 'decrease' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" aria-label="Уменьшить количество {{ item.car.name }}" title="Уменьшить количество">−</button>
+                                </form>
+                                <output aria-label="Количество {{ item.car.name }}">{{ item.quantity }}</output>
+                                <form method="post" action="{% url 'sales:cart_update' item.car.id 'increase' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" aria-label="Увеличить количество {{ item.car.name }}" title="Увеличить количество">+</button>
+                                </form>
+                            </td>
+                            <td headers="total-header car-{{ item.car.id }}">{{ item.total_price }} BYN</td>
+                            <td headers="actions-header car-{{ item.car.id }}">
+                                <form method="post" action="{% url 'sales:cart_remove' item.car.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" aria-label="Удалить {{ item.car.name }} из корзины" title="Удалить из корзины">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th scope="row" colspan="3">Итого</th>
+                        <td headers="total-header"><strong>{{ cart_total }} BYN</strong></td>
+                        <td headers="actions-header"><a href="{% url 'sales:payment' %}">Перейти к оплате</a></td>
+                    </tr>
+                </tfoot>
+            </table>
+        {% else %}
+            <p>Корзина пуста.</p>
+            <p><a href="{% url 'showroom:index' %}#catalog">Перейти в каталог</a></p>
+        {% endif %}
+    </section>
+{% endblock %}

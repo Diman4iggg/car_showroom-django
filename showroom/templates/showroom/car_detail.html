@@ -83,16 +83,18 @@
             <link itemprop="availability" href="https://schema.org/InStock">
 
             {% if request.user.is_authenticated and request.user.profile.role == 'client' %}
-                <form method="post" action="{% url 'showroom:buy_car' car.id %}">
+                <form method="post" action="{% url 'sales:cart_add' car.id %}">
                     {% csrf_token %}
-                    <button type="submit" title="Оформить заказ на {{ car.name }}" data-car-id="{{ car.id }}">
-                        &#128722; Оформить заказ
+                    <label for="quantity-{{ car.id }}">Количество:</label>
+                    <input id="quantity-{{ car.id }}" type="number" name="quantity" value="1" min="1" max="{{ car.stock }}" required>
+                    <button type="submit" title="Добавить {{ car.name }} в корзину" data-car-id="{{ car.id }}">
+                        &#128722; Добавить в корзину
                     </button>
                 </form>
             {% elif not request.user.is_authenticated %}
-                <p><a href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">Войдите</a>, чтобы оформить заказ.</p>
+                <p><a href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">Войдите</a>, чтобы добавить автомобиль в корзину.</p>
             {% else %}
-                <p>Оформление заказа доступно пользователям с ролью клиента.</p>
+                <p>Корзина доступна пользователям с ролью клиента.</p>
             {% endif %}
         </section>
 
