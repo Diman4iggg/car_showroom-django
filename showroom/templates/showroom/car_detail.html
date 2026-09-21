@@ -1,0 +1,111 @@
+{% extends 'core/base.html' %}
+{% load datetime_extras %}
+
+{% block title %}{{ car.manufacturer.name }} {{ car.name }}{% endblock %}
+{% block meta_description %}{{ car.description|default:"Подробная информация об автомобиле в каталоге CarShowroom."|truncatechars:160 }}{% endblock %}
+{% block og_title %}{{ car.manufacturer.name }} {{ car.name }}{% endblock %}
+{% block heading %}{{ car.manufacturer.name }} {{ car.name }}{% endblock %}
+
+{% block content %}
+    <article itemscope itemtype="https://schema.org/Car" data-car-id="{{ car.id }}">
+        <header>
+            <h2 itemprop="name">{{ car.manufacturer.name }} {{ car.name }}</h2>
+            <p>
+                <strong>{{ car.price }} <abbr title="белорусских рублей">BYN</abbr></strong>
+            </p>
+        </header>
+
+        {% if car.image %}
+            <figure>
+                <img
+                    itemprop="image"
+                    src="{{ car.image.url }}"
+                    alt="Автомобиль {{ car.manufacturer.name }} {{ car.name }}, {{ car.year }} год"
+                    width="720"
+                    loading="eager"
+                    decoding="async"
+                >
+                <figcaption>{{ car.manufacturer.name }} {{ car.name }} в каталоге CarShowroom</figcaption>
+            </figure>
+        {% endif %}
+
+        <section aria-labelledby="description-title">
+            <h3 id="description-title">Описание</h3>
+            <p itemprop="description">{{ car.description|default:"Описание пока не добавлено." }}</p>
+        </section>
+
+        <section aria-labelledby="specifications-title">
+            <h3 id="specifications-title">Основные характеристики</h3>
+            <dl>
+                <dt>Изготовитель</dt>
+                <dd itemprop="manufacturer" itemscope itemtype="https://schema.org/Organization">
+                    {% if car.manufacturer.website %}
+                        <a itemprop="url" href="{{ car.manufacturer.website }}" target="_blank" rel="noopener noreferrer" title="Официальный сайт {{ car.manufacturer.name }}">
+                            <span itemprop="name">{{ car.manufacturer.name }}</span>
+                        </a>
+                    {% else %}
+                        <span itemprop="name">{{ car.manufacturer.name }}</span>
+                    {% endif %}
+                </dd>
+
+                <dt>Категория</dt>
+                <dd itemprop="vehicleConfiguration">{{ car.category.name }}</dd>
+
+                <dt>Год выпуска</dt>
+                <dd><time itemprop="vehicleModelDate" datetime="{{ car.year }}">{{ car.year }}</time></dd>
+
+                <dt>Тип топлива</dt>
+                <dd itemprop="fuelType">{{ car.get_fuel_type_display }}</dd>
+
+                <dt>Цвет</dt>
+                <dd itemprop="color">{{ car.color|default:"не указан" }}</dd>
+
+                <dt>Количество на складе</dt>
+                <dd><mark>{{ car.stock }}</mark></dd>
+            </dl>
+        </section>
+
+        {% if car.features.all %}
+            <details>
+                <summary>Дополнительные характеристики</summary>
+                <ul>
+                    {% for feature in car.features.all %}
+                        <li>{{ feature.name }}</li>
+                    {% endfor %}
+                </ul>
+            </details>
+        {% endif %}
+
+        <section itemprop="offers" itemscope itemtype="https://schema.org/Offer" aria-labelledby="order-title">
+            <h3 id="order-title">Оформление заказа</h3>
+            <meta itemprop="price" content="{{ car.price }}">
+            <meta itemprop="priceCurrency" content="BYN">
+            <link itemprop="availability" href="https://schema.org/InStock">
+
+            {% if request.user.is_authenticated and request.user.profile.role == 'client' %}
+                <form method="post" action="{% url 'showroom:buy_car' car.id %}">
+                    {% csrf_token %}
+                    <button type="submit" title="Оформить заказ на {{ car.name }}" data-car-id="{{ car.id }}">
+                        &#128722; Оформить заказ
+                    </button>
+                </form>
+            {% elif not request.user.is_authenticated %}
+                <p><a href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">Войдите</a>, чтобы оформить заказ.</p>
+            {% else %}
+                <p>Оформление заказа доступно пользователям с ролью клиента.</p>
+            {% endif %}
+        </section>
+
+        <footer>
+            <p>
+                Добавлено:
+                <time datetime="{{ car.created_at|date:'c' }}">{{ car.created_at|local_and_utc:user_timezone }}</time>
+            </p>
+            <p>
+                Последнее изменение:
+                <time datetime="{{ car.updated_at|date:'c' }}">{{ car.updated_at|local_and_utc:user_timezone }}</time>
+            </p>
+            <p><a href="{% url 'showroom:index' %}#catalog">Вернуться в каталог</a></p>
+        </footer>
+    </article>
+{% endblock %}

@@ -73,6 +73,28 @@ class CatalogViewTests(TestCase):
         self.assertEqual(response.context['latest_article'], latest)
         self.assertContains(response, 'Latest showroom news')
 
+    def test_car_detail_shows_car_information_and_semantic_markup(self):
+        car = create_car(name='Camry', price=Decimal('100000.00'))
+        car.description = 'Comfortable family sedan'
+        car.save(update_fields=['description'])
+
+        response = self.client.get(reverse('showroom:car_detail', args=[car.id]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['car'], car)
+        self.assertContains(response, 'Comfortable family sedan')
+        self.assertContains(response, 'itemscope')
+        self.assertContains(response, 'itemprop="name"')
+
+    def test_car_detail_returns_404_for_unavailable_car(self):
+        car = create_car()
+        car.is_available = False
+        car.save(update_fields=['is_available'])
+
+        response = self.client.get(reverse('showroom:car_detail', args=[car.id]))
+
+        self.assertEqual(response.status_code, 404)
+
 
 class BuyCarViewTests(TestCase):
     def test_client_can_create_order_for_available_car(self):

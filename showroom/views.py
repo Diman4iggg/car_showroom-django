@@ -80,6 +80,15 @@ def index(request):
     return render(request, 'showroom/index.html', context)
 
 
+def car_detail(request, car_id):
+    car = get_object_or_404(
+        Car.objects.select_related('category', 'manufacturer').prefetch_related('features'),
+        id=car_id,
+        is_available=True,
+    )
+    return render(request, 'showroom/car_detail.html', {'car': car})
+
+
 @login_required
 def buy_car(request, car_id):
     car = get_object_or_404(Car, id=car_id, is_available=True)

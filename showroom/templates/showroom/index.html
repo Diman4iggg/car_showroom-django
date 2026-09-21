@@ -104,7 +104,16 @@
         <ul>
             {% for car in cars %}
                 <li>
-                    <h3>{{ car.name }} ({{ car.year }})</h3>
+                    <h3>
+                        <a href="{% url 'showroom:car_detail' car.id %}">
+                            {{ car.name }} ({{ car.year }})
+                        </a>
+                    </h3>
+                    {% if car.image %}
+                        <a href="{% url 'showroom:car_detail' car.id %}" aria-label="Подробнее об автомобиле {{ car.name }}">
+                            <img src="{{ car.image.url }}" alt="{{ car.manufacturer.name }} {{ car.name }}" width="320" loading="lazy" decoding="async">
+                        </a>
+                    {% endif %}
                     <p>Изготовитель: {{ car.manufacturer.name }}</p>
                     <p>Категория: {{ car.category.name }}</p>
                     <p>Цена: {{ car.price }} BYN</p>
@@ -125,6 +134,7 @@
                         </p>
                     {% endif %}
                     <p>{{ car.description|default:"Описание пока не добавлено." }}</p>
+                    <p><a href="{% url 'showroom:car_detail' car.id %}">Подробная информация</a></p>
                     {% if request.user.is_authenticated and request.user.profile.role == 'client' %}
                         <form method="post" action="{% url 'showroom:buy_car' car.id %}">
                             {% csrf_token %}
