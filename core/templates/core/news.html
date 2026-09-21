@@ -1,27 +1,49 @@
 {% extends 'core/base.html' %}
-{% load datetime_extras %}
-
 {% block title %}Новости{% endblock %}
 {% block heading %}Новости{% endblock %}
+{% block meta_description %}Новости, статьи и события автосалона CarShowroom.{% endblock %}
 
 {% block content %}
-    {% if articles %}
-        <ul>
+    <section aria-labelledby="news-list-title">
+        <h2 id="news-list-title">Последние публикации</h2>
+        {% if articles %}
             {% for article in articles %}
-                <li>
-                    <h2>{{ article.title }}</h2>
+                <article itemscope itemtype="https://schema.org/NewsArticle">
+                    <header>
+                        <h3 itemprop="headline">{{ article.title }}</h3>
+                        {% if article.published_at %}
+                            <p>
+                                <time datetime="{{ article.published_at|date:'c' }}" itemprop="datePublished">
+                                    {{ article.published_at|date:'d/m/Y' }}
+                                </time>
+                            </p>
+                        {% endif %}
+                    </header>
                     <p>{{ article.summary }}</p>
                     {% if article.image %}
-                        <img src="{{ article.image.url }}" alt="{{ article.title }}" width="240">
+                        <figure>
+                            <img
+                                src="{{ article.image.url }}"
+                                alt="Иллюстрация к статье «{{ article.title }}»"
+                                width="480"
+                                loading="lazy"
+                                itemprop="image"
+                                style="max-width: 100%; height: auto;"
+                            >
+                            <figcaption>{{ article.title }}</figcaption>
+                        </figure>
                     {% endif %}
-                    <p>{{ article.body }}</p>
-                    <p>Дата публикации: {{ article.published_at|local_and_utc:user_timezone }}</p>
-                    <p>Добавлено: {{ article.created_at|local_and_utc:user_timezone }}</p>
-                    <p>Изменено: {{ article.updated_at|local_and_utc:user_timezone }}</p>
-                </li>
+                    <p>
+                        <a
+                            href="{% url 'core:news_detail' article.pk %}"
+                            itemprop="url"
+                            title="Прочитать статью «{{ article.title }}» полностью"
+                        >Читать далее</a>
+                    </p>
+                </article>
             {% endfor %}
-        </ul>
-    {% else %}
-        <p>Новости пока не добавлены.</p>
-    {% endif %}
+        {% else %}
+            <p>Новости пока не добавлены.</p>
+        {% endif %}
+    </section>
 {% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+{% block heading %}Новости{% endblock %}
+{% block meta_description %}{{ article.summary }}{% endblock %}
+{% block og_title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+    <article itemscope itemtype="https://schema.org/NewsArticle">
+        <header>
+            <h2 itemprop="headline">{{ article.title }}</h2>
+            {% if article.published_at %}
+                <p>
+                    Опубликовано:
+                    <time datetime="{{ article.published_at|date:'c' }}" itemprop="datePublished">
+                        {{ article.published_at|date:'d/m/Y' }}
+                    </time>
+                </p>
+            {% endif %}
+        </header>
+
+        {% if article.image %}
+            <figure>
+                <img
+                    src="{{ article.image.url }}"
+                    alt="Иллюстрация к статье «{{ article.title }}»"
+                    width="960"
+                    itemprop="image"
+                    style="max-width: 100%; height: auto;"
+                >
+                <figcaption>{{ article.title }}</figcaption>
+            </figure>
+        {% endif %}
+
+        <p><strong itemprop="description">{{ article.summary }}</strong></p>
+        <div itemprop="articleBody">
+            {{ article.body|linebreaks }}
+        </div>
+
+        <footer>
+            <p><a href="{% url 'core:news' %}">Вернуться к списку новостей</a></p>
+        </footer>
+    </article>
+{% endblock %}

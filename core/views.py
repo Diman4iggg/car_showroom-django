@@ -37,6 +37,12 @@ def news(request):
     return render(request, 'core/news.html', context)
 
 
+def news_detail(request, pk):
+    context = base_context()
+    context['article'] = get_object_or_404(NewsArticle, pk=pk, is_published=True)
+    return render(request, 'core/news_detail.html', context)
+
+
 def faq(request):
     context = base_context()
     context['questions'] = FAQ.objects.all()

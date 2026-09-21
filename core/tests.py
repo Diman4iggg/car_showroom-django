@@ -65,7 +65,7 @@ class CoreViewTests(TestCase):
             self.assertEqual(response.status_code, 200)
 
     def test_news_page_shows_article_image(self):
-        NewsArticle.objects.create(
+        article = NewsArticle.objects.create(
             title='New car arrived',
             summary='Short summary',
             body='Full article',
@@ -76,6 +76,36 @@ class CoreViewTests(TestCase):
         response = self.client.get(reverse('core:news'))
 
         self.assertContains(response, '/media/news/car.jpg')
+        self.assertContains(response, reverse('core:news_detail', args=[article.pk]))
+        self.assertContains(response, 'Читать далее')
+        self.assertNotContains(response, 'Full article')
+
+    def test_news_detail_shows_full_article(self):
+        article = NewsArticle.objects.create(
+            title='New car arrived',
+            summary='Short summary.',
+            body='Full article text.',
+            image='news/car.jpg',
+            published_at=timezone.now(),
+        )
+
+        response = self.client.get(reverse('core:news_detail', args=[article.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Full article text.')
+        self.assertContains(response, '<article itemscope')
+
+    def test_unpublished_news_detail_returns_not_found(self):
+        article = NewsArticle.objects.create(
+            title='Draft',
+            summary='Draft summary.',
+            body='Draft body.',
+            is_published=False,
+        )
+
+        response = self.client.get(reverse('core:news_detail', args=[article.pk]))
+
+        self.assertEqual(response.status_code, 404)
 
     def test_about_page_contains_semantic_and_responsive_content(self):
         company = CompanyInfo.objects.create(title='Our history', text='Company history')
