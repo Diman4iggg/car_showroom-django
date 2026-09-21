@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from .forms import ReviewForm
-from .models import CompanyInfo, ContactEmployee, FAQ, NewsArticle, PrivacyPolicy, PromoCode, Review, Vacancy
+from .models import CompanyHistoryEvent, CompanyInfo, ContactEmployee, FAQ, NewsArticle, PrivacyPolicy, PromoCode, Review, Vacancy
 
 
 class ReviewFormTests(TestCase):
@@ -76,6 +76,26 @@ class CoreViewTests(TestCase):
         response = self.client.get(reverse('core:news'))
 
         self.assertContains(response, '/media/news/car.jpg')
+
+    def test_about_page_contains_semantic_and_responsive_content(self):
+        company = CompanyInfo.objects.create(title='Our history', text='Company history')
+        CompanyHistoryEvent.objects.create(company=company, year=2024, description='Company opened')
+
+        response = self.client.get(reverse('core:about'))
+
+        self.assertContains(response, '<article itemscope')
+        self.assertContains(response, '<picture>')
+        self.assertContains(response, 'media="(max-width: 700px)"')
+        self.assertContains(response, 'banner-credit.png')
+        self.assertContains(response, 'banner-test-drive.png')
+        self.assertContains(response, '<blockquote')
+        self.assertContains(response, '<iframe')
+        self.assertContains(response, '<video')
+        self.assertContains(response, 'company-tour.webm')
+        self.assertContains(response, '2024')
+        self.assertContains(response, 'Сертификат качества')
+        self.assertContains(response, 'Логотип CarShowroom')
+        self.assertContains(response, 'download="CarShowroom-details.txt"')
 
     def test_anonymous_user_cannot_add_review(self):
         response = self.client.get(reverse('core:add_review'))

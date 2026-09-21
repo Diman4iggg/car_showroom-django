@@ -1,4 +1,5 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import FileExtensionValidator
 from django.db import models
 
 
@@ -13,6 +14,21 @@ class TimeStampedModel(models.Model):
 class CompanyInfo(TimeStampedModel):
     title = models.CharField(max_length=150, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
+    logo = models.ImageField(upload_to='company/', blank=True, verbose_name='Логотип')
+    requisites = models.TextField(
+        default='ООО CarShowroom, УНП 193000001, г. Минск, проспект Независимости, 4',
+        verbose_name='Реквизиты',
+    )
+    certificate = models.TextField(
+        default='Сертификат качества № CS-2026: услуги автосалона соответствуют внутреннему стандарту обслуживания.',
+        verbose_name='Сертификат',
+    )
+    video = models.FileField(
+        upload_to='company/videos/',
+        blank=True,
+        validators=[FileExtensionValidator(['mp4', 'webm', 'ogg'])],
+        verbose_name='Видео',
+    )
 
     class Meta:
         verbose_name = 'информация о компании'
@@ -20,6 +36,28 @@ class CompanyInfo(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+
+class CompanyHistoryEvent(models.Model):
+    company = models.ForeignKey(
+        CompanyInfo,
+        on_delete=models.CASCADE,
+        related_name='history_events',
+        verbose_name='Компания',
+    )
+    year = models.PositiveSmallIntegerField(verbose_name='Год')
+    description = models.CharField(max_length=300, verbose_name='Событие')
+
+    class Meta:
+        verbose_name = 'событие истории компании'
+        verbose_name_plural = 'история компании по годам'
+        ordering = ['year']
+        constraints = [
+            models.UniqueConstraint(fields=['company', 'year'], name='unique_company_history_year'),
+        ]
+
+    def __str__(self):
+        return f'{self.year}: {self.description}'
 
 
 class PartnerCompany(TimeStampedModel):

@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from .models import (
     CompanyInfo,
+    CompanyHistoryEvent,
     ContactEmployee,
     FAQ,
     NewsArticle,
@@ -13,10 +14,16 @@ from .models import (
 )
 
 
+class CompanyHistoryEventInline(admin.TabularInline):
+    model = CompanyHistoryEvent
+    extra = 1
+
+
 @admin.register(CompanyInfo)
 class CompanyInfoAdmin(admin.ModelAdmin):
     list_display = ('title', 'updated_at')
-    search_fields = ('title', 'text')
+    search_fields = ('title', 'text', 'requisites', 'certificate')
+    inlines = (CompanyHistoryEventInline,)
 
 
 @admin.register(PartnerCompany)

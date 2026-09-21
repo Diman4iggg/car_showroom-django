@@ -25,7 +25,9 @@ def base_context():
 
 def about(request):
     context = base_context()
-    context['company_info'] = CompanyInfo.objects.order_by('-updated_at').first()
+    context['company_info'] = (
+        CompanyInfo.objects.prefetch_related('history_events').order_by('-updated_at').first()
+    )
     return render(request, 'core/about.html', context)
 
 
