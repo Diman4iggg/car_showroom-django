@@ -213,6 +213,21 @@ class CoreViewTests(TestCase):
         self.assertRedirects(response, reverse('core:reviews'))
         self.assertFalse(Review.objects.filter(author_name='employee').exists())
 
+    def test_reviews_page_has_semantic_rating_and_publication_date(self):
+        review = Review.objects.create(
+            author_name='client_anna',
+            rating=5,
+            text='The consultant answered every question.',
+        )
+
+        response = self.client.get(reverse('core:reviews'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'https://schema.org/Review')
+        self.assertContains(response, '<blockquote itemprop="reviewBody">')
+        self.assertContains(response, f'id="rating-{review.pk}"')
+        self.assertContains(response, 'itemprop="datePublished"')
+
     def test_promo_codes_splits_active_and_archived(self):
         today = timezone.localdate()
         PromoCode.objects.create(

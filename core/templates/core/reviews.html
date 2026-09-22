@@ -1,29 +1,64 @@
 {% extends 'core/base.html' %}
-{% load datetime_extras %}
+{% load static %}
 
 {% block title %}Отзывы{% endblock %}
 {% block heading %}Отзывы{% endblock %}
+{% block meta_description %}Отзывы клиентов об автомобилях и обслуживании в CarShowroom.{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/reviews.css' %}">
+{% endblock %}
 
 {% block content %}
-    {% if can_add_review %}
-        <p><a href="{% url 'core:add_review' %}">Добавить отзыв</a></p>
-    {% elif not request.user.is_authenticated %}
-        <p><a href="{% url 'accounts:login' %}">Войдите</a>, чтобы добавить отзыв.</p>
-    {% endif %}
+    <section aria-labelledby="reviews-title">
+        <header class="reviews-header">
+            <div>
+                <h2 id="reviews-title">Мнения наших клиентов</h2>
+                <p>Отзывы публикуются от имени зарегистрированного клиента.</p>
+            </div>
+            {% if can_add_review %}
+                <a href="{% url 'core:add_review' %}">Добавить отзыв</a>
+            {% elif not request.user.is_authenticated %}
+                <p><a href="{% url 'accounts:login' %}">Войдите</a>, чтобы добавить отзыв.</p>
+            {% endif %}
+        </header>
 
-    {% if reviews %}
-        <ul>
-            {% for review in reviews %}
-                <li>
-                    <h2>{{ review.author_name }}</h2>
-                    <p>Оценка: {{ review.rating }}/5</p>
-                    <p>{{ review.text }}</p>
-                    <p>Добавлено: {{ review.created_at|local_and_utc:user_timezone }}</p>
-                    <p>Изменено: {{ review.updated_at|local_and_utc:user_timezone }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Отзывы пока не добавлены.</p>
-    {% endif %}
+        {% if reviews %}
+            <div class="review-grid">
+                {% for review in reviews %}
+                    <article class="review-card" itemscope itemtype="https://schema.org/Review">
+                        <header>
+                            <p itemprop="author" itemscope itemtype="https://schema.org/Person">
+                                <strong itemprop="name">{{ review.author_name }}</strong>
+                            </p>
+                            <div itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                                <label for="rating-{{ review.pk }}">Оценка:</label>
+                                <meter id="rating-{{ review.pk }}" itemprop="ratingValue"
+                                       min="1" max="5" value="{{ review.rating }}">
+                                    {{ review.rating }} из 5
+                                </meter>
+                                <span>{{ review.rating }}/5</span>
+                                <meta itemprop="bestRating" content="5">
+                                <meta itemprop="worstRating" content="1">
+                            </div>
+                        </header>
+
+                        <blockquote itemprop="reviewBody">
+                            <p>{{ review.text }}</p>
+                        </blockquote>
+
+                        <footer>
+                            <small>
+                                Опубликовано
+                                <time itemprop="datePublished" datetime="{{ review.created_at|date:'Y-m-d' }}">
+                                    {{ review.created_at|date:'d/m/Y' }}
+                                </time>
+                            </small>
+                        </footer>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Отзывы пока не добавлены.</p>
+        {% endif %}
+    </section>
 {% endblock %}

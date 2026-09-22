@@ -4,33 +4,44 @@
 {% block heading %}Добавить отзыв{% endblock %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
+    <section aria-labelledby="review-form-title">
+        <h2 id="review-form-title">Ваше мнение о CarShowroom</h2>
+        <p id="review-help">Все поля обязательны. После отправки имя изменить нельзя.</p>
 
-        {% if form.non_field_errors %}
-            <div>
-                {{ form.non_field_errors }}
-            </div>
-        {% endif %}
+        <form method="post" aria-describedby="review-help">
+            {% csrf_token %}
 
-        <p>
-            <label>Имя:</label><br>
-            <input type="text" value="{{ request.user.username }}" readonly>
-        </p>
+            {% if form.non_field_errors %}
+                <div role="alert">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
 
-        <p>
-            <label for="{{ form.rating.id_for_label }}">Оценка от 1 до 5:</label><br>
-            {{ form.rating }}
-            {{ form.rating.errors }}
-        </p>
+            <fieldset>
+                <legend>Данные отзыва</legend>
+                <p>
+                    <label for="review-author">Имя:</label><br>
+                    <input id="review-author" type="text" value="{{ request.user.username }}"
+                           readonly aria-describedby="author-help">
+                    <small id="author-help">Имя получено из вашей учётной записи.</small>
+                </p>
 
-        <p>
-            <label for="{{ form.text.id_for_label }}">Текст отзыва:</label><br>
-            {{ form.text }}
-            {{ form.text.errors }}
-        </p>
+                <p>
+                    <label for="{{ form.rating.id_for_label }}">Оценка от 1 до 5:</label><br>
+                    {{ form.rating }}
+                    {{ form.rating.errors }}
+                </p>
 
-        <button type="submit">Отправить</button>
-        <a href="{% url 'core:reviews' %}">Отмена</a>
-    </form>
+                <p>
+                    <label for="{{ form.text.id_for_label }}">Текст отзыва:</label><br>
+                    {{ form.text }}
+                    {{ form.text.errors }}
+                    <small>От 10 до 1000 символов.</small>
+                </p>
+            </fieldset>
+
+            <button type="submit">Отправить</button>
+            <a href="{% url 'core:reviews' %}">Отмена</a>
+        </form>
+    </section>
 {% endblock %}
