@@ -1,33 +1,61 @@
 {% extends 'core/base.html' %}
-{% load datetime_extras %}
+{% load static %}
 
 {% block title %}Вакансии{% endblock %}
 {% block heading %}Вакансии{% endblock %}
+{% block meta_description %}Открытые вакансии автосалона CarShowroom и условия работы в компании.{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/vacancies.css' %}">
+{% endblock %}
 
 {% block content %}
-    {% if request.user.is_superuser %}
-        <p><a href="{% url 'core:vacancy_create' %}">Добавить вакансию</a></p>
-    {% endif %}
+    <section aria-labelledby="vacancies-title">
+        <header class="vacancies-header">
+            <div>
+                <h2 id="vacancies-title">Работа в CarShowroom</h2>
+                <p>Присоединяйтесь к команде, которая помогает клиентам выбирать автомобили.</p>
+            </div>
+            {% if request.user.is_superuser %}
+                <a class="vacancy-action" href="{% url 'core:vacancy_create' %}">Добавить вакансию</a>
+            {% endif %}
+        </header>
 
-    {% if vacancies %}
-        <ul>
-            {% for vacancy in vacancies %}
-                <li>
-                    <h2>{{ vacancy.title }}</h2>
-                    <p>{{ vacancy.description }}</p>
-                    <p>Статус: {% if vacancy.is_active %}активна{% else %}в архиве{% endif %}</p>
-                    <p>Добавлено: {{ vacancy.created_at|local_and_utc:user_timezone }}</p>
-                    <p>Изменено: {{ vacancy.updated_at|local_and_utc:user_timezone }}</p>
-                    {% if request.user.is_superuser %}
-                        <p>
-                            <a href="{% url 'core:vacancy_update' vacancy.pk %}">Редактировать</a> |
-                            <a href="{% url 'core:vacancy_delete' vacancy.pk %}">Удалить</a>
+        {% if vacancies %}
+            <div class="vacancy-grid">
+                {% for vacancy in vacancies %}
+                    <article class="vacancy-card" itemscope itemtype="https://schema.org/JobPosting">
+                        <header>
+                            <h3 itemprop="title">{{ vacancy.title }}</h3>
+                            {% if request.user.is_superuser %}
+                                <span class="vacancy-status">
+                                    {% if vacancy.is_active %}Активна{% else %}В архиве{% endif %}
+                                </span>
+                            {% endif %}
+                        </header>
+
+                        <div itemprop="description">{{ vacancy.description|linebreaks }}</div>
+                        <p class="vacancy-date">
+                            Опубликовано
+                            <time itemprop="datePosted" datetime="{{ vacancy.created_at|date:'Y-m-d' }}">
+                                {{ vacancy.created_at|date:'d/m/Y' }}
+                            </time>
                         </p>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Активные вакансии пока не добавлены.</p>
-    {% endif %}
+
+                        <div itemprop="hiringOrganization" itemscope itemtype="https://schema.org/Organization">
+                            <meta itemprop="name" content="CarShowroom">
+                        </div>
+
+                        {% if request.user.is_superuser %}
+                            <footer class="vacancy-controls" aria-label="Управление вакансией {{ vacancy.title }}">
+                                <a href="{% url 'core:vacancy_update' vacancy.pk %}">Редактировать</a>
+                                <a href="{% url 'core:vacancy_delete' vacancy.pk %}">Удалить</a>
+                            </footer>
+                        {% endif %}
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Активные вакансии пока не добавлены.</p>
+        {% endif %}
+    </section>
 {% endblock %}

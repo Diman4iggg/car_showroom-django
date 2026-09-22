@@ -1,0 +1,55 @@
+.vacancies-header {
+    align-items: end;
+    display: flex;
+    gap: 24px;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.vacancy-action {
+    white-space: nowrap;
+}
+
+.vacancy-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+}
+
+.vacancy-card {
+    border: 1px solid #d7d7d7;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.vacancy-card > header {
+    align-items: start;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+}
+
+.vacancy-card h3 {
+    margin-top: 0;
+}
+
+.vacancy-status,
+.vacancy-date {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.vacancy-controls {
+    border-top: 1px solid #e2e2e2;
+    display: flex;
+    gap: 16px;
+    margin-top: 18px;
+    padding-top: 14px;
+}
+
+@media (max-width: 600px) {
+    .vacancies-header {
+        align-items: start;
+        flex-direction: column;
+    }
+}

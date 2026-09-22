@@ -272,3 +272,16 @@ class CoreViewTests(TestCase):
         response = self.client.get(reverse('core:vacancy_create'))
 
         self.assertEqual(response.status_code, 302)
+
+    def test_vacancies_page_hides_archived_items_and_has_job_posting_markup(self):
+        active = Vacancy.objects.create(title='Consultant', description='Help clients choose a car')
+        Vacancy.objects.create(title='Archived vacancy', description='Not available', is_active=False)
+
+        response = self.client.get(reverse('core:vacancies'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, active.title)
+        self.assertNotContains(response, 'Archived vacancy')
+        self.assertContains(response, 'https://schema.org/JobPosting')
+        self.assertContains(response, 'itemprop="datePosted"')
+        self.assertNotContains(response, 'Редактировать')

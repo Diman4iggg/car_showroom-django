@@ -4,11 +4,34 @@
 {% block heading %}{{ title }}{% endblock %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Сохранить</button>
-    </form>
+    <section aria-labelledby="vacancy-form-title">
+        <h2 id="vacancy-form-title">Данные вакансии</h2>
+        <form method="post">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Основная информация</legend>
+
+                {{ form.non_field_errors }}
+                <p>
+                    <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label><br>
+                    {{ form.title }}
+                    {{ form.title.errors }}
+                    <small id="title-help">Не более 150 символов.</small>
+                </p>
+                <p>
+                    <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label><br>
+                    {{ form.description }}
+                    {{ form.description.errors }}
+                </p>
+                <p>
+                    {{ form.is_active }}
+                    <label for="{{ form.is_active.id_for_label }}">{{ form.is_active.label }}</label>
+                    {{ form.is_active.errors }}
+                </p>
+            </fieldset>
+            <button type="submit">Сохранить</button>
+        </form>
+    </section>
 
     <p><a href="{% url 'core:vacancies' %}">Вернуться к вакансиям</a></p>
 {% endblock %}

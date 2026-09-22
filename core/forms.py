@@ -11,6 +11,8 @@ class VacancyForm(forms.ModelForm):
             'title': forms.TextInput(attrs={
                 'maxlength': 150,
                 'required': True,
+                'aria-describedby': 'title-help',
+                'autocomplete': 'off',
             }),
             'description': forms.Textarea(attrs={
                 'rows': 6,

@@ -4,12 +4,16 @@
 {% block heading %}Удалить вакансию{% endblock %}
 
 {% block content %}
-    <p>Вы уверены, что хотите удалить вакансию "{{ vacancy.title }}"?</p>
+    <section aria-labelledby="delete-vacancy-title">
+        <h2 id="delete-vacancy-title">Подтверждение удаления</h2>
+        <p>Вы уверены, что хотите удалить вакансию <strong>«{{ vacancy.title }}»</strong>?</p>
+        <p>Это действие нельзя отменить.</p>
 
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Удалить</button>
-    </form>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Удалить</button>
+        </form>
 
-    <p><a href="{% url 'core:vacancies' %}">Отмена</a></p>
+        <p><a href="{% url 'core:vacancies' %}">Отмена</a></p>
+    </section>
 {% endblock %}
