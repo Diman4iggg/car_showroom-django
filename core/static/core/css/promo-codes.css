@@ -1,0 +1,43 @@
+.promo-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+
+.promo-card {
+    border: 1px dashed #555;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.promo-card header {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+}
+
+.promo-card h3 {
+    margin: 0;
+}
+
+.promo-card code {
+    font-size: 1.2rem;
+}
+
+.promo-discount {
+    font-size: 1.35rem;
+}
+
+.promo-archive {
+    border-top: 1px solid #d7d7d7;
+    margin-top: 32px;
+    padding-top: 12px;
+}
+
+.promo-archive li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-bottom: 10px;
+}

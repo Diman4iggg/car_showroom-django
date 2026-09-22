@@ -1,5 +1,6 @@
 import re
 
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.validators import FileExtensionValidator
 from django.db import models
@@ -188,6 +189,13 @@ class PromoCode(TimeStampedModel):
         verbose_name = 'промокод'
         verbose_name_plural = 'промокоды и купоны'
         ordering = ['-is_active', 'ends_at', 'code']
+
+    def clean(self):
+        super().clean()
+        if self.starts_at and self.ends_at and self.ends_at < self.starts_at:
+            raise ValidationError({
+                'ends_at': 'Дата окончания не может быть раньше даты начала.',
+            })
 
     def __str__(self):
         return self.code

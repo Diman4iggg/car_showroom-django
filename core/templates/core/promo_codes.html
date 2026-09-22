@@ -1,40 +1,68 @@
 {% extends 'core/base.html' %}
-{% load datetime_extras %}
+{% load static %}
 
 {% block title %}Промокоды и купоны{% endblock %}
 {% block heading %}Промокоды и купоны{% endblock %}
+{% block meta_description %}Действующие промокоды и купоны CarShowroom на покупку автомобилей.{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/promo-codes.css' %}">
+{% endblock %}
 
 {% block content %}
-    <h2>Действующие промокоды</h2>
-    {% if active_promos %}
-        <ul>
-            {% for promo in active_promos %}
-                <li>
-                    <strong>{{ promo.code }}</strong> - скидка {{ promo.discount_percent }}%
-                    <p>{{ promo.description }}</p>
-                    <p>Действует: {{ promo.starts_at|date:"d/m/Y" }} - {{ promo.ends_at|date:"d/m/Y" }}</p>
-                    <p>Добавлено: {{ promo.created_at|local_and_utc:user_timezone }}</p>
-                    <p>Изменено: {{ promo.updated_at|local_and_utc:user_timezone }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Действующих промокодов пока нет.</p>
-    {% endif %}
+    <section aria-labelledby="active-promos-title">
+        <header>
+            <h2 id="active-promos-title">Действующие промокоды</h2>
+            <p>Введите код при оформлении заказа, чтобы получить указанную скидку.</p>
+        </header>
 
-    <h2>Архив</h2>
-    {% if archived_promos %}
-        <ul>
-            {% for promo in archived_promos %}
-                <li>
-                    <strong>{{ promo.code }}</strong> - скидка {{ promo.discount_percent }}%
-                    <p>{{ promo.description }}</p>
-                    <p>Добавлено: {{ promo.created_at|local_and_utc:user_timezone }}</p>
-                    <p>Изменено: {{ promo.updated_at|local_and_utc:user_timezone }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Архив промокодов пуст.</p>
-    {% endif %}
+        {% if active_promos %}
+            <div class="promo-grid">
+                {% for promo in active_promos %}
+                    <article class="promo-card" itemscope itemtype="https://schema.org/Offer">
+                        <header>
+                            <h3><code itemprop="name">{{ promo.code }}</code></h3>
+                            <strong class="promo-discount">
+                                −<data value="{{ promo.discount_percent }}">{{ promo.discount_percent }}%</data>
+                            </strong>
+                        </header>
+                        <p itemprop="description">{{ promo.description }}</p>
+                        <p>
+                            Действует с
+                            <time datetime="{{ promo.starts_at|date:'Y-m-d' }}">
+                                {{ promo.starts_at|date:'d/m/Y' }}
+                            </time>
+                            по
+                            <time itemprop="priceValidUntil" datetime="{{ promo.ends_at|date:'Y-m-d' }}">
+                                {{ promo.ends_at|date:'d/m/Y' }}
+                            </time>
+                        </p>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Действующих промокодов пока нет.</p>
+        {% endif %}
+    </section>
+
+    <section aria-labelledby="archived-promos-title" class="promo-archive">
+        <h2 id="archived-promos-title">Архив</h2>
+        {% if archived_promos %}
+            <ul>
+                {% for promo in archived_promos %}
+                    <li>
+                        <code>{{ promo.code }}</code>
+                        <span>Скидка {{ promo.discount_percent }}%</span>
+                        <small>
+                            Срок действия завершён
+                            <time datetime="{{ promo.ends_at|date:'Y-m-d' }}">
+                                {{ promo.ends_at|date:'d/m/Y' }}
+                            </time>
+                        </small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Архив промокодов пуст.</p>
+        {% endif %}
+    </section>
 {% endblock %}

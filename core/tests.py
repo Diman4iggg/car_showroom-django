@@ -38,6 +38,21 @@ class ReviewModelTests(TestCase):
             review.full_clean()
 
 
+class PromoCodeModelTests(TestCase):
+    def test_end_date_cannot_be_before_start_date(self):
+        today = timezone.localdate()
+        promo = PromoCode(
+            code='INVALID-DATES',
+            description='Invalid period',
+            discount_percent=10,
+            starts_at=today,
+            ends_at=today - timedelta(days=1),
+        )
+
+        with self.assertRaises(ValidationError):
+            promo.full_clean()
+
+
 class CoreViewTests(TestCase):
     def test_content_pages_render_database_records(self):
         CompanyInfo.objects.create(title='About', text='About text')
@@ -174,6 +189,9 @@ class CoreViewTests(TestCase):
         self.assertContains(response, '<iframe')
         self.assertContains(response, '<video')
         self.assertContains(response, 'company-tour.webm')
+        self.assertContains(response, '<audio controls preload="metadata">')
+        self.assertContains(response, '<dfn title=')
+        self.assertContains(response, 'core/audio/company-intro.wav')
         self.assertContains(response, '2024')
         self.assertContains(response, 'Сертификат качества')
         self.assertContains(response, 'Логотип CarShowroom')
@@ -250,6 +268,23 @@ class CoreViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(list(response.context['active_promos'].values_list('code', flat=True)), ['ACTIVE'])
         self.assertEqual(list(response.context['archived_promos'].values_list('code', flat=True)), ['OLD'])
+        self.assertContains(response, 'https://schema.org/Offer')
+        self.assertContains(response, '<data value="10">10%</data>')
+        self.assertContains(response, 'itemprop="priceValidUntil"')
+
+    def test_promo_code_is_active_on_both_boundary_dates(self):
+        today = timezone.localdate()
+        PromoCode.objects.create(
+            code='TODAY',
+            description='Valid for one day',
+            discount_percent=15,
+            starts_at=today,
+            ends_at=today,
+        )
+
+        response = self.client.get(reverse('core:promo_codes'))
+
+        self.assertEqual(list(response.context['active_promos'].values_list('code', flat=True)), ['TODAY'])
 
     def test_superuser_can_create_update_and_delete_vacancy_from_frontend(self):
         admin = User.objects.create_superuser('admin', 'admin@example.com', 'StrongPass12345')

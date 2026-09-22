@@ -25,6 +25,7 @@
                 <li><a href="#company-history">История</a></li>
                 <li><a href="#company-principles">Принципы работы</a></li>
                 <li><a href="#company-video">Видео</a></li>
+                <li><a href="#company-audio">Аудио</a></li>
                 <li><a href="#company-details">Реквизиты</a></li>
                 <li><a href="#company-certificate">Сертификат</a></li>
                 <li><a href="#company-location">Как нас найти</a></li>
@@ -148,6 +149,22 @@
                     <a href="https://commons.wikimedia.org/wiki/File:Volkswagen_T2.webm" rel="external noopener" target="_blank">Wikimedia Commons</a>, лицензия CC0.
                 </small>
             </p>
+        </section>
+
+        <section id="company-audio" aria-labelledby="audio-title">
+            <h3 id="audio-title">Аудиосигнал компании</h3>
+            <p>
+                Перед поездкой клиент может записаться на
+                <dfn title="Пробная поездка на автомобиле перед его покупкой">тест-драйв</dfn>.
+                Короткий аудиосигнал используется как демонстрационный звуковой материал сайта.
+            </p>
+            <audio controls preload="metadata">
+                <source src="{% static 'core/audio/company-intro.wav' %}" type="audio/wav">
+                Ваш браузер не поддерживает воспроизведение аудио.
+                <a href="{% static 'core/audio/company-intro.wav' %}" download="CarShowroom-audio.wav">
+                    Скачать аудиофайл
+                </a>.
+            </audio>
         </section>
 
         <section id="company-details" aria-labelledby="details-title">
