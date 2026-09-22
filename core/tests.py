@@ -143,6 +143,22 @@ class CoreViewTests(TestCase):
         self.assertContains(response, 'href="tel:+375291234567"')
         self.assertContains(response, 'https://schema.org/Person')
 
+    def test_privacy_page_has_semantic_sections_and_revision_date(self):
+        policy = PrivacyPolicy.objects.create(
+            title='Privacy policy',
+            text='We process data only for stated purposes.',
+        )
+
+        response = self.client.get(reverse('core:privacy'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<article>')
+        self.assertContains(response, 'Какие данные мы обрабатываем')
+        self.assertContains(response, 'Цели обработки')
+        self.assertContains(response, 'Права пользователя')
+        self.assertContains(response, policy.updated_at.strftime('%d/%m/%Y'))
+        self.assertContains(response, 'href="mailto:privacy@carshowroom.example"')
+
     def test_about_page_contains_semantic_and_responsive_content(self):
         company = CompanyInfo.objects.create(title='Our history', text='Company history')
         CompanyHistoryEvent.objects.create(company=company, year=2024, description='Company opened')

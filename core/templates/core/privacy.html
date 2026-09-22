@@ -1,15 +1,71 @@
 {% extends 'core/base.html' %}
-{% load datetime_extras %}
-
 {% block title %}Политика конфиденциальности{% endblock %}
 {% block heading %}Политика конфиденциальности{% endblock %}
+{% block meta_description %}Правила обработки и защиты персональных данных пользователей CarShowroom.{% endblock %}
 
 {% block content %}
     {% if policy %}
-        <h2>{{ policy.title }}</h2>
-        <p>{{ policy.text|default:"Текст политики пока не заполнен." }}</p>
-        <p>Добавлено: {{ policy.created_at|local_and_utc:user_timezone }}</p>
-        <p>Изменено: {{ policy.updated_at|local_and_utc:user_timezone }}</p>
+        <article>
+            <header>
+                <h2>{{ policy.title }}</h2>
+                <p>
+                    <small>
+                        Редакция от
+                        <time datetime="{{ policy.updated_at|date:'Y-m-d' }}">
+                            {{ policy.updated_at|date:'d/m/Y' }}
+                        </time>
+                    </small>
+                </p>
+            </header>
+
+            <section aria-labelledby="privacy-general-title">
+                <h3 id="privacy-general-title">1. Общие положения</h3>
+                {{ policy.text|default:"Текст политики пока не заполнен."|linebreaks }}
+            </section>
+
+            <section aria-labelledby="privacy-data-title">
+                <h3 id="privacy-data-title">2. Какие данные мы обрабатываем</h3>
+                <ul>
+                    <li>имя пользователя и контактные данные;</li>
+                    <li>дату рождения, указанную при регистрации;</li>
+                    <li>сведения о заказах и выбранных автомобилях;</li>
+                    <li>техническую информацию, необходимую для работы сайта.</li>
+                </ul>
+            </section>
+
+            <section aria-labelledby="privacy-purpose-title">
+                <h3 id="privacy-purpose-title">3. Цели обработки</h3>
+                <ol>
+                    <li>регистрация и авторизация пользователя;</li>
+                    <li>оформление и сопровождение заказов;</li>
+                    <li>обработка отзывов и обращений;</li>
+                    <li>обеспечение безопасности сайта.</li>
+                </ol>
+            </section>
+
+            <section aria-labelledby="privacy-protection-title">
+                <h3 id="privacy-protection-title">4. Защита и хранение</h3>
+                <p>
+                    CarShowroom ограничивает доступ к персональным данным и использует их
+                    только для заявленных целей. Платёжные реквизиты банковских карт на сайте не сохраняются.
+                </p>
+            </section>
+
+            <section aria-labelledby="privacy-rights-title">
+                <h3 id="privacy-rights-title">5. Права пользователя</h3>
+                <p>
+                    Пользователь может запросить сведения о своих данных, потребовать их уточнения
+                    или удаления, если дальнейшее хранение не требуется законодательством.
+                </p>
+            </section>
+
+            <footer>
+                <address>
+                    Вопросы по обработке данных:
+                    <a href="mailto:privacy@carshowroom.example">privacy@carshowroom.example</a>
+                </address>
+            </footer>
+        </article>
     {% else %}
         <p>Страница политики конфиденциальности пока пустая.</p>
     {% endif %}
