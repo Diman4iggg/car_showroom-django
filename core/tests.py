@@ -122,6 +122,27 @@ class CoreViewTests(TestCase):
         self.assertContains(response, question.created_at.strftime('%d/%m/%Y'))
         self.assertNotContains(response, 'Изменено:')
 
+    def test_contacts_page_shows_employee_cards_with_full_information(self):
+        employee = ContactEmployee.objects.create(
+            full_name='Ivan Ivanov',
+            position='Sales manager',
+            work_description='Helps clients choose a car.',
+            phone='+375 (29) 123-45-67',
+            email='ivan@example.com',
+            photo='contacts/ivan.jpg',
+        )
+
+        response = self.client.get(reverse('core:contacts'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'class="employee-grid"')
+        self.assertContains(response, 'class="employee-card"')
+        self.assertContains(response, '/media/contacts/ivan.jpg')
+        self.assertContains(response, 'Helps clients choose a car.')
+        self.assertContains(response, 'href="mailto:ivan@example.com"')
+        self.assertContains(response, 'href="tel:+375291234567"')
+        self.assertContains(response, 'https://schema.org/Person')
+
     def test_about_page_contains_semantic_and_responsive_content(self):
         company = CompanyInfo.objects.create(title='Our history', text='Company history')
         CompanyHistoryEvent.objects.create(company=company, year=2024, description='Company opened')

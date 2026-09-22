@@ -1,3 +1,5 @@
+import re
+
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.validators import FileExtensionValidator
 from django.db import models
@@ -121,6 +123,10 @@ class ContactEmployee(TimeStampedModel):
 
     def __str__(self):
         return self.full_name
+
+    @property
+    def phone_href(self):
+        return re.sub(r'[^\d+]', '', self.phone)
 
 
 class Vacancy(TimeStampedModel):

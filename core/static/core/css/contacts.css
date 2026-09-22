@@ -1,0 +1,55 @@
+.company-contacts {
+    margin-bottom: 24px;
+}
+
+.company-contacts address,
+.employee-card address {
+    font-style: normal;
+}
+
+.company-contacts p {
+    margin: 6px 0;
+}
+
+.employee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.employee-card {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    background: #ffffff;
+}
+
+.employee-card figure {
+    margin: 0 0 12px;
+}
+
+.employee-card img {
+    display: block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.employee-card figcaption {
+    margin-top: 10px;
+}
+
+.employee-card h3 {
+    margin: 8px 0;
+    font-size: 1.2rem;
+}
+
+.employee-card p {
+    margin: 8px 0;
+}
+
+.employee-card a {
+    overflow-wrap: anywhere;
+}

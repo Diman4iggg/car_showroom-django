@@ -1,28 +1,60 @@
 {% extends 'core/base.html' %}
-{% load datetime_extras %}
+{% load static %}
 
 {% block title %}Контакты{% endblock %}
 {% block heading %}Контакты{% endblock %}
+{% block meta_description %}Контактные данные сотрудников автосалона CarShowroom.{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/contacts.css' %}">
+{% endblock %}
 
 {% block content %}
-    {% if employees %}
-        <ul>
-            {% for employee in employees %}
-                <li>
-                    <h2>{{ employee.full_name }}</h2>
-                    <p>Должность: {{ employee.position }}</p>
-                    <p>{{ employee.work_description }}</p>
-                    <p>Телефон: {{ employee.phone }}</p>
-                    <p>Email: {{ employee.email }}</p>
-                    {% if employee.photo %}
-                        <img src="{{ employee.photo.url }}" alt="{{ employee.full_name }}" width="180">
-                    {% endif %}
-                    <p>Добавлено: {{ employee.created_at|local_and_utc:user_timezone }}</p>
-                    <p>Изменено: {{ employee.updated_at|local_and_utc:user_timezone }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Контакты сотрудников пока не добавлены.</p>
-    {% endif %}
+    <section class="company-contacts" aria-labelledby="company-contacts-title">
+        <h2 id="company-contacts-title">Наши контакты</h2>
+        <address>
+            <p><strong>Адрес:</strong> г. Минск, проспект Независимости, 4</p>
+            <p><strong>Телефон:</strong> <a href="tel:+375291234567">+375 (29) 123-45-67</a></p>
+            <p><strong>Email:</strong> <a href="mailto:info@carshowroom.example">info@carshowroom.example</a></p>
+            <p><strong>Режим работы:</strong> Пн-Пт 9:00-20:00, Сб 10:00-18:00</p>
+        </address>
+    </section>
+
+    <section aria-labelledby="employees-title">
+        <h2 id="employees-title">Наши сотрудники</h2>
+        {% if employees %}
+            <div class="employee-grid">
+                {% for employee in employees %}
+                    <article class="employee-card" itemscope itemtype="https://schema.org/Person">
+                        {% if employee.photo %}
+                            <figure>
+                                <img
+                                    src="{{ employee.photo.url }}"
+                                    alt="Фотография сотрудника {{ employee.full_name }}"
+                                    width="180"
+                                    height="180"
+                                    loading="lazy"
+                                    itemprop="image"
+                                >
+                                <figcaption itemprop="jobTitle">{{ employee.position }}</figcaption>
+                            </figure>
+                        {% else %}
+                            <p itemprop="jobTitle">{{ employee.position }}</p>
+                        {% endif %}
+
+                        <h3 itemprop="name">{{ employee.full_name }}</h3>
+                        <p><strong>Должность:</strong> {{ employee.position }}</p>
+                        <p itemprop="description">{{ employee.work_description|linebreaksbr }}</p>
+                        <address>
+                            <strong>Телефон:</strong>
+                            <a href="tel:{{ employee.phone_href }}" itemprop="telephone">{{ employee.phone }}</a><br>
+                            <strong>Email:</strong>
+                            <a href="mailto:{{ employee.email }}" itemprop="email">{{ employee.email }}</a>
+                        </address>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Контакты сотрудников пока не добавлены.</p>
+        {% endif %}
+    </section>
 {% endblock %}
