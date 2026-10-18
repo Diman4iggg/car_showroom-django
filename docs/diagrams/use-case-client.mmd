@@ -1,0 +1,19 @@
+flowchart LR
+    Guest["«actor» Гость"]
+    Buyer["«actor» Клиент"]
+    subgraph Public["CarShowroom: посетитель и клиент"]
+        Browse(["UR-01: Просмотреть и найти автомобиль"])
+        Register(["UR-02: Зарегистрироваться и войти"])
+        Checkout(["UR-03: Управлять корзиной и оплатить"])
+        Orders(["UR-04: Посмотреть и отменить заказ"])
+        Review(["UR-05: Оставить отзыв"])
+        Weather(["UR-08: Посмотреть погоду"])
+    end
+    Guest --- Browse
+    Guest --- Register
+    Guest --- Weather
+    Buyer --- Browse
+    Buyer --- Checkout
+    Buyer --- Orders
+    Buyer --- Review
+    Buyer --- Weather

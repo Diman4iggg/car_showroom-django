@@ -29,6 +29,7 @@
                 <li><a href="#company-details">Реквизиты</a></li>
                 <li><a href="#company-certificate">Сертификат</a></li>
                 <li><a href="#company-location">Как нас найти</a></li>
+                <li><a href="#global-attributes">Глобальные атрибуты</a></li>
             </ol>
         </nav>
 
@@ -119,8 +120,19 @@
             </p>
 
             <p>
+                <i lang="en">Car showroom</i> — англоязычное название автосалона,
+                а <em>безопасность клиента</em> требует смыслового акцента.
+                <b>Важно:</b> перед покупкой автомобиль проходит проверку,
+                поэтому мы <strong>не допускаем к продаже неисправные автомобили</strong>.
+            </p>
+            <p>
+                Клиенты часто говорят:
+                <q cite="https://carshowroom.example/reviews/">хороший автомобиль начинается с честной проверки</q>.
+            </p>
+
+            <p>
                 Выбираем путь уверенно,<br>
-                Проверяем каждый автомобиль,<br>
+                Проверяем каждый авто<wbr>мобиль,<br>
                 Оформляем всё понятно,<br>
                 И встречаем новый день.
             </p>
@@ -149,6 +161,34 @@
                     <a href="https://commons.wikimedia.org/wiki/File:Volkswagen_T2.webm" rel="external noopener" target="_blank">Wikimedia Commons</a>, лицензия CC0.
                 </small>
             </p>
+
+            <details>
+                <summary>Альтернативные способы встраивания видео</summary>
+                <p>Один видеофайл встроен тремя дополнительными способами:</p>
+                <object
+                    data="{% static 'core/video/company-tour.webm' %}"
+                    type="video/webm"
+                    width="480"
+                    height="270"
+                    aria-label="Видео о компании через object"
+                >
+                    <a href="{% static 'core/video/company-tour.webm' %}">Скачать видео</a>
+                </object>
+                <embed
+                    src="{% static 'core/video/company-tour.webm' %}"
+                    type="video/webm"
+                    width="480"
+                    height="270"
+                    title="Видео о компании через embed"
+                >
+                <iframe
+                    src="{% static 'core/video/company-tour.webm' %}"
+                    title="Видео о компании через iframe"
+                    width="480"
+                    height="270"
+                    loading="lazy"
+                ></iframe>
+            </details>
         </section>
 
         <section id="company-audio" aria-labelledby="audio-title">
@@ -209,5 +249,8 @@ service = "Продажа и обслуживание автомобилей"</c
                 style="max-width: 100%;"
             ></iframe>
         </section>
+
     </article>
+
+    {% include 'core/includes/global_attributes_demo.html' %}
 {% endblock %}

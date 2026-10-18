@@ -1,0 +1,17 @@
+stateDiagram-v2
+    state "Новый" as New
+    state "Подтверждён" as Confirmed
+    state "Оплачен" as Paid
+    state "Выдан" as Delivered
+    state "Отменён" as Cancelled
+
+    [*] --> New: Быстрая покупка [клиент, остаток положителен]
+    [*] --> Paid: Оплата корзины [форма и остатки проверены]
+    New --> New: Принятие [свободный заказ]
+    New --> Confirmed: Подтверждение [назначенный сотрудник]
+    New --> Cancelled: Отмена [владелец или назначенный сотрудник]
+    Confirmed --> Paid: Оплата [назначенный сотрудник] / создать Sale
+    Confirmed --> Cancelled: Отмена [назначенный сотрудник] / вернуть остаток
+    Paid --> Delivered: Выдача [назначенный сотрудник] / сохранить дату и время
+    Delivered --> [*]
+    Cancelled --> [*]

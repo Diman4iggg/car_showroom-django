@@ -1,0 +1,115 @@
+<section id="global-attributes" aria-labelledby="global-attributes-title">
+    <h3 id="global-attributes-title">Демонстрация глобальных атрибутов HTML</h3>
+
+    <details>
+        <summary>Открыть учебный пример</summary>
+        <p>
+            Глобальные атрибуты разрешено применять практически к любому HTML-элементу,
+            хотя для некоторых элементов отдельные атрибуты могут не давать видимого эффекта.
+        </p>
+
+        <dl>
+            <dt><code>id</code></dt>
+            <dd>Уникальный идентификатор элемента в пределах документа.</dd>
+
+            <dt><code>class</code></dt>
+            <dd>Одно или несколько имён классов для CSS и JavaScript.</dd>
+
+            <dt><code>style</code></dt>
+            <dd>Встроенные CSS-правила элемента.</dd>
+
+            <dt><code>title</code></dt>
+            <dd>Дополнительное описание элемента.</dd>
+
+            <dt><code>lang</code> и <code>dir</code></dt>
+            <dd>Язык содержимого и направление текста.</dd>
+
+            <dt><code>accesskey</code> и <code>tabindex</code></dt>
+            <dd>Клавиша быстрого доступа и положение элемента в порядке фокусировки.</dd>
+
+            <dt><code>hidden</code></dt>
+            <dd>Логический атрибут, скрывающий элемент.</dd>
+
+            <dt><code>contenteditable</code> и <code>spellcheck</code></dt>
+            <dd>Разрешение редактирования содержимого и проверка правописания.</dd>
+
+            <dt><code>translate</code></dt>
+            <dd>Указывает, следует ли переводить содержимое элемента.</dd>
+
+            <dt><code>data-*</code></dt>
+            <dd>Пользовательские данные, доступные через свойство <code>dataset</code>.</dd>
+
+            <dt><code>draggable</code></dt>
+            <dd>Указывает, можно ли перетаскивать элемент.</dd>
+
+            <dt><code>itemscope</code>, <code>itemtype</code>, <code>itemprop</code>, <code>itemid</code>, <code>itemref</code></dt>
+            <dd>Глобальные атрибуты микроданных.</dd>
+
+            <dt><code>onclick</code></dt>
+            <dd>Пример глобального атрибута обработчика события.</dd>
+        </dl>
+
+        <h4>Рабочий пример</h4>
+        <div
+            id="global-attribute-example"
+            class="global-attribute-demo"
+            style="border: 1px solid #777; padding: 1rem;"
+            title="Элемент с глобальными атрибутами"
+            lang="ru"
+            dir="ltr"
+            tabindex="0"
+            accesskey="g"
+            contenteditable="true"
+            spellcheck="true"
+            translate="no"
+            draggable="true"
+            data-demo-purpose="global-attributes"
+            itemscope
+            itemtype="https://schema.org/Thing"
+            itemid="#global-attribute-example"
+            itemref="global-attribute-extra"
+        >
+            <span itemprop="name">Этот текст можно редактировать и перетаскивать.</span>
+        </div>
+        <p id="global-attribute-extra" itemprop="description">
+            Дополнительное свойство подключено к объекту через <code>itemref</code>.
+        </p>
+        <p hidden>Этот элемент присутствует в документе, но скрыт атрибутом hidden.</p>
+        <button
+            type="button"
+            data-click-count="0"
+            onclick="this.dataset.clickCount = Number(this.dataset.clickCount) + 1; this.textContent = 'Нажатий: ' + this.dataset.clickCount;"
+        >
+            Проверить onclick
+        </button>
+        <input type="button" value="Кнопка через input" title="Второй способ создания кнопки">
+
+        <h4>Листинг</h4>
+        <pre><code>&lt;div
+    id="global-attribute-example"
+    class="global-attribute-demo"
+    style="border: 1px solid #777"
+    title="Описание элемента"
+    lang="ru"
+    dir="ltr"
+    tabindex="0"
+    accesskey="g"
+    contenteditable="true"
+    spellcheck="true"
+    translate="no"
+    draggable="true"
+    data-demo-purpose="global-attributes"
+    itemscope
+    itemtype="https://schema.org/Thing"
+    itemid="#global-attribute-example"
+    itemref="global-attribute-extra"
+&gt;Содержимое&lt;/div&gt;
+
+&lt;p hidden&gt;Скрытый элемент&lt;/p&gt;</code></pre>
+
+        <p>
+            <strong>Примечание:</strong> атрибут <code>dropzone</code> присутствует в лекции,
+            но исключён из современного стандарта HTML и поэтому не используется в рабочей разметке.
+        </p>
+    </details>
+</section>

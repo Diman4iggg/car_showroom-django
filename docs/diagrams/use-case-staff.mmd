@@ -1,0 +1,13 @@
+flowchart LR
+    Staff["«actor» Сотрудник"]
+    Admin["«actor» Администратор"]
+    subgraph Management["CarShowroom: служебные операции"]
+        Process(["UR-06: Принять и обработать заказ"])
+        Vacancies(["UR-07: Управлять вакансиями"])
+        Analytics(["UR-07: Посмотреть аналитику"])
+        Content(["Управлять данными через Django Admin"])
+    end
+    Staff --- Process
+    Admin --- Vacancies
+    Admin --- Analytics
+    Admin --- Content

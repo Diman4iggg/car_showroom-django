@@ -1,0 +1,30 @@
+flowchart LR
+    U[Пользовательский браузер] -->|HTTP/HTTPS| URL[Django URL dispatcher]
+    URL --> A[accounts]
+    URL --> C[core]
+    URL --> SH[showroom]
+    URL --> S[sales]
+    URL --> AN[analytics]
+    URL --> I[integrations]
+
+    A --> ORM[Django ORM]
+    C --> ORM
+    SH --> ORM
+    S --> ORM
+    AN --> ORM
+    ORM --> DB[(SQLite / PostgreSQL)]
+
+    SH --> I
+    I --> FX[Exchange Rate API]
+    I --> W[OpenWeatherMap API]
+    C --> FS[(media / static)]
+    SH --> FS
+    AN --> MPL[matplotlib]
+
+    A --> T[Django Templates]
+    C --> T
+    SH --> T
+    S --> T
+    AN --> T
+    I --> T
+    T --> U

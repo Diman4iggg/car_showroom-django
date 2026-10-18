@@ -1,0 +1,10 @@
+flowchart LR
+    Browser["Браузер"] -->|HTTP| Web["Локально / Docker: Django runserver"]
+    Browser -->|HTTPS| Render["Хостинг: Gunicorn + Django"]
+    Web --> SQLite[("Локально: SQLite")]
+    Web --> DockerDB[("Docker: PostgreSQL 17")]
+    Render --> HostedDB[("Хостинг: PostgreSQL")]
+    Web --> APIs["Exchange Rate API / OpenWeatherMap"]
+    Render --> APIs
+    Web --> Files["static / media / logs"]
+    Render --> Files

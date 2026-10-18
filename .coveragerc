@@ -1,16 +1,23 @@
 [run]
+branch = True
 omit =
     */migrations/*
     */tests.py
+    */tests/*
     */test_*.py
     */pytest_*.py
-    */admin.py
+    */conftest.py
+    */__init__.py
     */apps.py
-    */models.py
-    */management/commands/*
-    manage.py
-    CarShowroom/asgi.py
-    CarShowroom/wsgi.py
+    */admin.py
+    */urls.py
 
 [report]
 show_missing = True
+precision = 2
+
+[html]
+directory = htmlcov
+
+[xml]
+output = coverage.xml

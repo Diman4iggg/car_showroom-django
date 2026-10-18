@@ -56,9 +56,15 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th scope="row" colspan="3">Итого</th>
+                        <th id="summary-header" scope="rowgroup" rowspan="2">Сводка</th>
+                        <th scope="row" colspan="2">Итого</th>
                         <td headers="total-header"><strong>{{ cart_total }} BYN</strong></td>
                         <td headers="actions-header"><a href="{% url 'sales:payment' %}">Перейти к оплате</a></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" colspan="2">Количество позиций</th>
+                        <td headers="summary-header quantity-header">{{ cart_items|length }}</td>
+                        <td headers="summary-header actions-header">Перед оплатой проверьте заказ</td>
                     </tr>
                 </tfoot>
             </table>
