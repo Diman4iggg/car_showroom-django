@@ -54,6 +54,7 @@ class ReviewForm(forms.ModelForm):
                 'placeholder': 'Ваш отзыв',
                 'maxlength': 1000,
                 'minlength': 10,
+                'aria-describedby': 'review-text-help',
                 'required': True,
             }),
         }

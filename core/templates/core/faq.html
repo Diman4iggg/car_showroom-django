@@ -1,18 +1,31 @@
 {% extends 'core/base.html' %}
-{% block title %}FAQ{% endblock %}
-{% block heading %}Словарь терминов и FAQ{% endblock %}
+{% load static %}
+{% block title %}Словарь терминов и понятий{% endblock %}
+{% block heading %}Словарь терминов и понятий{% endblock %}
 {% block meta_description %}Ответы на частые вопросы и автомобильные термины CarShowroom.{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/faq.css' %}">
+{% endblock %}
 
 {% block content %}
     <section
         aria-labelledby="faq-title"
+        class="faq-page"
         itemscope
         itemtype="https://schema.org/FAQPage"
     >
-        <h2 id="faq-title">Частые вопросы</h2>
+        <header class="faq-heading">
+            <p class="eyebrow">ПОЛЕЗНО ЗНАТЬ</p>
+            <h2 id="faq-title">Об автомобиле и его покупке</h2>
+            <p>Термины и ответы на частые вопросы.</p>
+        </header>
+        <div class="faq-layout">
+        <div class="faq-list">
         {% if questions %}
             {% for item in questions %}
                 <details
+                    class="faq-item"
+                    id="question-{{ item.pk }}"
                     itemscope
                     itemprop="mainEntity"
                     itemtype="https://schema.org/Question"
@@ -22,10 +35,11 @@
                         itemscope
                         itemprop="acceptedAnswer"
                         itemtype="https://schema.org/Answer"
+                        class="faq-answer"
                     >
                         <p itemprop="text">{{ item.answer|linebreaksbr }}</p>
                     </div>
-                    <p>
+                    <p class="faq-date">
                         <small>
                             Добавлено:
                             <time datetime="{{ item.created_at|date:'c' }}">
@@ -38,5 +52,13 @@
         {% else %}
             <p>Вопросы и ответы пока не добавлены.</p>
         {% endif %}
+        </div>
+        <aside class="faq-help" aria-labelledby="faq-help-title">
+            <p class="eyebrow">МЫ НА СВЯЗИ</p>
+            <h2 id="faq-help-title">Остались вопросы?</h2>
+            <p>Наши сотрудники помогут разобраться в комплектациях, покупке и обслуживании автомобиля.</p>
+            <a class="text-link" href="{% url 'core:contacts' %}">Связаться с нами <span aria-hidden="true">↗</span></a>
+        </aside>
+        </div>
     </section>
 {% endblock %}

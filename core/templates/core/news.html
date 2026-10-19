@@ -1,49 +1,70 @@
 {% extends 'core/base.html' %}
+{% load static %}
 {% block title %}Новости{% endblock %}
 {% block heading %}Новости{% endblock %}
 {% block meta_description %}Новости, статьи и события автосалона CarShowroom.{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/news.css' %}">
+{% endblock %}
 
 {% block content %}
-    <section aria-labelledby="news-list-title">
-        <h2 id="news-list-title">Последние публикации</h2>
+    <section class="news-page" aria-labelledby="news-list-title">
+        <div class="news-list-heading">
+            <div>
+                <p class="eyebrow">ЖУРНАЛ CARSHOWROOM</p>
+                <h2 id="news-list-title">Последние публикации</h2>
+            </div>
+            <p>Публикаций: <strong>{{ articles.paginator.count }}</strong></p>
+        </div>
         {% if articles %}
+            <div class="news-grid">
             {% for article in articles %}
-                <article itemscope itemtype="https://schema.org/NewsArticle">
-                    <header>
-                        <h3 itemprop="headline">{{ article.title }}</h3>
-                        {% if article.published_at %}
-                            <p>
-                                <time datetime="{{ article.published_at|date:'c' }}" itemprop="datePublished">
-                                    {{ article.published_at|date:'d/m/Y' }}
-                                </time>
-                            </p>
-                        {% endif %}
-                    </header>
-                    <p>{{ article.summary }}</p>
+                <article itemscope itemtype="https://schema.org/NewsArticle" class="news-card">
                     {% if article.image %}
-                        <figure>
-                            <img
-                                src="{{ article.image.url }}"
-                                alt="Иллюстрация к статье «{{ article.title }}»"
-                                width="480"
-                                loading="lazy"
-                                itemprop="image"
-                                style="max-width: 100%; height: auto;"
-                            >
-                            <figcaption>{{ article.title }}</figcaption>
-                        </figure>
+                        <a class="news-card__media" href="{% url 'core:news_detail' article.pk %}" aria-label="Читать статью «{{ article.title }}»">
+                            <img src="{{ article.image.url }}" alt="Иллюстрация к статье «{{ article.title }}»" width="640" height="400" loading="lazy" itemprop="image">
+                        </a>
+                    {% else %}
+                        <div class="news-card__media news-card__placeholder" aria-hidden="true">CarShowroom<span>Журнал автосалона</span></div>
                     {% endif %}
-                    <p>
+                    <div class="news-card__body">
+                    <header>
+                        <div class="news-card__meta">
+                            <span>Новости автосалона</span>
+                            {% if article.published_at %}
+                                <time datetime="{{ article.published_at|date:'c' }}" itemprop="datePublished">{{ article.published_at|date:'d/m/Y' }}</time>
+                            {% endif %}
+                        </div>
+                        <h3 itemprop="headline"><a href="{% url 'core:news_detail' article.pk %}">{{ article.title }}</a></h3>
+                    </header>
+                    <p class="news-card__summary" itemprop="description" title="{{ article.summary }}">{{ article.summary }}</p>
                         <a
+                            class="news-card__link"
                             href="{% url 'core:news_detail' article.pk %}"
                             itemprop="url"
                             title="Прочитать статью «{{ article.title }}» полностью"
-                        >Читать далее</a>
-                    </p>
+                        >Читать далее <span aria-hidden="true">↗</span></a>
+                    </div>
                 </article>
             {% endfor %}
+            </div>
+            {% if articles.has_other_pages %}
+                <nav class="news-pagination" aria-label="Страницы новостей">
+                    {% if articles.has_previous %}
+                        <a href="?page={{ articles.previous_page_number }}#news-list-title" rel="prev">← Назад</a>
+                    {% endif %}
+                    <div class="news-pagination__pages">
+                        {% for number in articles.paginator.page_range %}
+                            <a href="?page={{ number }}#news-list-title" {% if number == articles.number %}aria-current="page"{% endif %} aria-label="Страница {{ number }}">{{ number }}</a>
+                        {% endfor %}
+                    </div>
+                    {% if articles.has_next %}
+                        <a href="?page={{ articles.next_page_number }}#news-list-title" rel="next">Далее →</a>
+                    {% endif %}
+                </nav>
+            {% endif %}
         {% else %}
-            <p>Новости пока не добавлены.</p>
+            <p class="news-empty">Новости пока не добавлены.</p>
         {% endif %}
     </section>
 {% endblock %}

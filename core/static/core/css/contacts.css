@@ -1,55 +1,143 @@
 .company-contacts {
-    margin-bottom: 24px;
+    padding-bottom: 42px;
+    margin-bottom: 44px;
+    border-bottom: 1px solid var(--line);
 }
-
+.company-contacts h2 {
+    margin: 0 0 30px;
+}
+.company-contacts address {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px 60px;
+}
+.company-contacts address > div {
+    flex: 1 1 240px;
+    min-width: 0;
+}
+.contact-label {
+    display: block;
+    margin: 0 0 12px;
+    font-size: 0.8125rem;
+    color: var(--muted);
+}
+.company-contacts p {
+    margin: 6px 0;
+}
 .company-contacts address,
 .employee-card address {
     font-style: normal;
 }
-
-.company-contacts p {
-    margin: 6px 0;
+.company-contacts a {
+    color: var(--ink);
+    text-decoration: none;
+    overflow-wrap: anywhere;
 }
-
+.company-contacts a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+}
+.employees-heading {
+    margin-bottom: 30px;
+}
+.employees-heading h2 {
+    margin: 0;
+}
 .employee-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
 }
-
 .employee-card {
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 calc((100% - 48px) / 3);
     min-width: 0;
-    padding: 20px;
-    border: 1px solid #d9d9d9;
-    border-radius: 6px;
-    background: #ffffff;
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
 }
-
 .employee-card figure {
-    margin: 0 0 12px;
+    margin: 0 0 24px;
 }
-
-.employee-card img {
-    display: block;
+.employee-card img,
+.employee-photo-placeholder {
     width: 150px;
     height: 150px;
     border-radius: 50%;
+}
+.employee-card img {
+    display: block;
     object-fit: cover;
 }
-
-.employee-card figcaption {
-    margin-top: 10px;
+.employee-photo-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 3rem;
+    font-weight: 700;
 }
-
+.employee-position {
+    margin: 0 0 10px;
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
 .employee-card h3 {
-    margin: 8px 0;
-    font-size: 1.2rem;
+    margin: 0 0 14px;
+    font-size: 1.125rem;
+    line-height: 1.4;
 }
-
-.employee-card p {
-    margin: 8px 0;
-}
-
-.employee-card a {
+.employee-description {
+    margin: 0 0 24px;
+    color: var(--muted);
+    font-size: 0.875rem;
     overflow-wrap: anywhere;
+}
+.employee-card address {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+}
+.employee-card address a {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--ink);
+    font-size: 0.8125rem;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+.employee-card address a:last-child {
+    margin-bottom: 0;
+}
+.employee-card address span {
+    display: block;
+    margin-bottom: 3px;
+    color: var(--muted);
+    font-size: 0.6875rem;
+}
+.employee-card a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+}
+@media (max-width: 1050px) {
+    .employee-card {
+        flex-basis: calc((100% - 24px) / 2);
+    }
+}
+@media (max-width: 600px) {
+    .employee-card {
+        flex-basis: 100%;
+        padding: 24px;
+    }
+    .company-contacts address {
+        gap: 24px;
+    }
+    .company-contacts h2 {
+        font-size: 1.5rem;
+    }
 }

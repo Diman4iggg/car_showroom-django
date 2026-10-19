@@ -12,11 +12,12 @@
     <section aria-labelledby="reviews-title">
         <header class="reviews-header">
             <div>
+                <p class="eyebrow">ОПЫТ ПОКУПАТЕЛЕЙ</p>
                 <h2 id="reviews-title">Мнения наших клиентов</h2>
                 <p>Отзывы публикуются от имени зарегистрированного клиента.</p>
             </div>
             {% if can_add_review %}
-                <a href="{% url 'core:add_review' %}">Добавить отзыв</a>
+                <a class="button" href="{% url 'core:add_review' %}">Добавить отзыв</a>
             {% elif not request.user.is_authenticated %}
                 <p><a href="{% url 'accounts:login' %}">Войдите</a>, чтобы добавить отзыв.</p>
             {% endif %}

@@ -24,24 +24,31 @@
 
     <h2>Прайс-лист по автомобилям</h2>
     {% if price_list %}
-        <table border="1">
+        <div class="table-scroll" role="region" aria-label="Прайс-лист" tabindex="0">
+        <table>
+            <caption>Автомобили: комплектации и цены в BYN</caption>
+            <colgroup><col><col><col><col><col class="cart-total-column"></colgroup>
+            <thead>
             <tr>
-                <th>Категория</th>
-                <th>Автомобиль</th>
-                <th>Изготовитель</th>
-                <th>Год</th>
-                <th>Цена</th>
+                <th scope="col">Категория</th>
+                <th scope="col">Автомобиль</th>
+                <th scope="col">Изготовитель</th>
+                <th scope="col" class="numeric">Год</th>
+                <th scope="col" class="numeric">Цена</th>
             </tr>
+            </thead><tbody>
             {% for car in price_list %}
                 <tr>
                     <td>{{ car.category.name }}</td>
                     <td>{{ car.name }}</td>
                     <td>{{ car.manufacturer.name }}</td>
-                    <td>{{ car.year }}</td>
-                    <td>{{ car.price }} BYN</td>
+                    <td class="numeric">{{ car.year }}</td>
+                    <td class="numeric">{{ car.price }} BYN</td>
                 </tr>
             {% endfor %}
+            </tbody>
         </table>
+        </div>
     {% else %}
         <p>Автомобили пока не добавлены.</p>
     {% endif %}
@@ -59,22 +66,28 @@
 
     <h2>Сводная таблица по клиентам</h2>
     {% if client_sales_summary %}
-        <table border="1">
+        <div class="table-scroll" role="region" aria-label="Продажи по клиентам" tabindex="0">
+        <table>
+            <caption>Оплаченные заказы и поступления по клиентам</caption>
+            <thead>
             <tr>
-                <th>Клиент</th>
-                <th>Город</th>
-                <th>Оплаченных заказов</th>
-                <th>Поступления</th>
+                <th scope="col">Клиент</th>
+                <th scope="col">Город</th>
+                <th scope="col" class="numeric">Оплаченных заказов</th>
+                <th scope="col" class="numeric">Поступления</th>
             </tr>
+            </thead><tbody>
             {% for client in client_sales_summary %}
                 <tr>
                     <td>{{ client.last_name }} {{ client.first_name }}</td>
                     <td>{{ client.city|default:"Город не указан" }}</td>
-                    <td>{{ client.orders_count }}</td>
-                    <td>{{ client.revenue|default:0 }} BYN</td>
+                    <td class="numeric">{{ client.orders_count }}</td>
+                    <td class="numeric">{{ client.revenue|default:0 }} BYN</td>
                 </tr>
             {% endfor %}
+            </tbody>
         </table>
+        </div>
     {% else %}
         <p>Оплаченных заказов по клиентам пока нет.</p>
     {% endif %}
@@ -99,20 +112,26 @@
 
     <h2>Продажи по видам автомобилей</h2>
     {% if category_sales %}
-        <table border="1">
+        <div class="table-scroll" role="region" aria-label="Продажи по видам автомобилей" tabindex="0">
+        <table>
+            <caption>Количество продаж и выручка по категориям</caption>
+            <thead>
             <tr>
-                <th>Категория</th>
-                <th>Продано</th>
-                <th>Выручка</th>
+                <th scope="col">Категория</th>
+                <th scope="col" class="numeric">Продано</th>
+                <th scope="col" class="numeric">Выручка</th>
             </tr>
+            </thead><tbody>
             {% for category in category_sales %}
                 <tr>
                     <td>{{ category.name }}</td>
-                    <td>{{ category.sold_count|default:0 }}</td>
-                    <td>{{ category.revenue|default:0 }} BYN</td>
+                    <td class="numeric">{{ category.sold_count|default:0 }}</td>
+                    <td class="numeric">{{ category.revenue|default:0 }} BYN</td>
                 </tr>
             {% endfor %}
+            </tbody>
         </table>
+        </div>
     {% endif %}
 
     <h2>Диаграмма выручки по категориям</h2>
@@ -142,22 +161,28 @@
 
     <h2>Ежемесячный объем продаж товаров каждого вида</h2>
     {% if monthly_category_sales %}
-        <table border="1">
+        <div class="table-scroll" role="region" aria-label="Ежемесячные продажи по категориям" tabindex="0">
+        <table>
+            <caption>Помесячный отчёт о продажах и поступлениях</caption>
+            <thead>
             <tr>
-                <th>Месяц</th>
-                <th>Категория</th>
-                <th>Продано</th>
-                <th>Поступления</th>
+                <th scope="col">Месяц</th>
+                <th scope="col">Категория</th>
+                <th scope="col" class="numeric">Продано</th>
+                <th scope="col" class="numeric">Поступления</th>
             </tr>
+            </thead><tbody>
             {% for row in monthly_category_sales %}
                 <tr>
                     <td>{{ row.paid_at__month }}/{{ row.paid_at__year }}</td>
                     <td>{{ row.order__items__car__category__name }}</td>
-                    <td>{{ row.sold_count }}</td>
-                    <td>{{ row.total }} BYN</td>
+                    <td class="numeric">{{ row.sold_count }}</td>
+                    <td class="numeric">{{ row.total }} BYN</td>
                 </tr>
             {% endfor %}
+            </tbody>
         </table>
+        </div>
     {% else %}
         <p>Помесячных продаж по видам товаров пока нет.</p>
     {% endif %}

@@ -5,12 +5,15 @@
 {% block heading %}О компании{% endblock %}
 {% block meta_description %}История, принципы работы и реквизиты автосалона CarShowroom.{% endblock %}
 {% block og_title %}О компании CarShowroom{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/about.css' %}">
+{% endblock %}
 
 {% block content %}
-    <article itemscope itemtype="https://schema.org/Organization">
+    <article itemscope itemtype="https://schema.org/Organization" class="company-page">
         <meta itemprop="url" content="{{ request.build_absolute_uri }}">
 
-        <header>
+        <header class="company-intro">
             <h2 itemprop="name">CarShowroom</h2>
             <p itemprop="description">
                 <strong>CarShowroom</strong> помогает выбрать автомобиль, записаться на тест-драйв
@@ -18,8 +21,8 @@
             </p>
         </header>
 
-        <nav aria-label="Содержание страницы">
-            <h3>Содержание</h3>
+        <nav class="company-contents" aria-label="Содержание страницы">
+            <h3>На этой странице</h3>
             <ol>
                 <li><a href="#company-identity">Логотип</a></li>
                 <li><a href="#company-history">История</a></li>
@@ -33,9 +36,12 @@
             </ol>
         </nav>
 
-        <section id="company-identity" aria-labelledby="identity-title">
-            <h3 id="identity-title">Логотип компании</h3>
-            <figure>
+        <section id="company-identity" class="company-section company-identity" aria-labelledby="identity-title">
+            <div class="company-section__heading">
+                <p class="eyebrow">01 / НАШ БРЕНД</p>
+                <h3 id="identity-title">Логотип компании</h3>
+            </div>
+            <figure class="company-logo">
                 {% if company_info.logo %}
                     <img
                         src="{{ company_info.logo.url }}"
@@ -57,7 +63,7 @@
             </figure>
         </section>
 
-        <figure>
+        <figure class="company-banner">
             <picture>
                 <source
                     media="(max-width: 700px)"
@@ -71,23 +77,26 @@
                     width="2172"
                     height="724"
                     itemprop="image"
-                    style="max-width: 100%; height: auto;"
                 >
             </picture>
             <figcaption>Специальные предложения автосалона CarShowroom</figcaption>
         </figure>
 
-        <section id="company-history" aria-labelledby="history-title">
-            <h3 id="history-title">История компании</h3>
+        <section id="company-history" class="company-section" aria-labelledby="history-title">
+            <div class="company-section__heading">
+                <p class="eyebrow">02 / ПУТЬ КОМПАНИИ</p>
+                <h3 id="history-title">История компании</h3>
+            </div>
+            <div class="company-section__body">
             {% if company_info %}
                 <h4>{{ company_info.title }}</h4>
-                <p>{{ company_info.text }}</p>
+                <p class="history-copy">{{ company_info.text }}</p>
                 {% if company_info.history_events.all %}
-                    <ol>
+                    <ol class="company-timeline">
                         {% for event in company_info.history_events.all %}
                             <li>
-                                <time datetime="{{ event.year }}">{{ event.year }}</time>:
-                                {{ event.description }}
+                                <time datetime="{{ event.year }}">{{ event.year }}</time>
+                                <p>{{ event.description }}</p>
                             </li>
                         {% endfor %}
                     </ol>
@@ -96,21 +105,32 @@
                 <p>Информация о компании пока не добавлена.</p>
             {% endif %}
 
-            <blockquote cite="https://www.iso.org/standard/73722.html">
+            <blockquote class="company-quote" cite="https://www.iso.org/standard/73722.html">
                 <p>Качество обслуживания начинается с внимания к потребностям клиента.</p>
             </blockquote>
             <p><cite>Принцип работы команды CarShowroom</cite></p>
+            </div>
         </section>
 
-        <section id="company-principles" aria-labelledby="principles-title">
-            <h3 id="principles-title">Принципы работы</h3>
-            <dl>
+        <section id="company-principles" class="company-section" aria-labelledby="principles-title">
+            <div class="company-section__heading">
+                <p class="eyebrow">03 / НАШ ПОДХОД</p>
+                <h3 id="principles-title">Принципы работы</h3>
+            </div>
+            <div class="company-section__body">
+            <dl class="company-principles">
+                <div>
                 <dt>Прозрачность</dt>
                 <dd>Мы заранее сообщаем стоимость автомобиля и условия оформления.</dd>
+                </div>
+                <div>
                 <dt>Безопасность</dt>
                 <dd>Каждый автомобиль проходит техническую проверку перед продажей.</dd>
+                </div>
+                <div>
                 <dt>Поддержка</dt>
                 <dd>Сотрудник сопровождает клиента от выбора автомобиля до его получения.</dd>
+                </div>
             </dl>
 
             <p>
@@ -119,6 +139,8 @@
                 <abbr title="Общество с ограниченной ответственностью">ООО</abbr> «CarShowroom».
             </p>
 
+            <details class="company-disclosure">
+                <summary>Подробнее о нашем подходе</summary>
             <p>
                 <i lang="en">Car showroom</i> — англоязычное название автосалона,
                 а <em>безопасность клиента</em> требует смыслового акцента.
@@ -129,23 +151,32 @@
                 Клиенты часто говорят:
                 <q cite="https://carshowroom.example/reviews/">хороший автомобиль начинается с честной проверки</q>.
             </p>
-
             <p>
+                Принцип обслуживания на английском:
+                <q lang="en">A good car starts with an honest inspection</q>.
+            </p>
+
+            <p class="company-verse">
                 Выбираем путь уверенно,<br>
                 Проверяем каждый авто<wbr>мобиль,<br>
                 Оформляем всё понятно,<br>
                 И встречаем новый день.
             </p>
+            </details>
+            </div>
         </section>
 
-        <section id="company-video" aria-labelledby="video-title">
-            <h3 id="video-title">Видео о компании</h3>
+        <section id="company-video" class="company-section" aria-labelledby="video-title">
+            <div class="company-section__heading">
+                <p class="eyebrow">04 / В ДВИЖЕНИИ</p>
+                <h3 id="video-title">Видео о компании</h3>
+            </div>
+            <div class="company-section__body company-video">
             <video
                 controls
                 preload="metadata"
                 poster="{% static 'core/img/banner-test-drive.png' %}"
                 width="960"
-                style="max-width: 100%; height: auto;"
             >
                 {% if company_info.video %}
                     <source src="{{ company_info.video.url }}">
@@ -162,7 +193,7 @@
                 </small>
             </p>
 
-            <details>
+            <details class="company-disclosure">
                 <summary>Альтернативные способы встраивания видео</summary>
                 <p>Один видеофайл встроен тремя дополнительными способами:</p>
                 <object
@@ -189,10 +220,15 @@
                     loading="lazy"
                 ></iframe>
             </details>
+            </div>
         </section>
 
-        <section id="company-audio" aria-labelledby="audio-title">
-            <h3 id="audio-title">Аудиосигнал компании</h3>
+        <section id="company-audio" class="company-section" aria-labelledby="audio-title">
+            <div class="company-section__heading">
+                <p class="eyebrow">05 / ЗВУК CARSHOWROOM</p>
+                <h3 id="audio-title">Аудиосигнал компании</h3>
+            </div>
+            <div class="company-section__body company-audio">
             <p>
                 Перед поездкой клиент может записаться на
                 <dfn title="Пробная поездка на автомобиле перед его покупкой">тест-драйв</dfn>.
@@ -205,34 +241,64 @@
                     Скачать аудиофайл
                 </a>.
             </audio>
+            </div>
         </section>
 
-        <section id="company-details" aria-labelledby="details-title">
-            <h3 id="details-title">Реквизиты</h3>
+        <section id="company-details" class="company-section" aria-labelledby="details-title">
+            <div class="company-section__heading">
+                <p class="eyebrow">06 / ОФИЦИАЛЬНО</p>
+                <h3 id="details-title">Реквизиты</h3>
+            </div>
+            <div class="company-section__body">
             {% if company_info %}
-                <p>{{ company_info.requisites|linebreaksbr }}</p>
+                <p class="company-requisites">{{ company_info.requisites|linebreaksbr }}</p>
             {% endif %}
+            <details class="company-disclosure">
+                <summary>Реквизиты в текстовом формате</summary>
             <pre><code>company_name = "ООО CarShowroom"
 city = "Минск"
 service = "Продажа и обслуживание автомобилей"</code></pre>
+            </details>
             <p>
-                <a href="{% static 'core/docs/company-details.txt' %}" download="CarShowroom-details.txt">
-                    Скачать реквизиты компании
+                <a class="text-link" href="{% static 'core/docs/company-details.txt' %}" download="CarShowroom-details.txt">
+                    Скачать реквизиты компании <span aria-hidden="true">↓</span>
                 </a>
             </p>
+            </div>
         </section>
 
-        <section id="company-certificate" aria-labelledby="certificate-title">
-            <h3 id="certificate-title">Сертификат</h3>
+        <section id="company-certificate" class="company-section" aria-labelledby="certificate-title">
+            <div class="company-section__heading">
+                <p class="eyebrow">07 / СТАНДАРТ ОБСЛУЖИВАНИЯ</p>
+                <h3 id="certificate-title">Сертификат</h3>
+            </div>
+            <div class="company-section__body">
             {% if company_info %}
-                <p>{{ company_info.certificate }}</p>
+                <div class="company-certificate">
+                    <div class="certificate-content">
+                        <p class="certificate-kicker">CarShowroom / внутренний стандарт</p>
+                        <h4>Сертификат<br><span>качества обслуживания</span></h4>
+                        <p class="certificate-company">ООО «CarShowroom»</p>
+                        <p class="certificate-description">{{ company_info.certificate }}</p>
+                        <div class="certificate-footer">
+                            <p>CarShowroom<span>Автосалон в Минске</span></p>
+                            <span class="certificate-seal" aria-hidden="true">CS</span>
+                        </div>
+                        <small>Учебный образец. Не является документом сертификации.</small>
+                    </div>
+                </div>
             {% else %}
                 <p>Сведения о сертификате пока не добавлены.</p>
             {% endif %}
+            </div>
         </section>
 
-        <section id="company-location" aria-labelledby="location-title">
-            <h3 id="location-title">Как нас найти</h3>
+        <section id="company-location" class="company-section" aria-labelledby="location-title">
+            <div class="company-section__heading">
+                <p class="eyebrow">08 / ЖДЁМ В ГОСТИ</p>
+                <h3 id="location-title">Как нас найти</h3>
+            </div>
+            <div class="company-section__body company-location">
             <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
                 <span itemprop="addressLocality">Минск</span>,
                 <span itemprop="streetAddress">проспект Независимости, 4</span><br>
@@ -246,8 +312,8 @@ service = "Продажа и обслуживание автомобилей"</c
                 height="400"
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
-                style="max-width: 100%;"
             ></iframe>
+            </div>
         </section>
 
     </article>

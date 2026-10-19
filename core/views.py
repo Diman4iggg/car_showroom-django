@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
@@ -33,7 +34,8 @@ def about(request):
 
 def news(request):
     context = base_context()
-    context['articles'] = NewsArticle.objects.filter(is_published=True)
+    paginator = Paginator(NewsArticle.objects.filter(is_published=True), 7)
+    context['articles'] = paginator.get_page(request.GET.get('page'))
     return render(request, 'core/news.html', context)
 
 
@@ -142,6 +144,7 @@ def add_review(request):
 def promo_codes(request):
     context = base_context()
     today = timezone.localdate()
+    context['promo_today'] = today
     context['active_promos'] = PromoCode.objects.filter(
         is_active=True,
         starts_at__lte=today,

@@ -1,55 +1,100 @@
 .vacancies-header {
+    display: flex;
     align-items: end;
-    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: 24px;
-    justify-content: space-between;
-    margin-bottom: 24px;
+    margin-bottom: 36px;
+}
+.vacancies-header h2 {
+    margin: 0 0 14px;
+}
+.vacancies-header > div > p:last-child {
+    margin: 0;
+    color: var(--muted);
 }
 
-.vacancy-action {
-    white-space: nowrap;
+/* Clear the floated cards so later page sections stay below the list. */
+.vacancy-grid::after {
+    content: "";
+    display: block;
+    clear: both;
 }
-
-.vacancy-grid {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-}
-
 .vacancy-card {
-    border: 1px solid #d7d7d7;
+    float: left;
+    width: calc((100% - 28px) / 2);
+    margin: 0 28px 28px 0;
+    padding: 30px;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--accent);
     border-radius: 6px;
-    padding: 20px;
+    background: var(--surface);
+    overflow-wrap: anywhere;
 }
-
+.vacancy-card:nth-child(2n) {
+    margin-right: 0;
+}
+.vacancy-card:nth-child(2n + 1) {
+    clear: left;
+}
 .vacancy-card > header {
+    display: flex;
     align-items: start;
-    display: flex;
-    gap: 16px;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 22px;
 }
-
 .vacancy-card h3 {
-    margin-top: 0;
+    margin: 0;
+    font-size: 1.375rem;
 }
-
-.vacancy-status,
+.vacancy-status {
+    color: var(--accent);
+    font-size: 0.75rem;
+}
+.vacancy-description {
+    color: #495367;
+    line-height: 1.85;
+}
 .vacancy-date {
-    color: #555;
-    font-size: 0.9rem;
+    margin-block: 24px 18px;
+    color: var(--muted);
+    font-size: 0.75rem;
 }
-
+.vacancy-response {
+    margin-bottom: 0;
+}
+.vacancy-response a {
+    color: var(--accent);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+.vacancy-response a:hover {
+    text-decoration: underline;
+}
+.vacancy-response span {
+    margin-left: 8px;
+}
 .vacancy-controls {
-    border-top: 1px solid #e2e2e2;
     display: flex;
+    flex-wrap: wrap;
     gap: 16px;
-    margin-top: 18px;
-    padding-top: 14px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 0.8125rem;
 }
-
-@media (max-width: 600px) {
-    .vacancies-header {
-        align-items: start;
-        flex-direction: column;
+@media (max-width: 700px) {
+    .vacancy-card {
+        float: none;
+        clear: both;
+        width: 100%;
+        margin-right: 0;
+        padding: 24px;
+    }
+    .vacancy-card h3 {
+        font-size: 1.125rem;
     }
 }

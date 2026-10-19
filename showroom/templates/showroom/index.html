@@ -1,153 +1,195 @@
 {% extends 'core/base.html' %}
-{% load datetime_extras %}
 {% load static %}
-{% block title %}Автосалон{% endblock %}
+{% block title %}Автомобили в наличии | CarShowroom{% endblock %}
 {% block heading %}Автосалон CarShowroom{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/animation.css' %}">
+{% endblock %}
 {% block content %}
-    <section aria-labelledby="advertising-title">
-        <h2 id="advertising-title">Предложения автосалона</h2>
-        <a href="#catalog">
-            <img src="{% static 'core/img/banner-test-drive.png' %}" alt="Запись на тест-драйв автомобилей CarShowroom" width="1200">
+    <header class="catalog-intro">
+        <p class="eyebrow">АВТОСАЛОН В МИНСКЕ</p>
+        <h1>Автосалон CarShowroom<span class="accent-text"> в Минске.</span></h1>
+        <div class="catalog-intro__bottom">
+            <p>Автомобили в наличии. Выбирайте свой маршрут.</p>
+            <a class="text-link" href="#catalog">Перейти к автомобилям <span aria-hidden="true">↓</span></a>
+        </div>
+    </header>
+
+    {% include 'showroom/includes/brand_animation.html' %}
+
+    <section class="offers" aria-labelledby="advertising-title">
+        <h2 id="advertising-title" class="visually-hidden">Предложения автосалона</h2>
+        <a href="#catalog" aria-label="Автомобили для тест-драйва">
+            <img src="{% static 'core/img/banner-test-drive.png' %}" alt="Запись на тест-драйв автомобилей CarShowroom" width="2172" height="724">
         </a>
-        <a href="#catalog">
-            <img src="{% static 'core/img/banner-credit.png' %}" alt="Покупка автомобиля в кредит" width="1200">
+        <a href="#catalog" aria-label="Предложения автомобилей в кредит">
+            <img src="{% static 'core/img/banner-credit.png' %}" alt="Покупка автомобиля в кредит" width="2172" height="724">
         </a>
     </section>
 
+    <section class="catalog-section" aria-labelledby="catalog">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">КАТАЛОГ</p>
+                <h2 id="catalog">Автомобили в наличии<span class="result-count">{{ cars|length }}</span></h2>
+            </div>
+            <a class="text-link" href="{% url 'core:contacts' %}">Поможем с выбором <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <form method="get" action="{% url 'showroom:index' %}#catalog" class="catalog-filter">
+            <label class="filter-search" for="catalog-query">
+                Название
+                <input id="catalog-query" type="search" name="q" value="{{ query }}" placeholder="Марка или модель">
+            </label>
+            <label for="catalog-category">
+                Тип автомобиля
+                <select id="catalog-category" name="category">
+                    <option value="">Все категории</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <fieldset class="filter-price">
+                <legend>Цена, BYN</legend>
+                <label for="catalog-min-price" class="visually-hidden">Цена от</label>
+                <input id="catalog-min-price" type="number" name="min_price" value="{{ min_price }}" min="0" placeholder="От">
+                <span aria-hidden="true">—</span>
+                <label for="catalog-max-price" class="visually-hidden">Цена до</label>
+                <input id="catalog-max-price" type="number" name="max_price" value="{{ max_price }}" min="0" placeholder="До">
+            </fieldset>
+            <label for="catalog-sort">
+                Сортировка
+                <select id="catalog-sort" name="sort">
+                    <option value="">По производителю</option>
+                    <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>Сначала дешевле</option>
+                    <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>Сначала дороже</option>
+                    <option value="year_desc" {% if sort == 'year_desc' %}selected{% endif %}>Сначала новые</option>
+                    <option value="name_asc" {% if sort == 'name_asc' %}selected{% endif %}>По названию</option>
+                </select>
+            </label>
+            <button type="submit" class="button">Найти авто</button>
+            {% if query or selected_category or min_price or max_price or sort %}
+                <a class="filter-reset" href="{% url 'showroom:index' %}#catalog">Сбросить фильтры</a>
+            {% endif %}
+        </form>
+
+        {% if not exchange_rates.ok %}
+            <p class="catalog-notice">Курс валют временно недоступен. Цены указаны в BYN.</p>
+        {% endif %}
+
+        {% if cars %}
+            <ul class="car-grid">
+                {% for car in cars %}
+                    <li class="car-card">
+                        <a class="car-card__media" href="{% url 'showroom:car_detail' car.id %}" aria-label="Подробнее об автомобиле {{ car.name }}">
+                            {% if car.image %}
+                                <img src="{{ car.image.url }}" alt="{{ car.manufacturer.name }} {{ car.name }}" width="640" height="420" loading="lazy" decoding="async">
+                            {% else %}
+                                <div class="car-card__placeholder">
+                                    <span class="car-card__monogram" aria-hidden="true">{{ car.manufacturer.name|slice:":1" }}</span>
+                                    <span>Фотография пока не добавлена</span>
+                                </div>
+                            {% endif %}
+                            {% if car.stock %}
+                                <span class="stock-label">В наличии</span>
+                            {% else %}
+                                <span class="stock-label stock-label--empty">Нет на складе</span>
+                            {% endif %}
+                        </a>
+                        <div class="car-card__body">
+                            <p class="car-card__brand">{{ car.manufacturer.name }}</p>
+                            <h3><a href="{% url 'showroom:car_detail' car.id %}">{{ car.name }}</a></h3>
+                            <p class="car-card__specs">{{ car.year }} <span aria-hidden="true">·</span> {{ car.get_fuel_type_display }} <span aria-hidden="true">·</span> {{ car.category.name }}</p>
+                            <p class="car-card__price">{{ car.price|floatformat:"0g" }} <span>BYN</span></p>
+                            {% if exchange_rates.ok and car.price_usd and car.price_eur %}
+                                <p class="car-card__currency">≈ {{ car.price_usd|floatformat:"0g" }} USD / {{ car.price_eur|floatformat:"0g" }} EUR</p>
+                            {% endif %}
+                            <div class="car-card__actions">
+                                <a class="car-card__detail" href="{% url 'showroom:car_detail' car.id %}">Подробнее <span aria-hidden="true">↗</span></a>
+                                {% if request.user.is_authenticated and request.user.profile.role == 'client' and car.stock %}
+                                    <form method="post" action="{% url 'sales:cart_add' car.id %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="quantity" value="1">
+                                        <button type="submit" class="button button--small">В корзину</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="catalog-empty">
+                <h3>Ничего не найдено</h3>
+                <p>Попробуйте изменить условия поиска.</p>
+                <a class="text-link" href="{% url 'showroom:index' %}#catalog">Все автомобили <span aria-hidden="true">↗</span></a>
+            </div>
+        {% endif %}
+    </section>
+
     {% if latest_article %}
-        <section>
-            <h2>Последняя новость</h2>
-            <article>
-                <h3>{{ latest_article.title }}</h3>
+        <section class="latest-news" aria-labelledby="latest-news-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">ЖУРНАЛ CARSHOWROOM</p>
+                    <h2 id="latest-news-title">Последняя новость</h2>
+                </div>
+                <a class="text-link" href="{% url 'core:news' %}">Все новости <span aria-hidden="true">↗</span></a>
+            </div>
+            <article class="news-feature">
                 {% if latest_article.image %}
-                    <img src="{{ latest_article.image.url }}" alt="{{ latest_article.title }}" width="240">
+                    <a class="news-feature__image" href="{% url 'core:news_detail' latest_article.pk %}">
+                        <img src="{{ latest_article.image.url }}" alt="{{ latest_article.title }}" width="640" height="420" loading="lazy">
+                    </a>
                 {% endif %}
-                <p>{{ latest_article.summary }}</p>
-                {% if latest_article.published_at %}
-                    <p>Дата публикации: {{ latest_article.published_at|local_and_utc:user_timezone }}</p>
-                {% endif %}
-                <p><a href="{% url 'core:news' %}">Все новости</a></p>
+                <div class="news-feature__body">
+                    <span class="news-feature__label">НОВОСТИ АВТОСАЛОНА</span>
+                    {% if latest_article.published_at %}
+                        <time datetime="{{ latest_article.published_at|date:'c' }}">{{ latest_article.published_at|date:"d.m.Y" }}</time>
+                    {% endif %}
+                    <h3><a href="{% url 'core:news_detail' latest_article.pk %}">{{ latest_article.title }}</a></h3>
+                    <p>{{ latest_article.summary }}</p>
+                    <a class="text-link" href="{% url 'core:news_detail' latest_article.pk %}">Читать статью <span aria-hidden="true">↗</span></a>
+                </div>
             </article>
         </section>
     {% endif %}
 
-    <section id="partners" aria-labelledby="partners-title">
-        <h2 id="partners-title">Наши партнеры</h2>
+    <section id="partners" class="partners-section" aria-labelledby="partners-title">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">ВМЕСТЕ С ЛУЧШИМИ</p>
+                <h2 id="partners-title">Наши партнёры</h2>
+            </div>
+        </div>
         {% if partners %}
-            <ul>
+            <ul class="partner-list">
                 {% for partner in partners %}
                     <li>
                         <a href="{{ partner.website }}" target="_blank" rel="noopener noreferrer">
-                            {% if partner.logo %}
-                                <img src="{{ partner.logo.url }}" alt="Логотип компании {{ partner.name }}" width="160">
-                            {% endif %}
-                            <strong>{{ partner.name }}</strong>
+                            <span class="partner-logo">
+                                {% if partner.logo %}
+                                    <img src="{{ partner.logo.url }}" alt="Логотип компании {{ partner.name }}" width="100" height="100" loading="lazy">
+                                {% else %}
+                                    <span>{{ partner.name|slice:":1" }}</span>
+                                {% endif %}
+                            </span>
+                            <strong>{{ partner.name }} <span aria-hidden="true">↗</span></strong>
                         </a>
                         {% if partner.description %}<p>{{ partner.description }}</p>{% endif %}
                     </li>
                 {% endfor %}
             </ul>
         {% else %}
-            <p>Компании-партнеры пока не добавлены.</p>
+            <p>Компании-партнёры пока не добавлены.</p>
         {% endif %}
     </section>
-
-    <h2 id="catalog">Каталог автомобилей</h2>
-    {% if not exchange_rates.ok %}
-        <p>Курс валют временно недоступен, поэтому цены показаны только в BYN.</p>
-    {% endif %}
-
-    <form method="get">
-        <label>
-            Поиск:
-            <input type="text" name="q" value="{{ query }}" placeholder="Название автомобиля">
-        </label>
-
-        <label>
-            Категория:
-            <select name="category">
-                <option value="">Все категории</option>
-                {% for category in categories %}
-                    <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
-                        {{ category.name }}
-                    </option>
-                {% endfor %}
-            </select>
-        </label>
-
-        <label>
-            Цена от:
-            <input type="number" name="min_price" value="{{ min_price }}" min="0">
-        </label>
-
-        <label>
-            Цена до:
-            <input type="number" name="max_price" value="{{ max_price }}" min="0">
-        </label>
-
-        <label>
-            Сортировка:
-            <select name="sort">
-                <option value="">По производителю</option>
-                <option value="price_asc" {% if sort == 'price_asc' %}selected{% endif %}>Сначала дешевле</option>
-                <option value="price_desc" {% if sort == 'price_desc' %}selected{% endif %}>Сначала дороже</option>
-                <option value="year_desc" {% if sort == 'year_desc' %}selected{% endif %}>Сначала новые</option>
-                <option value="name_asc" {% if sort == 'name_asc' %}selected{% endif %}>По названию</option>
-            </select>
-        </label>
-
-        <button type="submit">Показать</button>
-        <a href="/">Сбросить</a>
-    </form>
-
-    {% if cars %}
-        <ul>
-            {% for car in cars %}
-                <li>
-                    <h3>
-                        <a href="{% url 'showroom:car_detail' car.id %}">
-                            {{ car.name }} ({{ car.year }})
-                        </a>
-                    </h3>
-                    {% if car.image %}
-                        <a href="{% url 'showroom:car_detail' car.id %}" aria-label="Подробнее об автомобиле {{ car.name }}">
-                            <img src="{{ car.image.url }}" alt="{{ car.manufacturer.name }} {{ car.name }}" width="320" loading="lazy" decoding="async">
-                        </a>
-                    {% endif %}
-                    <p>Изготовитель: {{ car.manufacturer.name }}</p>
-                    <p>Категория: {{ car.category.name }}</p>
-                    <p>Цена: {{ car.price }} BYN</p>
-                    {% if exchange_rates.ok and car.price_usd and car.price_eur %}
-                        <p>Примерно: {{ car.price_usd }} USD / {{ car.price_eur }} EUR</p>
-                    {% endif %}
-                    <p>Тип топлива: {{ car.get_fuel_type_display }}</p>
-                    <p>Цвет: {{ car.color|default:"не указан" }}</p>
-                    <p>На складе: {{ car.stock }}</p>
-                    <p>Добавлено: {{ car.created_at|local_and_utc:user_timezone }}</p>
-                    <p>Изменено: {{ car.updated_at|local_and_utc:user_timezone }}</p>
-                    {% if car.features.all %}
-                        <p>
-                            Характеристики:
-                            {% for feature in car.features.all %}
-                                {{ feature.name }}{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
-                        </p>
-                    {% endif %}
-                    <p>{{ car.description|default:"Описание пока не добавлено." }}</p>
-                    <p><a href="{% url 'showroom:car_detail' car.id %}">Подробная информация</a></p>
-                    {% if request.user.is_authenticated and request.user.profile.role == 'client' %}
-                        <form method="post" action="{% url 'sales:cart_add' car.id %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="quantity" value="1">
-                            <button type="submit" title="Добавить {{ car.name }} в корзину">&#128722; Добавить в корзину</button>
-                        </form>
-                    {% elif not request.user.is_authenticated %}
-                        <p><a href="{% url 'accounts:login' %}">Войдите</a>, чтобы добавить автомобиль в корзину.</p>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Автомобили не найдены. Добавьте записи в админ-панели или измените фильтры.</p>
-    {% endif %}
+    <div class="page-preloader" role="img" aria-label="Прелоадер: два круга вращаются вокруг горизонтальной и вертикальной осей">
+        <div class="preloader-stage" aria-hidden="true">
+            <div class="preloader-disc preloader-disc--one"></div>
+            <div class="preloader-disc preloader-disc--two"></div>
+        </div>
+    </div>
 {% endblock %}

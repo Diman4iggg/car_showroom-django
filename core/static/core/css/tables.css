@@ -1,0 +1,103 @@
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    margin-block: 24px 40px;
+}
+.table-scroll:focus-visible {
+    outline-offset: -3px;
+}
+.site-main table {
+    width: 100%;
+    margin-inline: auto;
+    border-collapse: collapse;
+    border: 1px solid var(--line);
+    font-size: 0.875rem;
+}
+.site-main caption {
+    caption-side: top;
+    padding: 0 0 18px;
+    color: var(--ink);
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 700;
+}
+.site-main th,
+.site-main td {
+    padding: 16px 18px;
+    border: 1px solid var(--line);
+    text-align: left;
+    vertical-align: middle;
+}
+.site-main thead th {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+}
+.site-main tbody th {
+    font-weight: 600;
+}
+.site-main tbody tr:nth-child(even) {
+    background-color: #f1f5ff;
+}
+.site-main tbody tr:hover {
+    background-color: var(--accent-light);
+}
+.site-main td:empty {
+    background: repeating-linear-gradient(
+        135deg,
+        #e7ebf2,
+        #e7ebf2 4px,
+        #f6f7fa 4px,
+        #f6f7fa 8px
+    );
+}
+.site-main tfoot {
+    background: var(--accent-light);
+}
+.site-main td.numeric,
+.site-main th.numeric {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+.site-main .cart-price-column,
+.site-main .cart-total-column {
+    background-color: #f1f5ff;
+}
+.site-main td[headers^="quantity-header"] {
+    min-width: 150px;
+    text-align: center;
+    white-space: nowrap;
+}
+.site-main td[headers^="quantity-header"] form {
+    display: inline-block;
+    vertical-align: middle;
+}
+.site-main td[headers^="quantity-header"] output {
+    display: inline-block;
+    min-width: 30px;
+    text-align: center;
+}
+.site-main td button {
+    min-height: 34px;
+    min-width: 34px;
+    padding: 6px 10px;
+    border: 1px solid #aeb8cb;
+    border-radius: 4px;
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+}
+.site-main td button:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+@media (max-width: 700px) {
+    .site-main th,
+    .site-main td {
+        padding: 12px;
+    }
+    .table-scroll table {
+        min-width: 650px;
+    }
+}

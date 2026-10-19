@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-{% load datetime_extras %}
 {% load static %}
 <html lang="ru">
 <head>
@@ -13,59 +12,69 @@
     <meta property="og:description" content="Каталог автомобилей, новости автосалона, промокоды и отзывы клиентов.">
     <title>{% block title %}CarShowroom{% endblock %}</title>
     <link rel="icon" href="{% static 'core/img/favicon.png' %}" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/tables.css' %}">
     {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <header>
-        <a href="/" aria-label="На главную страницу CarShowroom">
-            <img src="{% static 'core/img/logo.png' %}" alt="Логотип автосалона CarShowroom" width="240" height="90">
-        </a>
-        <h1>{% block heading %}CarShowroom{% endblock %}</h1>
-        <p>
-            <strong>CarShowroom</strong> - учебный веб-сайт автосалона для выбора автомобилей,
-            оформления заказов и просмотра новостей компании.
-        </p>
+    <a class="skip-link" href="#content">Перейти к содержимому</a>
+    <header class="site-header">
+        <div class="site-container site-header__inner">
+            <p>CARSHOWROOM <span aria-hidden="true">/</span> АВТОМОБИЛИ В НАЛИЧИИ</p>
+            <a href="{% url 'core:contacts' %}">Минск <span aria-hidden="true">↗</span></a>
+        </div>
     </header>
 
-    <nav aria-label="Основная навигация">
-        <a href="/">Главная</a> |
-        <a href="/about/">О компании</a> |
-        <a href="/news/">Новости</a> |
-        <a href="/faq/">FAQ</a> |
-        <a href="/contacts/">Контакты</a> |
-        <a href="/vacancies/">Вакансии</a> |
-        <a href="/reviews/">Отзывы</a> |
-        <a href="/promo-codes/">Промокоды</a> |
-        <a href="/integrations/">Узнать погоду для тест-драйва</a> |
-        <a href="/privacy/">Политика конфиденциальности</a>
-        |
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'accounts:profile' %}">Личный кабинет</a>
-            {% if request.user.profile.role == 'client' %}
-                | <a href="{% url 'sales:cart_detail' %}" title="Открыть корзину покупок">Корзина</a>
-            {% endif %}
-        {% else %}
-            <a href="{% url 'accounts:login' %}">Вход</a> |
-            <a href="{% url 'accounts:register' %}">Регистрация</a>
-        {% endif %}
+    <nav class="site-navigation" aria-label="Основная навигация">
+        <div class="site-container site-navigation__inner">
+            <a class="site-brand" href="{% url 'showroom:index' %}" aria-label="На главную страницу CarShowroom">
+                <img src="{% static 'core/img/favicon.png' %}" alt="Логотип автосалона CarShowroom" width="56" height="56">
+                <span class="site-brand__name">CarShowroom<span class="brand-dot">.</span></span>
+            </a>
+            <div class="site-navigation__links">
+                <a href="/" {% if request.path == '/' and not request.GET %}aria-current="page"{% endif %}>Главная</a>
+                <a href="/#catalog">Каталог</a>
+                <a href="/news/" {% if request.resolver_match.url_name == 'news' or request.resolver_match.url_name == 'news_detail' %}aria-current="page"{% endif %}>Новости</a>
+                <a href="/about/" {% if request.path == '/about/' %}aria-current="page"{% endif %}>О компании</a>
+                <a href="/contacts/" {% if request.path == '/contacts/' %}aria-current="page"{% endif %}>Контакты</a>
+                <details class="navigation-more">
+                    <summary>Ещё</summary>
+                    <ul>
+                        <li><a href="/faq/">Вопросы и ответы</a></li>
+                        <li><a href="/vacancies/">Вакансии</a></li>
+                        <li><a href="/reviews/">Отзывы</a></li>
+                        <li><a href="/promo-codes/">Промокоды</a></li>
+                        <li><a href="/integrations/">Погода для тест-драйва</a></li>
+                        <li><a href="/privacy/">Политика конфиденциальности</a></li>
+                    </ul>
+                </details>
+            </div>
+            <div class="site-navigation__account">
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'accounts:profile' %}">Личный кабинет</a>
+                    {% if request.user.profile.role == 'client' %}
+                        <a href="{% url 'sales:cart_detail' %}">Корзина</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'accounts:login' %}" class="account-link">Войти <span aria-hidden="true">↗</span></a>
+                {% endif %}
+            </div>
+        </div>
     </nav>
 
-    <div>
-        <aside>
-            <h2>Разделы сайта</h2>
-            <nav aria-label="Дополнительная навигация">
-                <ul>
-                    <li><a href="/#catalog">Каталог автомобилей</a></li>
-                    <li><a href="/#partners">Партнеры</a></li>
-                    <li><a href="{% url 'core:promo_codes' %}">Промокоды</a></li>
-                    <li><a href="{% url 'core:contacts' %}">Связаться с сотрудником</a></li>
-                </ul>
-            </nav>
-        </aside>
-
-        <main id="content">
+    <div class="site-container content-layout">
+        <main id="content" class="site-main" tabindex="-1">
+            {% if request.resolver_match.view_name != 'showroom:index' %}
+                <header class="page-heading">
+                    <p class="eyebrow">CarShowroom</p>
+                    <h1>{% block heading %}CarShowroom{% endblock %}</h1>
+                </header>
+            {% endif %}
             {% if messages %}
-                <section aria-label="Сообщения сайта">
+                <section class="site-messages" aria-label="Сообщения сайта">
                     <ul>
                         {% for message in messages %}
                             <li>{{ message }}</li>
@@ -77,15 +86,33 @@
         </main>
     </div>
 
+    <aside class="site-sidebar site-container">
+        <div>
+            <h2>CarShowroom<span class="brand-dot">.</span></h2>
+            <p>Автомобили. Люди. Новые маршруты.</p>
+        </div>
+        <nav aria-label="Дополнительная навигация">
+            <h3>Навигация</h3>
+            <ul>
+                <li><a href="/#catalog">Каталог автомобилей</a></li>
+                <li><a href="/#partners">Партнёры</a></li>
+                <li><a href="{% url 'core:promo_codes' %}">Промокоды</a></li>
+                <li><a href="{% url 'core:contacts' %}">Контакты</a></li>
+            </ul>
+        </nav>
+        <div>
+            <h3>Остаёмся на связи</h3>
+            <a href="{% url 'core:contacts' %}">Адрес и контакты <span aria-hidden="true">↗</span></a>
+            <a href="{% url 'core:reviews' %}">Отзывы клиентов <span aria-hidden="true">↗</span></a>
+            {% if not request.user.is_authenticated %}
+                <a href="{% url 'accounts:register' %}">Регистрация <span aria-hidden="true">↗</span></a>
+            {% endif %}
+        </div>
+    </aside>
     {% include 'core/includes/time_info.html' %}
-
-    <footer>
-        <p>
-            <small>
-                &copy; {% now "Y" %} CarShowroom.
-                <a href="{% url 'core:privacy' %}">Политика конфиденциальности</a>
-            </small>
-        </p>
+    <footer class="site-footer site-container">
+        <p><small>&copy; {% now "Y" %} CarShowroom. Учебный проект автосалона.</small></p>
+        <a href="{% url 'core:privacy' %}">Политика конфиденциальности</a>
     </footer>
 </body>
 </html>

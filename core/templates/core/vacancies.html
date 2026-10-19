@@ -12,11 +12,12 @@
     <section aria-labelledby="vacancies-title">
         <header class="vacancies-header">
             <div>
+                <p class="eyebrow">НАША КОМАНДА РАСТЁТ</p>
                 <h2 id="vacancies-title">Работа в CarShowroom</h2>
                 <p>Присоединяйтесь к команде, которая помогает клиентам выбирать автомобили.</p>
             </div>
             {% if request.user.is_superuser %}
-                <a class="vacancy-action" href="{% url 'core:vacancy_create' %}">Добавить вакансию</a>
+                <a class="button" href="{% url 'core:vacancy_create' %}">Добавить вакансию</a>
             {% endif %}
         </header>
 
@@ -33,7 +34,7 @@
                             {% endif %}
                         </header>
 
-                        <div itemprop="description">{{ vacancy.description|linebreaks }}</div>
+                        <div class="vacancy-description" itemprop="description">{{ vacancy.description|linebreaks }}</div>
                         <p class="vacancy-date">
                             Опубликовано
                             <time itemprop="datePosted" datetime="{{ vacancy.created_at|date:'Y-m-d' }}">
@@ -44,6 +45,7 @@
                         <div itemprop="hiringOrganization" itemscope itemtype="https://schema.org/Organization">
                             <meta itemprop="name" content="CarShowroom">
                         </div>
+                        <p class="vacancy-response"><a href="mailto:info@carshowroom.example?subject={{ vacancy.title|urlencode }}">Откликнуться на вакансию <span aria-hidden="true">↗</span></a></p>
 
                         {% if request.user.is_superuser %}
                             <footer class="vacancy-controls" aria-label="Управление вакансией {{ vacancy.title }}">

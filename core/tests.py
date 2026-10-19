@@ -1,7 +1,10 @@
 from datetime import timedelta
+from io import StringIO
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -54,6 +57,28 @@ class PromoCodeModelTests(TestCase):
 
 
 class CoreViewTests(TestCase):
+    def test_columns_article_command_is_repeatable_and_keeps_existing_text(self):
+        from core.management.commands.add_columns_article import TITLE
+
+        storages = {
+            **settings.STORAGES,
+            'default': {'BACKEND': 'django.core.files.storage.InMemoryStorage'},
+        }
+        with self.settings(STORAGES=storages):
+            call_command('add_columns_article', stdout=StringIO())
+            article = NewsArticle.objects.get(title=TITLE)
+            self.assertGreater(len(article.body), 2500)
+            self.assertGreaterEqual(len(article.body.split('\n\n')), 6)
+            self.assertTrue(article.image.storage.exists(article.image.name))
+            article.body = 'Edited by the author'
+            article.save()
+
+            call_command('add_columns_article', stdout=StringIO())
+
+            article.refresh_from_db()
+            self.assertEqual(article.body, 'Edited by the author')
+            self.assertEqual(NewsArticle.objects.filter(title=TITLE).count(), 1)
+
     def test_content_pages_render_database_records(self):
         CompanyInfo.objects.create(title='About', text='About text')
         NewsArticle.objects.create(
@@ -109,6 +134,39 @@ class CoreViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Full article text.')
         self.assertContains(response, '<article itemscope')
+
+    def test_news_paginates_published_articles_without_losing_records(self):
+        now = timezone.now()
+        articles = [
+            NewsArticle.objects.create(
+                title=f'Article {index}', summary='Summary.', body='Full article.',
+                published_at=now - timedelta(days=index),
+            )
+            for index in range(9)
+        ]
+        NewsArticle.objects.create(title='Draft', summary='Draft.', body='Draft.', is_published=False)
+
+        first = self.client.get(reverse('core:news'))
+        second = self.client.get(reverse('core:news'), {'page': 2})
+
+        self.assertEqual(list(first.context['articles']), articles[:7])
+        self.assertEqual(list(second.context['articles']), articles[7:])
+        self.assertEqual(first.context['articles'].paginator.count, 9)
+        self.assertNotContains(first, 'Draft')
+        self.assertContains(first, 'rel="next"')
+        self.assertContains(second, 'rel="prev"')
+
+    def test_news_accepts_empty_catalog_and_invalid_page_numbers(self):
+        response = self.client.get(reverse('core:news'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Новости пока не добавлены.')
+
+        article = NewsArticle.objects.create(title='Only article', summary='Summary.', body='Body.')
+        for page in ['abc', '0', '-1', '999']:
+            with self.subTest(page=page):
+                response = self.client.get(reverse('core:news'), {'page': page})
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(list(response.context['articles']), [article])
 
     def test_unpublished_news_detail_returns_not_found(self):
         article = NewsArticle.objects.create(
@@ -247,6 +305,40 @@ class CoreViewTests(TestCase):
         self.assertRedirects(response, reverse('core:reviews'))
         self.assertFalse(Review.objects.filter(author_name='employee').exists())
 
+    def test_review_form_displays_readonly_author_and_field_help(self):
+        # Arrange
+        user = User.objects.create_user('review_reader', password='StrongPass12345')
+        self.client.force_login(user)
+
+        # Act
+        response = self.client.get(reverse('core:add_review'))
+
+        # Assert
+        self.assertContains(response, 'class="review-form"')
+        self.assertContains(response, 'value="review_reader"')
+        self.assertContains(response, 'readonly aria-describedby="author-help"')
+        self.assertContains(response, 'aria-describedby="review-text-help"')
+        self.assertContains(response, 'core/css/reviews.css')
+        self.assertContains(response, 'id="review-company" type="text" value="CarShowroom" disabled')
+        self.assertContains(response, 'type="radio"', count=2)
+        self.assertContains(response, 'id="review-show-help" type="checkbox" checked')
+
+    def test_review_form_rejects_invalid_rating_and_text_without_creating_review(self):
+        # Arrange
+        user = User.objects.create_user('review_invalid', password='StrongPass12345')
+        self.client.force_login(user)
+
+        for rating, text in [(0, 'Valid review text'), (6, 'Valid review text'), (5, 'short')]:
+            with self.subTest(rating=rating, text=text):
+                # Act
+                response = self.client.post(reverse('core:add_review'), {'rating': rating, 'text': text})
+
+                # Assert
+                self.assertEqual(response.status_code, 200)
+                self.assertTrue(response.context['form'].errors)
+                self.assertContains(response, 'class="errorlist"')
+                self.assertFalse(Review.objects.exists())
+
     def test_reviews_page_has_semantic_rating_and_publication_date(self):
         review = Review.objects.create(
             author_name='client_anna',
@@ -301,6 +393,26 @@ class CoreViewTests(TestCase):
         response = self.client.get(reverse('core:promo_codes'))
 
         self.assertEqual(list(response.context['active_promos'].values_list('code', flat=True)), ['TODAY'])
+
+    def test_promo_archive_distinguishes_expired_disabled_and_future_codes(self):
+        today = timezone.localdate()
+        for code, start, end, active in [
+            ('EXPIRED', -10, -1, True),
+            ('DISABLED', -1, 10, False),
+            ('FUTURE', 2, 10, True),
+        ]:
+            PromoCode.objects.create(
+                code=code, description='Offer details', discount_percent=10,
+                starts_at=today + timedelta(days=start), ends_at=today + timedelta(days=end),
+                is_active=active,
+            )
+
+        response = self.client.get(reverse('core:promo_codes'))
+
+        self.assertEqual(len(response.context['active_promos']), 0)
+        self.assertEqual(len(response.context['archived_promos']), 3)
+        for label in ['Срок действия завершён', 'Промокод отключён.', 'Начало действия']:
+            self.assertContains(response, label)
 
     def test_superuser_can_create_update_and_delete_vacancy_from_frontend(self):
         admin = User.objects.create_superuser('admin', 'admin@example.com', 'StrongPass12345')

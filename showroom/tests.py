@@ -29,6 +29,19 @@ def create_car(name='Camry', price=Decimal('100000.00'), stock=2):
 
 class CatalogViewTests(TestCase):
     @patch('showroom.views.get_exchange_rates')
+    def test_homepage_contains_css_animation_and_static_preloader(self, mocked_rates):
+        mocked_rates.return_value = {'ok': False, 'error': 'offline'}
+
+        response = self.client.get(reverse('showroom:index'))
+
+        self.assertContains(response, 'core/css/animation.css')
+        self.assertContains(response, 'class="drive-scene"')
+        self.assertContains(response, 'id="drive-brand-title"')
+        self.assertContains(response, 'class="drive-headlight"')
+        self.assertContains(response, 'class="preloader-disc ', count=2)
+        self.assertContains(response, 'class="preloader-stage"')
+
+    @patch('showroom.views.get_exchange_rates')
     def test_catalog_filters_cars_by_query(self, mocked_rates):
         mocked_rates.return_value = {'ok': False, 'error': 'offline'}
         create_car(name='Camry')

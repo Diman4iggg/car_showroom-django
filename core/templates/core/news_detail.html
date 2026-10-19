@@ -1,13 +1,24 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block title %}{{ article.title }}{% endblock %}
 {% block heading %}Новости{% endblock %}
 {% block meta_description %}{{ article.summary }}{% endblock %}
 {% block og_title %}{{ article.title }}{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/news.css' %}">
+{% endblock %}
 
 {% block content %}
-    <article itemscope itemtype="https://schema.org/NewsArticle">
-        <header>
+    <article itemscope itemtype="https://schema.org/NewsArticle" class="news-detail">
+        <nav class="article-breadcrumbs" aria-label="Путь к статье">
+            <a href="{% url 'showroom:index' %}">Главная</a>
+            <span aria-hidden="true">/</span>
+            <a href="{% url 'core:news' %}">Новости</a>
+            <span aria-hidden="true">/</span>
+            <span>Статья</span>
+        </nav>
+        <header class="news-detail__header">
             <h2 itemprop="headline">{{ article.title }}</h2>
             {% if article.published_at %}
                 <p>
@@ -20,25 +31,26 @@
         </header>
 
         {% if article.image %}
-            <figure>
+            <figure class="news-detail__figure">
                 <img
                     src="{{ article.image.url }}"
                     alt="Иллюстрация к статье «{{ article.title }}»"
                     width="960"
+                    height="540"
                     itemprop="image"
-                    style="max-width: 100%; height: auto;"
                 >
                 <figcaption>{{ article.title }}</figcaption>
             </figure>
         {% endif %}
 
-        <p><strong itemprop="description">{{ article.summary }}</strong></p>
-        <div itemprop="articleBody">
+        <p class="news-detail__lead"><strong itemprop="description">{{ article.summary }}</strong></p>
+        <div class="news-detail__text" itemprop="articleBody">
             {{ article.body|linebreaks }}
         </div>
 
-        <footer>
-            <p><a href="{% url 'core:news' %}">Вернуться к списку новостей</a></p>
+        <footer class="news-detail__footer">
+            <p><a class="text-link" href="{% url 'core:news' %}">← Вернуться к списку новостей</a></p>
+            <a class="text-link" href="{% url 'showroom:index' %}#catalog">Перейти в каталог ↗</a>
         </footer>
     </article>
 {% endblock %}

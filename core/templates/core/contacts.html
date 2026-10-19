@@ -10,17 +10,29 @@
 
 {% block content %}
     <section class="company-contacts" aria-labelledby="company-contacts-title">
-        <h2 id="company-contacts-title">Наши контакты</h2>
+        <header>
+            <p class="eyebrow">CARSHOWROOM · МИНСК</p>
+            <h2 id="company-contacts-title">Будем рады встрече</h2>
+        </header>
         <address>
-            <p><strong>Адрес:</strong> г. Минск, проспект Независимости, 4</p>
-            <p><strong>Телефон:</strong> <a href="tel:+375291234567">+375 (29) 123-45-67</a></p>
-            <p><strong>Email:</strong> <a href="mailto:info@carshowroom.example">info@carshowroom.example</a></p>
-            <p><strong>Режим работы:</strong> Пн-Пт 9:00-20:00, Сб 10:00-18:00</p>
+            <div>
+                <strong class="contact-label">Автосалон</strong>
+                <p>г. Минск, проспект Независимости, 4</p>
+            </div>
+            <div>
+                <strong class="contact-label">Связаться с нами</strong>
+                <p><a href="tel:+375291234567">+375 (29) 123-45-67</a></p>
+                <p><a href="mailto:info@carshowroom.example">info@carshowroom.example</a></p>
+            </div>
+            <div>
+                <strong class="contact-label">Режим работы</strong>
+                <p>Пн-Пт 9:00-20:00<br>Сб 10:00-18:00</p>
+            </div>
         </address>
     </section>
 
-    <section aria-labelledby="employees-title">
-        <h2 id="employees-title">Наши сотрудники</h2>
+    <section class="employees-section" aria-labelledby="employees-title">
+        <header class="employees-heading"><p class="eyebrow">НАША КОМАНДА</p><h2 id="employees-title">Наши сотрудники</h2></header>
         {% if employees %}
             <div class="employee-grid">
                 {% for employee in employees %}
@@ -35,20 +47,17 @@
                                     loading="lazy"
                                     itemprop="image"
                                 >
-                                <figcaption itemprop="jobTitle">{{ employee.position }}</figcaption>
                             </figure>
                         {% else %}
-                            <p itemprop="jobTitle">{{ employee.position }}</p>
+                            <div class="employee-photo-placeholder" aria-hidden="true">{{ employee.full_name|first }}</div>
                         {% endif %}
 
+                        <p class="employee-position" itemprop="jobTitle">{{ employee.position }}</p>
                         <h3 itemprop="name">{{ employee.full_name }}</h3>
-                        <p><strong>Должность:</strong> {{ employee.position }}</p>
-                        <p itemprop="description">{{ employee.work_description|linebreaksbr }}</p>
+                        <p class="employee-description" itemprop="description">{{ employee.work_description|linebreaksbr }}</p>
                         <address>
-                            <strong>Телефон:</strong>
-                            <a href="tel:{{ employee.phone_href }}" itemprop="telephone">{{ employee.phone }}</a><br>
-                            <strong>Email:</strong>
-                            <a href="mailto:{{ employee.email }}" itemprop="email">{{ employee.email }}</a>
+                            <a href="tel:{{ employee.phone_href }}" itemprop="telephone"><span>Телефон</span>{{ employee.phone }}</a>
+                            <a href="mailto:{{ employee.email }}" itemprop="email"><span>Email</span>{{ employee.email }}</a>
                         </address>
                     </article>
                 {% endfor %}

@@ -1,14 +1,18 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block title %}Добавить отзыв{% endblock %}
 {% block heading %}Добавить отзыв{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/reviews.css' %}">
+{% endblock %}
 
 {% block content %}
-    <section aria-labelledby="review-form-title">
+    <section class="review-form-section" aria-labelledby="review-form-title">
         <h2 id="review-form-title">Ваше мнение о CarShowroom</h2>
-        <p id="review-help">Все поля обязательны. После отправки имя изменить нельзя.</p>
+        <p id="review-help">Укажите оценку и текст отзыва. Имя берётся из вашей учётной записи.</p>
 
-        <form method="post" aria-describedby="review-help">
+        <form class="review-form" method="post" aria-describedby="review-help">
             {% csrf_token %}
 
             {% if form.non_field_errors %}
@@ -23,7 +27,12 @@
                     <label for="review-author">Имя:</label><br>
                     <input id="review-author" type="text" value="{{ request.user.username }}"
                            readonly aria-describedby="author-help">
-                    <small id="author-help">Имя получено из вашей учётной записи.</small>
+                    <small class="field-help" id="author-help">Имя получено из вашей учётной записи.</small>
+                </p>
+
+                <p>
+                    <label for="review-company">Компания:</label><br>
+                    <input id="review-company" type="text" value="CarShowroom" disabled>
                 </p>
 
                 <p>
@@ -36,12 +45,32 @@
                     <label for="{{ form.text.id_for_label }}">Текст отзыва:</label><br>
                     {{ form.text }}
                     {{ form.text.errors }}
-                    <small>От 10 до 1000 символов.</small>
+                    <small class="field-help" id="review-text-help">От 10 до 1000 символов.</small>
                 </p>
             </fieldset>
 
-            <button type="submit">Отправить</button>
-            <a href="{% url 'core:reviews' %}">Отмена</a>
+            <fieldset class="review-display-options">
+                <legend>Отображение</legend>
+                <div class="review-text-size" role="group" aria-label="Размер текста отзыва">
+                    <label class="review-option">
+                        <input type="radio" name="review_text_size" value="normal" checked>
+                        <span>Обычный текст</span>
+                    </label>
+                    <label class="review-option">
+                        <input id="review-large-text" type="radio" name="review_text_size" value="large">
+                        <span>Крупный текст</span>
+                    </label>
+                </div>
+                <label class="review-option">
+                    <input id="review-show-help" type="checkbox" checked>
+                    <span>Подсказки к полям</span>
+                </label>
+            </fieldset>
+
+            <div class="review-form-actions">
+                <button type="submit">Отправить</button>
+                <a href="{% url 'core:reviews' %}">Отмена</a>
+            </div>
         </form>
     </section>
 {% endblock %}

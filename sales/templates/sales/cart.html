@@ -8,6 +8,7 @@
         <h2 id="cart-title">Выбранные автомобили</h2>
 
         {% if cart_items %}
+            <div class="table-scroll" role="region" aria-label="Состав корзины" tabindex="0">
             <table>
                 <caption>Состав корзины пользователя {{ request.user.username }}</caption>
                 <colgroup>
@@ -32,7 +33,7 @@
                             <th id="car-{{ item.car.id }}" scope="row" headers="car-header">
                                 <a href="{% url 'showroom:car_detail' item.car.id %}">{{ item.car.manufacturer.name }} {{ item.car.name }}</a>
                             </th>
-                            <td headers="price-header car-{{ item.car.id }}">{{ item.car.price }} BYN</td>
+                            <td class="numeric" headers="price-header car-{{ item.car.id }}">{{ item.car.price }} BYN</td>
                             <td headers="quantity-header car-{{ item.car.id }}">
                                 <form method="post" action="{% url 'sales:cart_update' item.car.id 'decrease' %}">
                                     {% csrf_token %}
@@ -44,7 +45,7 @@
                                     <button type="submit" aria-label="Увеличить количество {{ item.car.name }}" title="Увеличить количество">+</button>
                                 </form>
                             </td>
-                            <td headers="total-header car-{{ item.car.id }}">{{ item.total_price }} BYN</td>
+                            <td class="numeric" headers="total-header car-{{ item.car.id }}">{{ item.total_price }} BYN</td>
                             <td headers="actions-header car-{{ item.car.id }}">
                                 <form method="post" action="{% url 'sales:cart_remove' item.car.id %}">
                                     {% csrf_token %}
@@ -68,6 +69,7 @@
                     </tr>
                 </tfoot>
             </table>
+            </div>
         {% else %}
             <p>Корзина пуста.</p>
             <p><a href="{% url 'showroom:index' %}#catalog">Перейти в каталог</a></p>

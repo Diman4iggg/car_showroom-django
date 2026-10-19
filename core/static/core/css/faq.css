@@ -1,0 +1,101 @@
+.faq-heading {
+    margin-bottom: 36px;
+}
+.faq-heading h2 {
+    margin: 0 0 14px;
+}
+.faq-heading > p:last-child {
+    color: var(--muted);
+}
+.faq-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+    gap: 72px;
+    align-items: start;
+}
+.faq-list {
+    min-width: 0;
+    border-top: 1px solid var(--line);
+}
+.faq-item {
+    border-bottom: 1px solid var(--line);
+}
+.faq-item > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 25px 0;
+    list-style: none;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+.faq-item > summary::-webkit-details-marker {
+    display: none;
+}
+.faq-item > summary::after {
+    content: "+";
+    flex: 0 0 32px;
+    color: var(--accent);
+    font-size: 1.75rem;
+    font-weight: 400;
+    text-align: center;
+    line-height: 32px;
+}
+.faq-item[open] > summary::after {
+    content: "\2212";
+}
+.faq-item > summary:hover,
+.faq-item[open] > summary {
+    color: var(--accent);
+}
+.faq-item > summary:focus-visible {
+    outline-offset: -3px;
+}
+.faq-answer {
+    max-width: 70ch;
+    padding-right: 40px;
+    color: #495367;
+    line-height: 1.85;
+    overflow-wrap: anywhere;
+}
+.faq-date {
+    margin-bottom: 24px;
+    color: var(--muted);
+    font-size: 0.8125rem;
+}
+.faq-help {
+    border-left: 3px solid var(--accent);
+    padding: 4px 0 4px 28px;
+}
+.faq-help h2 {
+    margin: 0 0 16px;
+    font-size: 1.375rem;
+}
+.faq-help > p:not(.eyebrow) {
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+@media (max-width: 900px) {
+    .faq-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 40px;
+    }
+    .faq-help {
+        max-width: 600px;
+    }
+}
+@media (max-width: 480px) {
+    .faq-heading h2 {
+        font-size: 1.5rem;
+    }
+    .faq-item > summary {
+        gap: 12px;
+        padding-block: 22px;
+        font-size: 1rem;
+    }
+    .faq-answer {
+        padding-right: 0;
+    }
+}

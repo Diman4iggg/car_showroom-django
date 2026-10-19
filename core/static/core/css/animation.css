@@ -1,0 +1,223 @@
+.drive-scene {
+    position: relative;
+    isolation: isolate;
+    height: 230px;
+    overflow: hidden;
+    margin: 0 0 32px;
+    border-bottom: 1px solid var(--line);
+    background: var(--soft);
+    perspective: 900px;
+}
+.drive-brand {
+    position: absolute;
+    z-index: 2;
+    top: 22px;
+    left: 28px;
+    margin: 0;
+    font-size: 1.75rem;
+    animation: brand-arrive 1s 6s both;
+}
+.drive-brand span {
+    color: var(--accent);
+}
+.drive-road {
+    position: absolute;
+    inset: auto 0 20px;
+    height: 2px;
+    background: #b7c3d7;
+}
+.drive-road::after {
+    content: "";
+    position: absolute;
+    top: 12px;
+    width: 100%;
+    height: 3px;
+    background: repeating-linear-gradient(
+        90deg,
+        #cbd3e0 0 40px,
+        transparent 40px 76px
+    );
+}
+.drive-car {
+    position: absolute;
+    z-index: 1;
+    bottom: 18px;
+    left: 0;
+    right: 0;
+    width: min(360px, 74%);
+    margin-inline: auto;
+    transform-origin: center;
+    animation: car-arrive 8s 0.3s both;
+}
+.drive-car svg {
+    display: block;
+    width: 100%;
+    overflow: visible;
+}
+.drive-wheel {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: wheel-roll 0.6s linear 6;
+}
+.drive-headlight {
+    opacity: 0;
+    animation: headlights 0.45s 7s 6;
+}
+.drive-splash {
+    position: absolute;
+    bottom: 14%;
+    width: 0;
+    height: 0;
+}
+.drive-splash--rear {
+    left: 23%;
+}
+.drive-splash--front {
+    left: 77%;
+}
+.drive-splash i {
+    position: absolute;
+    width: 5px;
+    height: 10px;
+    border-radius: 70% 30% 60% 40%;
+    background: #5fa5cf;
+    opacity: 0;
+    animation: water-spray 0.7s 0.3s 5;
+}
+.drive-splash i:nth-child(2) {
+    animation-delay: 0.45s;
+    --spray-x: -42px;
+    --spray-y: -38px;
+}
+.drive-splash i:nth-child(3) {
+    animation-delay: 0.6s;
+    --spray-x: -64px;
+    --spray-y: -22px;
+}
+.drive-splash i:nth-child(4) {
+    animation-delay: 0.75s;
+    --spray-x: -30px;
+    --spray-y: -50px;
+}
+.page-preloader {
+    display: flex;
+    justify-content: center;
+    padding-block: 48px;
+    margin-top: 36px;
+    border-top: 1px solid var(--line);
+}
+.preloader-stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    width: 100px;
+    height: 180px;
+    background: #202932;
+    perspective: 400px;
+}
+.preloader-disc {
+    flex: 0 0 60px;
+    width: 60px;
+    height: 60px;
+    border: 1px solid #e26767;
+    border-radius: 50%;
+    background: linear-gradient(170deg, #793d43, #323a44 55%, #242c35);
+    box-shadow: inset 0 1px 4px #ffffff15;
+    animation: disc-orbit 3s linear infinite;
+}
+.preloader-disc--two {
+    border-color: #33c6b6;
+    background: linear-gradient(175deg, #268f8b, #314b53 48%, #23343e 52%);
+    animation-direction: reverse;
+    animation-delay: -0.9s;
+}
+@keyframes car-arrive {
+    0% {
+        transform: translateX(-220%) rotateY(0);
+    }
+    40% {
+        transform: translateX(10%) rotateY(0);
+    }
+    52% {
+        transform: translateX(0) rotateY(0);
+    }
+    80%,
+    100% {
+        transform: translateX(0) rotateY(180deg);
+    }
+}
+@keyframes wheel-roll {
+    to {
+        transform: rotate(360deg);
+    }
+}
+@keyframes water-spray {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(-20deg);
+    }
+    25% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--spray-x, -50px), var(--spray-y, -30px))
+            rotate(-65deg);
+    }
+}
+@keyframes headlights {
+    0%,
+    60%,
+    100% {
+        opacity: 0;
+    }
+    15%,
+    40% {
+        opacity: 0.9;
+    }
+}
+@keyframes brand-arrive {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes disc-orbit {
+    from {
+        transform: rotateX(0deg) rotateY(0deg);
+    }
+    to {
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+@media (max-width: 600px) {
+    .drive-scene {
+        height: 200px;
+    }
+    .drive-brand {
+        top: 24px;
+        left: 20px;
+        font-size: 1.375rem;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .drive-car {
+        animation: none;
+        transform: rotateY(180deg);
+    }
+    .drive-brand {
+        animation: none;
+    }
+    .drive-wheel,
+    .drive-headlight,
+    .drive-splash i,
+    .preloader-disc {
+        animation: none;
+    }
+}

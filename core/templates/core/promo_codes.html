@@ -11,14 +11,15 @@
 {% block content %}
     <section aria-labelledby="active-promos-title">
         <header>
+            <p class="eyebrow">ПРЕДЛОЖЕНИЯ CARSHOWROOM</p>
             <h2 id="active-promos-title">Действующие промокоды</h2>
             <p>Введите код при оформлении заказа, чтобы получить указанную скидку.</p>
         </header>
 
         {% if active_promos %}
-            <div class="promo-grid">
+            <ol class="promo-grid">
                 {% for promo in active_promos %}
-                    <article class="promo-card" itemscope itemtype="https://schema.org/Offer">
+                    <li><article class="promo-card" itemscope itemtype="https://schema.org/Offer">
                         <header>
                             <h3><code itemprop="name">{{ promo.code }}</code></h3>
                             <strong class="promo-discount">
@@ -36,9 +37,9 @@
                                 {{ promo.ends_at|date:'d/m/Y' }}
                             </time>
                         </p>
-                    </article>
+                    </article></li>
                 {% endfor %}
-            </div>
+            </ol>
         {% else %}
             <p>Действующих промокодов пока нет.</p>
         {% endif %}
@@ -53,10 +54,14 @@
                         <code>{{ promo.code }}</code>
                         <span>Скидка {{ promo.discount_percent }}%</span>
                         <small>
-                            Срок действия завершён
+                            {% if promo.ends_at < promo_today %}Срок действия завершён{% elif not promo.is_active %}Промокод отключён. Действует до{% else %}Начало действия{% endif %}
+                            {% if promo.starts_at > promo_today and promo.is_active %}
+                            <time datetime="{{ promo.starts_at|date:'Y-m-d' }}">{{ promo.starts_at|date:'d/m/Y' }}</time>
+                            {% else %}
                             <time datetime="{{ promo.ends_at|date:'Y-m-d' }}">
                                 {{ promo.ends_at|date:'d/m/Y' }}
                             </time>
+                            {% endif %}
                         </small>
                     </li>
                 {% endfor %}

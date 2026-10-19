@@ -1,12 +1,28 @@
 {% extends 'core/base.html' %}
+{% load static %}
 {% block title %}Политика конфиденциальности{% endblock %}
 {% block heading %}Политика конфиденциальности{% endblock %}
 {% block meta_description %}Правила обработки и защиты персональных данных пользователей CarShowroom.{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/privacy.css' %}">
+{% endblock %}
 
 {% block content %}
     {% if policy %}
+        <div class="privacy-layout">
+        <nav class="privacy-contents" aria-label="Разделы политики">
+            <h2>В этом документе</h2>
+            <ol>
+                <li><a href="#privacy-general-title">Общие положения</a></li>
+                <li><a href="#privacy-data-title">Персональные данные</a></li>
+                <li><a href="#privacy-purpose-title">Цели обработки</a></li>
+                <li><a href="#privacy-protection-title">Защита и хранение</a></li>
+                <li><a href="#privacy-rights-title">Права пользователя</a></li>
+            </ol>
+        </nav>
         <article>
             <header>
+                <p class="eyebrow">CARSHOWROOM · ПЕРСОНАЛЬНЫЕ ДАННЫЕ</p>
                 <h2>{{ policy.title }}</h2>
                 <p>
                     <small>
@@ -66,6 +82,7 @@
                 </address>
             </footer>
         </article>
+        </div>
     {% else %}
         <p>Страница политики конфиденциальности пока пустая.</p>
     {% endif %}
